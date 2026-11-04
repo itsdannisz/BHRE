@@ -1,0 +1,2701 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark light">
+  <title>RealTime • Real Estate São Paulo</title>
+  
+  <!-- Tipografia Oficial Montserrat + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* MODO ESCURO GRAFITE / CARVÃO (ZERO ROXO NO FUNDO) */
+      --bg-page: #090d16;
+      --card-white: #111827;
+      --card-sub: #182234;
+      --border-color: #233148;
+      --border-subtle: #192437;
+      
+      --hero-bg: #111827;
+      --hero-border: #EC894D;
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      
+      --c-laranja: #EC894D;
+      --c-laranja-hover: #d97334;
+      
+      --pos: #10b981;
+      --pos-bg: rgba(16, 185, 129, 0.12);
+      --neg: #ef4444;
+      --neg-bg: rgba(239, 68, 68, 0.12);
+      --warn: #f59e0b;
+      --warn-bg: rgba(245, 158, 11, 0.12);
+      
+      --font-main: 'Montserrat', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    [data-theme="light"] {
+      /* MODO CLARO COM CHAMPAGNE E ROXO INSTITUCIONAL */
+      --bg-page: #EFECE5;
+      --card-white: #ffffff;
+      --card-sub: #f5f2ea;
+      --border-color: #DDD6C6;
+      --border-subtle: #e6e1d4;
+      
+      --hero-bg: #220C27;
+      --hero-border: #EC894D;
+      
+      --text-main: #220C27;
+      --text-muted: #645069;
+      --text-dim: #8e7a93;
+      
+      --pos: #059669;
+      --pos-bg: #ecfdf5;
+      --neg: #dc2626;
+      --neg-bg: #fef2f2;
+      --warn: #d97706;
+      --warn-bg: #fffbeb;
+      
+      --shadow-card: 0 2px 14px rgba(34, 12, 39, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+    .pos { color: var(--pos) !important; }
+    .neg { color: var(--neg) !important; }
+    .warn { color: var(--warn) !important; }
+    .muted { color: var(--text-muted); }
+    .icon { width: 18px; height: 18px; flex-shrink: 0; vertical-align: middle; }
+
+    /* =====================================================================
+       TELA DE LOGIN E CADASTRO DEDICADA
+       ===================================================================== */
+    #authScreen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: var(--bg-page);
+    }
+    #authScreen[hidden] { display: none !important; }
+
+    .auth-container {
+      width: 100%;
+      max-width: 440px;
+      background: var(--card-white);
+      border: 1px solid var(--border-color);
+      border-top: 4px solid var(--c-laranja);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .auth-brand-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--card-sub);
+      padding: 4px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 24px;
+      gap: 4px;
+      border: 1px solid var(--border-color);
+    }
+    .auth-tabs button {
+      border: 0;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .auth-tabs button.active {
+      background: var(--card-white);
+      color: var(--c-laranja);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* =====================================================================
+       DASHBOARD PRINCIPAL (SÓ APARECE DEPOIS DE LOGAR)
+       ===================================================================== */
+    #appScreen[hidden] { display: none !important; }
+
+    header {
+      background: var(--card-white);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    
+    .header-inner {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: #090d16;
+      border: 1px solid var(--c-laranja);
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+    }
+    
+    .clock-face {
+      width: 22px;
+      height: 22px;
+      background: #ffffff;
+      border-radius: 50%;
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+    .clock-face::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 10px;
+      width: 2px;
+      height: 8px;
+      background: #090d16;
+      border-radius: 2px;
+      transform-origin: bottom center;
+    }
+    .clock-face::before {
+      content: '';
+      position: absolute;
+      top: 9px;
+      left: 10px;
+      width: 6px;
+      height: 2px;
+      background: var(--c-laranja);
+      border-radius: 2px;
+    }
+
+    .brand-titles b {
+      display: block;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      color: var(--text-main);
+    }
+    .brand-titles span {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--c-laranja);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .profile-chip-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 12px;
+      background: var(--card-sub);
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      cursor: pointer;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .profile-chip-btn:hover { border-color: var(--c-laranja); }
+    .avatar-mini {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--c-laranja);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+      font-weight: 800;
+      overflow: hidden;
+      object-fit: cover;
+    }
+
+    .sync-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--card-sub);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+    }
+    .sync-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--pos);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1260px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px;
+      flex: 1;
+    }
+
+    .nav-tabs {
+      display: inline-flex;
+      background: var(--card-sub);
+      padding: 4px;
+      border-radius: 12px;
+      gap: 4px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border-color);
+    }
+    .nav-tabs button {
+      border: 0;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s ease;
+    }
+    .nav-tabs button.active {
+      background: var(--card-white);
+      color: var(--c-laranja);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* HERO BANNER REAL ESTATE SÃO PAULO */
+    .hero-banner {
+      background: var(--hero-bg);
+      color: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border-color);
+      border-top: 3px solid var(--hero-border);
+      box-shadow: var(--shadow-card);
+      position: relative;
+    }
+    
+    .hero-top-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    
+    .hero-greeting {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--c-laranja);
+      text-transform: capitalize;
+    }
+    .hero-username {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin: 2px 0;
+      color: #ffffff;
+    }
+    .hero-badges-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .hero-role-company {
+      font-size: 12px;
+      font-weight: 600;
+      color: #ffffff;
+      display: inline-block;
+      padding: 3px 12px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+    }
+    
+    .live-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--pos);
+    }
+    .live-dot.warn { background: var(--warn); }
+    .live-dot.idle { background: var(--text-dim); }
+
+    .hero-avatar-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+    .avatar-large {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 2px solid var(--c-laranja);
+      background: var(--card-sub);
+      color: #ffffff;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      font-weight: 800;
+      object-fit: cover;
+      overflow: hidden;
+    }
+
+    /* 3 Métricas Hero */
+    .hero-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 20px;
+    }
+    .metric-block { text-align: center; }
+    .metric-block:not(:last-child) {
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .metric-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+    .metric-value {
+      font-size: 32px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      letter-spacing: -1px;
+      color: #ffffff;
+    }
+
+    /* Dashboard Layout */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .content-card {
+      background: var(--card-white);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--border-color);
+      margin-bottom: 24px;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Timeline PJ */
+    .punches-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .punch-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      background: var(--card-sub);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+    }
+    .punch-time {
+      font-size: 20px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--text-main);
+    }
+    .punch-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .interval-divider {
+      background: rgba(236, 137, 77, 0.1);
+      border: 1px dashed rgba(236, 137, 77, 0.4);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--c-laranja);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .punch-actions-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    /* Botão Principal Laranja */
+    .btn-laranja {
+      background: var(--c-laranja);
+      color: #ffffff;
+      border: 0;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 13px 20px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      transition: background-color 0.15s ease, transform 0.15s ease;
+    }
+    .btn-laranja:hover {
+      background: var(--c-laranja-hover);
+      transform: translateY(-1px);
+    }
+    .btn-laranja:active { transform: translateY(1px); }
+
+    /* Botões Auxiliares */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 9px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      background: var(--card-sub);
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn:hover { border-color: var(--c-laranja); }
+
+    .chart-box {
+      width: 100%;
+      height: 140px;
+      margin-top: 12px;
+    }
+
+    /* Mini Calendário */
+    .mini-cal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .mini-cal-header span {
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      text-align: center;
+    }
+    .cal-day-name {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      padding-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .cal-cell {
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      position: relative;
+      background: var(--card-sub);
+      border: 1px solid transparent;
+      transition: all 0.15s;
+    }
+    .cal-cell:hover { border-color: var(--c-laranja); }
+    .cal-cell.today {
+      background: var(--border-color);
+      color: var(--text-main);
+      border-color: var(--c-laranja);
+    }
+    .cal-cell.holiday {
+      color: var(--c-laranja);
+      font-weight: 800;
+    }
+    .cal-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--pos);
+      position: absolute;
+      bottom: 3px;
+    }
+    .cal-dot.holiday-dot { background: var(--c-laranja); }
+
+    /* Feriados */
+    .holiday-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 8px;
+    }
+    .holiday-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 12px;
+      border-radius: 8px;
+      background: var(--card-sub);
+      font-size: 12px;
+      border: 1px solid var(--border-subtle);
+    }
+    .holiday-name { font-weight: 600; color: var(--text-main); }
+    .holiday-date {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--c-laranja);
+      font-weight: 700;
+    }
+
+    /* Barra de Busca */
+    .table-actions-bar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .search-input-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 180px;
+    }
+    .search-input-wrap input {
+      padding-left: 32px;
+      font-size: 12px;
+    }
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    /* Tabela */
+    .table-container { width: 100%; overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+    th {
+      background: var(--card-sub);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      vertical-align: middle;
+    }
+    tbody tr:hover { background: var(--card-sub); }
+
+    .tag {
+      display: inline-flex;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .tag.pos { background: var(--pos-bg); color: var(--pos); }
+    .tag.neg { background: var(--neg-bg); color: var(--neg); }
+    .tag.neutral { background: var(--card-sub); color: var(--text-main); border: 1px solid var(--border-color); }
+    .tag.falta { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+    /* Relatórios View */
+    .report-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 24px;
+    }
+    .dropzone {
+      border: 2px dashed var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      text-align: center;
+      background: var(--card-sub);
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .report-preview-box {
+      background: var(--card-sub);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      font-size: 13px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      max-height: 520px;
+      overflow-y: auto;
+    }
+
+    /* Modais */
+    dialog {
+      background: var(--card-white);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 26px;
+      max-width: 500px;
+      width: calc(100% - 32px);
+      margin: auto;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+    dialog::backdrop {
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+    }
+    .form-group {
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+    }
+    input, select, textarea {
+      width: 100%;
+      background: var(--card-sub);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 13px;
+      outline: none;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--c-laranja); }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--card-white);
+      color: var(--text-main);
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s ease;
+      z-index: 10000;
+      border: 1px solid var(--c-laranja);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* IMPRESSÃO A4 */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-size: 11px !important;
+      }
+      header, .tabs-wrapper, .dashboard-grid > div:first-child, .table-actions-bar, td:last-child, th:last-child, .nav-tabs, #v-relatorios, #toast, #authScreen {
+        display: none !important;
+      }
+      .container { padding: 0 !important; max-width: 100% !important; }
+      .dashboard-grid { display: block !important; }
+      .hero-banner {
+        background: none !important;
+        color: #000000 !important;
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+        padding: 16px !important;
+        margin-bottom: 16px !important;
+      }
+      .hero-metrics-grid { border-top: 1px solid #ccc !important; }
+      .metric-label, .metric-value, .hero-username, .hero-greeting { color: #000000 !important; }
+      .content-card { border: none !important; box-shadow: none !important; padding: 0 !important; }
+      table { border: 1px solid #000 !important; }
+      th, td { border: 1px solid #ddd !important; padding: 6px 10px !important; }
+      
+      .print-signatures {
+        display: flex !important;
+        justify-content: space-between;
+        margin-top: 50px;
+        page-break-inside: avoid;
+      }
+      .sig-line {
+        width: 45%;
+        border-top: 1px solid #000;
+        text-align: center;
+        padding-top: 6px;
+        font-weight: 600;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .report-layout { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .hero-metrics-grid { grid-template-columns: 1fr; gap: 12px; }
+      .metric-block:not(:last-child) { border-right: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 12px; }
+      .container { padding: 16px; }
+      .grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =====================================================================
+       TELA DE LOGIN E CADASTRO REALTIME
+       ===================================================================== -->
+  <section id="authScreen">
+    <div class="auth-container">
+      <div class="auth-brand-header">
+        <div class="brand-icon">
+          <div class="clock-face"></div>
+        </div>
+        <div>
+          <b style="font-size:18px; letter-spacing:-0.4px;">RealTime</b>
+          <span style="display:block; font-size:12px; color:var(--c-laranja); font-weight:600;">Real Estate São Paulo</span>
+        </div>
+      </div>
+
+      <div class="auth-tabs">
+        <button type="button" class="active" id="tabAuthSignup">Criar Conta</button>
+        <button type="button" id="tabAuthLogin">Entrar</button>
+      </div>
+
+      <form id="formAuth">
+        <!-- Campos de Cadastro (Padrão inicial) -->
+        <div id="boxSignupFields">
+          <div class="form-group">
+            <label>Seu Nome Completo</label>
+            <input type="text" id="authName" placeholder="Ex: João das Neves" required>
+          </div>
+          <div class="form-group">
+            <label>Seu Cargo / Atividade</label>
+            <input type="text" id="authRole" placeholder="Ex: Consultor Imobiliário / Analista" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>E-mail Corporativo</label>
+          <input type="email" id="authEmail" required placeholder="seu.nome@realestatesp.com.br">
+        </div>
+
+        <div class="form-group">
+          <label>Senha de Acesso</label>
+          <input type="password" id="authPassword" required placeholder="Mínimo 6 caracteres" minlength="6">
+        </div>
+
+        <p id="authMsgBox" style="font-size:12px; margin-bottom:14px; min-height:18px;"></p>
+
+        <button type="submit" class="btn-laranja" id="btnSubmitAuth">Cadastrar e Começar</button>
+      </form>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; border-top:1px solid var(--border-subtle); padding-top:16px;">
+        <button type="button" class="btn" style="border:0; padding:4px; font-size:11px;" id="btnForgotPass">Esqueci a senha</button>
+        <button type="button" class="btn" style="border:0; padding:4px; font-size:11px; color:var(--c-laranja);" id="btnContinueOffline">Entrar como Convidado</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       APLICAÇÃO DO BANCO DE HORAS (BLOQUEADA ATÉ FAZER LOGIN)
+       ===================================================================== -->
+  <div id="appScreen" hidden>
+    <!-- Topbar Header -->
+    <header>
+      <div class="header-inner">
+        <div class="brand-wrap">
+          <div class="brand-icon">
+            <div class="clock-face"></div>
+          </div>
+          <div class="brand-titles">
+            <b>RealTime</b>
+            <span>Real Estate São Paulo</span>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <!-- Chip de Perfil -->
+          <button class="profile-chip-btn" id="btnOpenProfile" title="Meu Perfil">
+            <div class="avatar-mini" id="topAvatarMini">JN</div>
+            <span id="topProfileName">João das Neves</span>
+          </button>
+
+          <!-- Indicador de Nuvem / Sincronização -->
+          <div class="sync-badge" id="syncStatusBadge">
+            <span class="sync-dot" id="syncDot"></span>
+            <span id="syncText">Sincronizado</span>
+          </div>
+
+          <!-- Botão Sair Rápido no Topo -->
+          <button class="btn" id="btnTopLogout" title="Sair da Conta e Trocar de Usuário" style="color:var(--neg);">
+            Sair
+          </button>
+
+          <!-- Botão Importar JSON em destaque -->
+          <button class="btn" id="btnImportJSONQuick" title="Restaurar o mês trabalhado do seu JSON" style="border-color:var(--c-laranja); color:var(--c-laranja); font-weight:700;">
+            📥 Importar Meu JSON
+          </button>
+          <input type="file" id="jsonQuickInput" accept=".json" style="display:none">
+          
+          <!-- Alternar Tema Claro / Escuro -->
+          <button class="btn" id="btnThemeToggle" title="Alternar tema claro/escuro">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          </button>
+
+          <button class="btn" id="btnSettings" title="Configurações">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- Abas & Ações Rápidas -->
+      <div class="tabs-wrapper">
+        <nav class="nav-tabs">
+          <button class="active" data-view="v-banco">Hoje & Banco</button>
+          <button data-view="v-relatorios">Relatórios Diários</button>
+        </nav>
+        
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="btn" id="btnFinalizarDiaHero" style="background: var(--c-laranja); color: #fff; border-color: var(--c-laranja); font-weight: 700;">
+            ⚡ Finalizar Dia Agora
+          </button>
+          <button class="btn" id="btnImprimirEspelho">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Extrato de Horas (PJ)
+          </button>
+          <button class="btn" id="btnRegistrarFalta" style="border-color: rgba(239, 68, 68, 0.4); color: var(--neg);">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            Registrar Ausência / Falta
+          </button>
+          <button class="btn" id="btnExportCSV">Exportar CSV</button>
+        </div>
+      </div>
+
+      <!-- VIEW 1: BANCO DE HORAS & HOJE -->
+      <section id="v-banco">
+        <!-- HERO BANNER REAL ESTATE SÃO PAULO -->
+        <div class="hero-banner">
+          <div class="hero-top-wrap">
+            <div>
+              <div class="hero-greeting" id="heroGreetingDate">Sexta, 15 de Junho</div>
+              <div class="hero-username" id="heroUserGreeting">Boa tarde, João das Neves</div>
+              
+              <div class="hero-badges-row">
+                <span class="hero-role-company" id="heroRoleCompanyBadge">Prestação PJ • Real Estate São Paulo</span>
+                <div class="live-status-badge" id="liveStatusContainer">
+                  <span class="live-dot" id="liveStatusDot"></span>
+                  <span id="liveStatusText">Expediente Não Iniciado</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="hero-avatar-box" id="heroAvatarClick" title="Editar Perfil">
+              <div class="avatar-large" id="heroAvatarLarge">JN</div>
+            </div>
+          </div>
+
+          <div class="hero-metrics-grid">
+            <div class="metric-block">
+              <div class="metric-label">Horas Líquidas Hoje</div>
+              <div class="metric-value" id="statHorasHoje">00:00</div>
+            </div>
+            <div class="metric-block">
+              <div class="metric-label">Saldo do Dia (vs 8h)</div>
+              <div class="metric-value" id="statSaldoHoje">+00:00</div>
+            </div>
+            <div class="metric-block">
+              <div class="metric-label">Saldo Acumulado</div>
+              <div class="metric-value" id="statBalance">00:00</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+          <!-- Coluna Esquerda: Formato PJ + Calendário + Feriados -->
+          <div>
+            <div class="content-card">
+              <div class="card-title">
+                <span>Expediente de Hoje</span>
+                <span class="tag neutral" id="tagDataHoje">Hoje</span>
+              </div>
+
+              <div class="punches-timeline" id="todayTimelineBox">
+                <div class="punch-item">
+                  <span class="punch-time" id="timeEntradaDisplay">--:--</span>
+                  <span class="punch-label">Entrada</span>
+                </div>
+
+                <div class="interval-divider">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span>INTERVALO DE ALMOÇO: <strong id="intervalDurationDisplay">01:00</strong> deduzida</span>
+                </div>
+
+                <div class="punch-item">
+                  <span class="punch-time" id="timeSaidaDisplay">--:--</span>
+                  <span class="punch-label">Saída</span>
+                </div>
+              </div>
+
+              <div class="punch-actions-wrap">
+                <button class="btn-laranja" id="btnFinalizarDiaInstantaneo" title="Grava a saída agora, abate 1h de almoço e fecha o dia">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                  <span>⚡ Finalizar Dia Agora (1-Toque)</span>
+                </button>
+                
+                <button class="btn" id="btnBaterPontoAgora" style="width: 100%;">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                  <span id="btnPontoText">Lançamento / Ajuste Manual</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Mini Calendário -->
+            <div class="content-card">
+              <div class="mini-cal-header">
+                <button class="btn" style="padding: 4px 8px;" id="btnCalPrev">‹</button>
+                <span id="calMonthYearLabel">Novembro 2026</span>
+                <button class="btn" style="padding: 4px 8px;" id="btnCalNext">›</button>
+              </div>
+              <div class="cal-grid" id="calGridBox"></div>
+            </div>
+
+            <!-- Feriados -->
+            <div class="content-card">
+              <div class="card-title">
+                <span>Feriados Nacionais</span>
+                <span class="tag neutral" id="holidayCountBadge">10 Feriados</span>
+              </div>
+              <div class="holiday-list" id="holidayListBox"></div>
+            </div>
+          </div>
+
+          <!-- Coluna Direita: Histórico Geral + Gráfico -->
+          <div>
+            <div class="content-card">
+              <div class="card-title">
+                <span>Evolução do Saldo (Últimos Meses)</span>
+                <span class="tag neutral">Balanço Mensal</span>
+              </div>
+              <div class="chart-box" id="chartMonthlyBox"></div>
+            </div>
+
+            <div class="content-card">
+              <div class="card-title">
+                <span>Histórico de Horas</span>
+                <div class="table-actions-bar">
+                  <div class="search-input-wrap">
+                    <svg class="icon search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" id="searchTableInput" placeholder="Buscar por observação, ausência...">
+                  </div>
+                  <select id="filterMonth" style="width: auto; padding: 6px 10px; font-size: 12px;">
+                    <option value="">Todo o Período</option>
+                  </select>
+                  <button class="btn" id="btnUseHours" style="font-size: 11px;">Compensar Horas</button>
+                </div>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Data</th>
+                      <th>Jornada (Entrada → Saída)</th>
+                      <th>Tipo</th>
+                      <th style="text-align: right;">Variação</th>
+                      <th style="text-align: right;">Saldo</th>
+                      <th style="text-align: center;">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="entriesTableBody"></tbody>
+                </table>
+              </div>
+
+              <div class="print-signatures" style="display: none;">
+                <div class="sig-line">
+                  <span id="printSigEmployee">João das Neves</span><br>
+                  <small>Assinatura do Prestador (PJ)</small>
+                </div>
+                <div class="sig-line">
+                  <span>Real Estate São Paulo</span><br>
+                  <small>Ciência da Contratante</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 2: RELATÓRIOS DIÁRIOS -->
+      <section id="v-relatorios" style="display: none;">
+        <div class="report-layout">
+          <div>
+            <div class="content-card" style="margin-bottom: 20px;">
+              <div class="card-title">
+                <span>Modelo de Relatório</span>
+                <select id="reportTemplateSelect" style="width: 220px;">
+                  <option value="marketing">Marketing (com Anúncios)</option>
+                  <option value="captacao">Captação de Imóveis</option>
+                  <option value="atendimento">Atendimento & Vendas</option>
+                  <option value="geral">Geral (Entregas do Dia)</option>
+                </select>
+              </div>
+
+              <div class="dropzone" id="csvDropzone">
+                <input type="file" id="csvFileInput" accept=".csv" style="display: none;">
+                <svg class="icon" style="width: 28px; height: 28px; margin-bottom: 6px; color: var(--c-laranja);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <p style="font-weight: 700; font-size: 13px;">Importar CSV do Meta Ads</p>
+                <p class="muted" style="font-size: 11px;">Identifica campanhas, investimento e leads automaticamente.</p>
+              </div>
+            </div>
+
+            <div class="content-card">
+              <div class="card-title">
+                <span>Atividades Realizadas</span>
+                <input type="date" id="reportDate" style="width: 150px; padding: 4px 8px; font-size: 12px;">
+              </div>
+              <div id="dynamicReportFields"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="content-card" style="position: sticky; top: 80px;">
+              <div class="card-title">
+                <span>Prévia para WhatsApp</span>
+                <button class="btn" id="btnCopyReport">Copiar Texto</button>
+              </div>
+              <div class="report-preview-box" id="reportPreview">Preencha os campos para gerar o relatório...</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL: REGISTRAR AUSÊNCIA / FALTA -->
+  <dialog id="modalFalta">
+    <form id="formFalta">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+        <h3 style="font-size: 16px; font-weight: 800; color: var(--neg);">Registrar Ausência / Folga</h3>
+        <button type="button" class="btn" data-close style="border: 0; padding: 4px 8px;">✕</button>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Data</label>
+          <input type="date" id="faltaData" required>
+        </div>
+        <div class="form-group">
+          <label>Tipo de Ausência</label>
+          <select id="faltaTipo">
+            <option value="injustificada">Ausência a Compensar (Desconta 8h)</option>
+            <option value="atestado">Ausência Abonada / Justificada (0h)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-top: 6px;">
+        <label style="display: flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer;">
+          <input type="checkbox" id="faltaDiaTodo" checked style="width: auto;">
+          Ausência durante o dia todo (8h de meta)
+        </label>
+      </div>
+
+      <div class="form-group" id="boxFaltaDuracao" style="display: none;">
+        <label>Tempo de Ausência</label>
+        <div style="display: flex; gap: 6px;">
+          <input type="number" id="faltaHoras" placeholder="Horas" min="0" max="24" value="8">
+          <input type="number" id="faltaMinutos" placeholder="Minutos" min="0" max="59" value="0">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Descrição / Motivo</label>
+        <input type="text" id="faltaMotivo" placeholder="Ex: Compromisso pessoal ou folga combinada" required>
+      </div>
+
+      <div style="background: var(--card-sub); padding: 12px; border-radius: 8px; font-size: 13px; margin: 16px 0; border: 1px solid var(--border-color);" id="faltaCalculoPreview">
+        Calculando impacto no saldo...
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 8px;">
+        <button type="button" class="btn" data-close>Cancelar</button>
+        <button type="submit" class="btn-laranja" style="width: auto; margin-top: 0; background: var(--neg);">Registrar Ausência</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- MODAL: PERFIL DO PRESTADOR -->
+  <dialog id="modalPerfil">
+    <form id="formPerfil">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main);">Perfil do Colaborador (PJ)</h3>
+        <button type="button" class="btn" data-close style="border: 0; padding: 4px 8px;">✕</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 18px;">
+        <div class="avatar-large" id="modalProfileAvatar" style="width: 72px; height: 72px; font-size: 24px; cursor: pointer;" title="Clique para trocar a foto">
+          JN
+        </div>
+        <button type="button" class="btn" style="margin-top: 8px; font-size: 11px;" id="btnTrocarFoto">Trocar Foto</button>
+        <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;">
+      </div>
+
+      <div class="form-group">
+        <label>Nome Completo</label>
+        <input type="text" id="perfilNome" required placeholder="Ex: João das Neves">
+      </div>
+
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" id="perfilEmail" required placeholder="Ex: joao.neves@realestatesp.com.br" readonly>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Cargo / Função</label>
+          <input type="text" id="perfilCargo" placeholder="Ex: Consultor Imobiliário / Analista">
+        </div>
+        <div class="form-group">
+          <label>Empresa</label>
+          <input type="text" id="perfilEmpresa" value="Real Estate São Paulo" readonly>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+        <button type="button" class="btn" id="btnLogoutSession" style="color:var(--neg); border-color:rgba(239, 68, 68, 0.4);">
+          Sair da Conta
+        </button>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn" data-close>Cancelar</button>
+          <button type="submit" class="btn-laranja" style="width: auto; margin-top: 0;">Salvar Perfil</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- MODAL: REGISTRAR DIA (PJ) -->
+  <dialog id="modalPonto">
+    <form id="formPonto">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+        <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main);" id="modalPontoTitle">Lançamento de Horas (PJ)</h3>
+        <button type="button" class="btn" data-close style="border: 0; padding: 4px 8px;">✕</button>
+      </div>
+
+      <input type="hidden" id="entryEditId">
+
+      <div class="form-group">
+        <label for="pontoData">Data do Trabalho</label>
+        <input type="date" id="pontoData" required>
+      </div>
+
+      <div class="grid-3" style="margin-top: 6px;">
+        <div class="form-group">
+          <label>Entrada</label>
+          <input type="time" id="pontoEntrada" value="08:00" required>
+        </div>
+        <div class="form-group">
+          <label>Intervalo Almoço</label>
+          <input type="number" id="pontoIntervalo" value="60" min="0" max="300" step="5" title="Minutos deduzidos automaticamente" required>
+        </div>
+        <div class="form-group">
+          <label>Saída</label>
+          <input type="time" id="pontoSaida" value="17:00" required>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-top: 6px;">
+        <label style="display: flex; align-items: center; gap: 6px; font-weight: normal; cursor: pointer;">
+          <input type="checkbox" id="pontoNextDay" style="width: auto;">
+          Saída após a meia-noite (+1 dia)
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label>Observação / Atividade do Dia</label>
+        <input type="text" id="pontoObs" placeholder="Ex: Atendimento, plantão ou captação">
+      </div>
+
+      <div style="background: var(--card-sub); padding: 12px; border-radius: 8px; font-size: 13px; margin: 16px 0; border: 1px solid var(--border-color);" id="pontoCalculoPreview">
+        Calculando líquido e saldo...
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 8px;">
+        <button type="button" class="btn" data-close>Cancelar</button>
+        <button type="submit" class="btn-laranja" style="width: auto; margin-top: 0; padding: 8px 20px;">Salvar Lançamento</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- MODAL: COMPENSAR HORAS -->
+  <dialog id="modalUso">
+    <form id="formUso">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+        <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main);">Compensar Horas do Banco</h3>
+        <button type="button" class="btn" data-close style="border: 0;">✕</button>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Data</label>
+          <input type="date" id="usoData" required>
+        </div>
+        <div class="form-group">
+          <label>Tempo a Descontar</label>
+          <div style="display: flex; gap: 6px;">
+            <input type="number" id="usoHoras" placeholder="Horas" min="0" max="24" required>
+            <input type="number" id="usoMinutos" placeholder="Min" min="0" max="59" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Motivo da Compensação</label>
+        <input type="text" id="usoMotivo" placeholder="Ex: Folga acordada ou saída antecipada" required>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px;">
+        <button type="button" class="btn" data-close>Cancelar</button>
+        <button type="submit" class="btn-laranja" style="width: auto; margin-top: 0;">Confirmar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- MODAL: CONFIGURAÇÕES -->
+  <dialog id="modalSettings">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+      <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main);">Jornada Contratual (PJ)</h3>
+      <button type="button" class="btn" data-close style="border: 0;">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label>Horário Habitual de Entrada e Saída</label>
+      <div class="grid-2">
+        <input type="time" id="cfgEntrada" value="08:00">
+        <input type="time" id="cfgSaida" value="17:00">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Duração do Almoço (minutos deduzidos automaticamente)</label>
+      <input type="number" id="cfgIntervalo" value="60" min="0" max="180">
+      <small class="muted" style="font-size:11px">Padrão: 60 minutos (1 hora)</small>
+    </div>
+
+    <div style="display: flex; gap: 8px; margin-top: 18px;">
+      <button class="btn" id="btnDownloadBackup" style="flex: 1;">Baixar Backup</button>
+      <button class="btn" id="btnRestaurarArquivo" style="flex: 1;">Restaurar Arquivo</button>
+      <input type="file" id="fileRestore" accept=".json" style="display: none;">
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+      <button type="button" class="btn-laranja" id="btnSaveConfigs" style="width: auto; margin-top: 0;">Salvar Preferências</button>
+    </div>
+  </dialog>
+
+  <div id="toast">Aviso RealTime</div>
+
+  <!-- SUPABASE JS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+
+  <script>
+    /* =====================================================================
+       FERIADOS NACIONAIS
+       ===================================================================== */
+    const BRAZIL_HOLIDAYS = [
+      { d: '01/01', name: 'Confraternização Universal' },
+      { d: '21/04', name: 'Tiradentes' },
+      { d: '01/05', name: 'Dia Mundial do Trabalho' },
+      { d: '07/09', name: 'Independência do Brasil' },
+      { d: '12/10', name: 'Nossa Senhora Aparecida' },
+      { d: '02/11', name: 'Finados' },
+      { d: '15/11', name: 'Proclamação da República' },
+      { d: '20/11', name: 'Dia da Consciência Negra' },
+      { d: '25/12', name: 'Natal' }
+    ];
+
+    function renderHolidaysList() {
+      const box = document.getElementById('holidayListBox');
+      if (!box) return;
+      box.innerHTML = '';
+      BRAZIL_HOLIDAYS.forEach(h => {
+        const item = document.createElement('div');
+        item.className = 'holiday-item';
+        item.innerHTML = `
+          <span class="holiday-name">${h.name}</span>
+          <span class="holiday-date">${h.d}</span>
+        `;
+        box.appendChild(item);
+      });
+      const badge = document.getElementById('holidayCountBadge');
+      if (badge) badge.textContent = `${BRAZIL_HOLIDAYS.length} Feriados`;
+    }
+
+    /* =====================================================================
+       MINI CALENDÁRIO
+       ===================================================================== */
+    let calCurrentDate = new Date();
+
+    function renderMiniCalendar() {
+      const year = calCurrentDate.getFullYear();
+      const month = calCurrentDate.getMonth();
+      const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+      
+      const label = document.getElementById('calMonthYearLabel');
+      if (label) label.textContent = `${meses[month]} ${year}`;
+
+      const grid = document.getElementById('calGridBox');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      const weekNames = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+      weekNames.forEach(w => {
+        const dDiv = document.createElement('div');
+        dDiv.className = 'cal-day-name';
+        dDiv.textContent = w;
+        grid.appendChild(dDiv);
+      });
+
+      const firstDayIndex = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      for (let i = 0; i < firstDayIndex; i++) {
+        const emptyCell = document.createElement('div');
+        grid.appendChild(emptyCell);
+      }
+
+      const todayStr = new Date().toISOString().slice(0, 10);
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const cell = document.createElement('div');
+        cell.className = 'cal-cell';
+        cell.textContent = day;
+
+        const dayFormatted = String(day).padStart(2, '0');
+        const monthFormatted = String(month + 1).padStart(2, '0');
+        const dateKey = `${year}-${monthFormatted}-${dayFormatted}`;
+        const dayMonthKey = `${dayFormatted}/${monthFormatted}`;
+
+        const isHoliday = BRAZIL_HOLIDAYS.some(h => h.d === dayMonthKey);
+        if (isHoliday) cell.classList.add('holiday');
+        if (dateKey === todayStr) cell.classList.add('today');
+
+        const hasEntry = appState.entries.some(e => e.date === dateKey);
+        if (hasEntry) {
+          const dot = document.createElement('div');
+          dot.className = `cal-dot ${isHoliday ? 'holiday-dot' : ''}`;
+          cell.appendChild(dot);
+        }
+
+        cell.onclick = () => {
+          const fMonth = document.getElementById('filterMonth');
+          if (fMonth) fMonth.value = `${year}-${monthFormatted}`;
+          renderDashboard();
+          showToast(`Filtrado para ${dayFormatted}/${monthFormatted}/${year}`);
+        };
+
+        grid.appendChild(cell);
+      }
+    }
+
+    /* =====================================================================
+       MOTOR CORE DE CÁLCULO PJ
+       ===================================================================== */
+    const Core = {
+      toMinutes(timeStr) {
+        if (!timeStr || typeof timeStr !== 'string' || !timeStr.includes(':')) return 0;
+        const [h, m] = timeStr.split(':').map(Number);
+        return ((h || 0) * 60) + (m || 0);
+      },
+
+      fromMinutes(mins, signed = false) {
+        if (isNaN(mins)) return '00:00';
+        const sign = mins < 0 ? '-' : (signed && mins > 0 ? '+' : '');
+        const abs = Math.abs(mins);
+        const h = String(Math.floor(abs / 60)).padStart(2, '0');
+        const m = String(abs % 60).padStart(2, '0');
+        return `${sign}${h}:${m}`;
+      },
+
+      calcPJ(entrada, saida, intervaloMin = 60, nextDay = false, expectedMinutes = 480) {
+        let mEntrada = Core.toMinutes(entrada);
+        let mSaida = Core.toMinutes(saida);
+        if (nextDay) mSaida += 1440;
+        
+        let totalBruto = mSaida - mEntrada;
+        if (totalBruto < 0) totalBruto += 1440;
+        
+        let totalLiquido = Math.max(0, totalBruto - intervaloMin);
+        let saldo = totalLiquido - expectedMinutes;
+
+        return { totalBruto, totalLiquido, saldo };
+      }
+    };
+
+    function normalizeEntry(e) {
+      if (!e) return null;
+      const date = e.date || e.d || new Date().toISOString().slice(0, 10);
+      
+      let type = 'trabalhado';
+      if (e.t === 'uso' || e.type === 'uso') type = 'uso';
+      else if (e.t === 'falta' || e.type === 'falta') type = 'falta';
+      else if (e.t === 'atestado' || e.type === 'atestado') type = 'atestado';
+
+      const variation = typeof e.variation === 'number' ? e.variation : (typeof e.m === 'number' ? e.m : 0);
+      const entrada = e.entrada || e.start || (e.punches ? e.punches.e1 : '08:00');
+      const saida = e.saida || e.s || (e.punches ? e.punches.s2 : '17:00');
+      const intervalo = typeof e.intervalo === 'number' ? e.intervalo : (typeof e.break === 'number' ? e.break : 60);
+      
+      const obs = e.obs || e.n || '';
+      const nextDay = !!(e.nextDay || e.next);
+      const id = e.id || 'id_' + Math.random().toString(36).slice(2);
+      
+      return { id, date, variation, type, entrada, saida, intervalo, obs, nextDay };
+    }
+
+    /* =====================================================================
+       ESTADO E MULTI-USUÁRIO
+       ===================================================================== */
+    let currentUserId = 'guest';
+
+    function getStorageKey() {
+      return `realtime_state_user_${currentUserId}`;
+    }
+
+    let appState = {
+      config: { entrada: '08:00', saida: '17:00', intervalo: 60, expected: 480 },
+      profile: {
+        name: 'Colaborador',
+        email: '',
+        role: 'Consultor Imobiliário',
+        company: 'Real Estate São Paulo',
+        photo: ''
+      },
+      entries: [],
+      reports: {},
+      theme: 'dark'
+    };
+
+    function loadLocal() {
+      try {
+        const raw = localStorage.getItem(getStorageKey());
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          const rawEntries = parsed.entries || parsed.e || [];
+          appState = { ...appState, ...parsed };
+          appState.entries = Array.isArray(rawEntries) ? rawEntries.map(normalizeEntry).filter(Boolean) : [];
+          
+          if (parsed.rs) {
+            appState.reports = parsed.rs;
+          }
+        }
+      } catch (e) {
+        console.error('Falha ao carregar estado local:', e);
+        appState.entries = [];
+      }
+    }
+
+    function saveLocal() {
+      try {
+        localStorage.setItem(getStorageKey(), JSON.stringify(appState));
+        showToast('Dados salvos');
+        renderDashboard();
+        renderMiniCalendar();
+        renderMonthlyChart();
+        syncWithCloud();
+      } catch (e) {
+        showToast('Erro ao salvar localmente');
+      }
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      if (!t) return;
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3200);
+    }
+
+    /* =====================================================================
+       IMPORTAÇÃO DE ARQUIVO JSON
+       ===================================================================== */
+    function processImportedJSON(text) {
+      try {
+        const parsed = JSON.parse(text);
+        let importedEntries = [];
+        
+        if (Array.isArray(parsed)) {
+          importedEntries = parsed;
+        } else if (Array.isArray(parsed.entries)) {
+          importedEntries = parsed.entries;
+        } else if (Array.isArray(parsed.e)) {
+          importedEntries = parsed.e;
+        }
+
+        if (importedEntries.length === 0) {
+          throw new Error('Nenhum registro de horas encontrado no arquivo.');
+        }
+
+        const normalized = importedEntries.map(normalizeEntry).filter(Boolean);
+        
+        const existingIds = new Set(appState.entries.map(e => e.id));
+        normalized.forEach(item => {
+          if (!existingIds.has(item.id)) {
+            appState.entries.push(item);
+          } else {
+            appState.entries = appState.entries.filter(e => e.id !== item.id);
+            appState.entries.push(item);
+          }
+        });
+
+        if (parsed.reports || parsed.rs) {
+          appState.reports = { ...appState.reports, ...(parsed.reports || parsed.rs) };
+        }
+
+        saveLocal();
+        showToast(`Sucesso! ${normalized.length} lançamentos recuperados!`);
+      } catch (err) {
+        alert('Erro ao importar JSON: ' + err.message);
+      }
+    }
+
+    /* =====================================================================
+       FUNÇÃO 1-TOQUE: FINALIZAR DIA
+       ===================================================================== */
+    function finalizarDiaInstantaneo() {
+      const now = new Date();
+      const timeNow = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      const todayStr = now.toISOString().slice(0, 10);
+      
+      let entry = appState.entries.find(e => e.date === todayStr);
+      let entrada = entry ? entry.entrada : (appState.config.entrada || '08:00');
+      let saida = timeNow;
+      let intervalo = appState.config.intervalo || 60;
+
+      const calc = Core.calcPJ(entrada, saida, intervalo, false, appState.config.expected || 480);
+
+      appState.entries = appState.entries.filter(e => e.date !== todayStr);
+      appState.entries.push({
+        id: entry ? entry.id : 'id_' + Date.now(),
+        date: todayStr,
+        type: 'trabalhado',
+        entrada,
+        saida,
+        intervalo,
+        nextDay: false,
+        variation: calc.saldo,
+        obs: 'Finalizado via 1-Toque (PJ)'
+      });
+
+      saveLocal();
+      showToast(`Expediente finalizado às ${saida}! Saldo: ${Core.fromMinutes(calc.saldo, true)}`);
+    }
+
+    /* =====================================================================
+       PERFIL
+       ===================================================================== */
+    function renderProfile() {
+      const p = appState.profile;
+      const topName = document.getElementById('topProfileName');
+      const heroGreeting = document.getElementById('heroUserGreeting');
+      const heroRole = document.getElementById('heroRoleCompanyBadge');
+      const sigEmployee = document.getElementById('printSigEmployee');
+
+      if (topName) topName.textContent = p.name;
+      if (heroGreeting) heroGreeting.textContent = `${getGreeting()}, ${p.name}`;
+      if (heroRole) heroRole.textContent = `${p.role} • ${p.company}`;
+      if (sigEmployee) sigEmployee.textContent = p.name;
+
+      const initials = (p.name || 'U').split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+      
+      const setAvatar = (el) => {
+        if (!el) return;
+        if (p.photo) {
+          el.innerHTML = `<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+        } else {
+          el.textContent = initials || 'U';
+        }
+      };
+
+      setAvatar(document.getElementById('topAvatarMini'));
+      setAvatar(document.getElementById('heroAvatarLarge'));
+      setAvatar(document.getElementById('modalProfileAvatar'));
+
+      const pNome = document.getElementById('perfilNome');
+      const pEmail = document.getElementById('perfilEmail');
+      const pCargo = document.getElementById('perfilCargo');
+      const pEmpresa = document.getElementById('perfilEmpresa');
+
+      if (pNome) pNome.value = p.name;
+      if (pEmail) pEmail.value = p.email;
+      if (pCargo) pCargo.value = p.role;
+      if (pEmpresa) pEmpresa.value = p.company;
+    }
+
+    function getGreeting() {
+      const curHour = new Date().getHours();
+      return curHour < 12 ? 'Bom dia' : curHour < 18 ? 'Boa tarde' : 'Boa noite';
+    }
+
+    /* =====================================================================
+       GRÁFICO MENSAL
+       ===================================================================== */
+    function renderMonthlyChart() {
+      const box = document.getElementById('chartMonthlyBox');
+      if (!box) return;
+      const monthlyBalances = {};
+      
+      appState.entries.forEach(e => {
+        if (e && e.date) {
+          const mKey = e.date.slice(0, 7);
+          monthlyBalances[mKey] = (monthlyBalances[mKey] || 0) + e.variation;
+        }
+      });
+
+      const sortedMonths = Object.keys(monthlyBalances).sort().slice(-6);
+      if (sortedMonths.length === 0) {
+        box.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-muted);font-size:12px">Sem dados suficientes para o gráfico</div>';
+        return;
+      }
+
+      const maxVal = Math.max(...sortedMonths.map(m => Math.abs(monthlyBalances[m])), 120);
+      const chartWidth = box.clientWidth || 340;
+      const chartHeight = 120;
+      const barWidth = Math.min(32, (chartWidth / sortedMonths.length) - 16);
+      const zeroY = chartHeight / 2;
+
+      let svg = `<svg viewBox="0 0 ${chartWidth} ${chartHeight}" style="width:100%;height:100%">`;
+      svg += `<line x1="0" y1="${zeroY}" x2="${chartWidth}" y2="${zeroY}" stroke="var(--border-color)" stroke-width="1" stroke-dasharray="3,3"/>`;
+
+      sortedMonths.forEach((m, idx) => {
+        const val = monthlyBalances[m];
+        const barH = (Math.abs(val) / maxVal) * (chartHeight / 2 - 16);
+        const x = (idx * (chartWidth / sortedMonths.length)) + ((chartWidth / sortedMonths.length) / 2) - (barWidth / 2);
+        const y = val >= 0 ? zeroY - barH : zeroY;
+        const color = val >= 0 ? 'var(--pos)' : 'var(--neg)';
+        const parts = m.split('-');
+        const mes = parts[1] || m;
+
+        svg += `<rect x="${x}" y="${y}" width="${barWidth}" height="${Math.max(4, barH)}" rx="3" fill="${color}" opacity="0.85"/>`;
+        svg += `<text x="${x + barWidth/2}" y="${chartHeight - 2}" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="var(--font-main)">${mes}</text>`;
+      });
+
+      svg += '</svg>';
+      box.innerHTML = svg;
+    }
+
+    /* =====================================================================
+       DASHBOARD
+       ===================================================================== */
+    function renderDashboard() {
+      const todayStr = new Date().toISOString().slice(0, 10);
+      const [anoT, mesT, diaT] = todayStr.split('-');
+      const diasSemanaExt = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+      const mesesExt = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+      
+      const dObj = new Date(Number(anoT), Number(mesT) - 1, Number(diaT));
+      const heroDateEl = document.getElementById('heroGreetingDate');
+      if (heroDateEl) heroDateEl.textContent = `${diasSemanaExt[dObj.getDay()]}, ${diaT} de ${mesesExt[dObj.getMonth()]}`;
+
+      renderProfile();
+
+      const todayEntry = appState.entries.find(e => e.date === todayStr);
+      const liveDot = document.getElementById('liveStatusDot');
+      const liveText = document.getElementById('liveStatusText');
+
+      if (todayEntry && todayEntry.type === 'trabalhado') {
+        document.getElementById('timeEntradaDisplay').textContent = todayEntry.entrada || '--:--';
+        document.getElementById('timeSaidaDisplay').textContent = todayEntry.saida || '--:--';
+        document.getElementById('intervalDurationDisplay').textContent = Core.fromMinutes(todayEntry.intervalo || 60);
+
+        const calc = Core.calcPJ(todayEntry.entrada, todayEntry.saida, todayEntry.intervalo, todayEntry.nextDay, appState.config.expected);
+        document.getElementById('statHorasHoje').textContent = Core.fromMinutes(calc.totalLiquido);
+        document.getElementById('statSaldoHoje').textContent = Core.fromMinutes(todayEntry.variation, true);
+        document.getElementById('statSaldoHoje').className = `metric-value ${todayEntry.variation >= 0 ? 'pos' : 'neg'}`;
+
+        if (todayEntry.saida) {
+          liveText.textContent = 'Expediente Finalizado';
+          liveDot.className = 'live-dot idle';
+        } else {
+          liveText.textContent = 'Em Atividade (PJ)';
+          liveDot.className = 'live-dot';
+        }
+      } else {
+        document.getElementById('timeEntradaDisplay').textContent = '--:--';
+        document.getElementById('timeSaidaDisplay').textContent = '--:--';
+        document.getElementById('intervalDurationDisplay').textContent = '01:00';
+        document.getElementById('statHorasHoje').textContent = '00:00';
+        document.getElementById('statSaldoHoje').textContent = '+00:00';
+        if (liveText) liveText.textContent = 'Expediente Não Iniciado';
+        if (liveDot) liveDot.className = 'live-dot idle';
+      }
+
+      let totalSaldo = 0;
+      const filterMonth = document.getElementById('filterMonth').value;
+      const searchEl = document.getElementById('searchTableInput');
+      const searchQuery = searchEl ? searchEl.value.toLowerCase().trim() : '';
+      
+      appState.entries.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      const tbody = document.getElementById('entriesTableBody');
+      if (tbody) tbody.innerHTML = '';
+
+      const months = [...new Set(appState.entries.map(e => e.date ? e.date.slice(0, 7) : ''))].filter(Boolean);
+      const selMonth = document.getElementById('filterMonth');
+      const curSel = selMonth ? selMonth.value : '';
+      if (selMonth) {
+        selMonth.innerHTML = '<option value="">Todo o Período</option>';
+        months.forEach(m => {
+          const parts = m.split('-');
+          const opt = document.createElement('option');
+          opt.value = m;
+          opt.textContent = `${parts[1]}/${parts[0]}`;
+          if (m === curSel) opt.selected = true;
+          selMonth.appendChild(opt);
+        });
+      }
+
+      const filtered = appState.entries.filter(e => {
+        if (!e || !e.date) return false;
+        const matchMonth = !filterMonth || e.date.startsWith(filterMonth);
+        const matchSearch = !searchQuery || (e.obs && e.obs.toLowerCase().includes(searchQuery));
+        return matchMonth && matchSearch;
+      });
+
+      filtered.forEach((entry) => {
+        totalSaldo += entry.variation;
+        if (!tbody) return;
+        const tr = document.createElement('tr');
+        const parts = entry.date.split('-');
+        const d = parts[2] || '';
+        const m = parts[1] || '';
+        const y = parts[0] || '';
+
+        let tipoBadge = 'Prestação PJ';
+        let tipoClass = 'neutral';
+        if (entry.type === 'uso') { tipoBadge = 'Compensado'; tipoClass = 'neg'; }
+        if (entry.type === 'falta') { tipoBadge = 'Ausência'; tipoClass = 'falta'; }
+        if (entry.type === 'atestado') { tipoBadge = 'Abonada'; tipoClass = 'neutral'; }
+
+        tr.innerHTML = `
+          <td><strong>${d}/${m}/${y}</strong></td>
+          <td>
+            ${entry.type === 'trabalhado' 
+              ? `<span class="mono">${entry.entrada} → ${entry.saida}</span> <span class="muted" style="font-size:11px">(-${Core.fromMinutes(entry.intervalo || 60)} almoço)</span>`
+              : (entry.type === 'uso' ? `Folga / Desconto: ${Core.fromMinutes(Math.abs(entry.variation))}` : 'Ausência Registrada')}
+            ${entry.obs ? `<div class="muted" style="font-size:11px; margin-top:2px;">${entry.obs}</div>` : ''}
+          </td>
+          <td>
+            <span class="tag ${tipoClass}">${tipoBadge}</span>
+          </td>
+          <td style="text-align: right;" class="mono ${entry.variation >= 0 ? 'pos' : 'neg'}">
+            <strong>${Core.fromMinutes(entry.variation, true)}</strong>
+          </td>
+          <td style="text-align: right;" class="mono">
+            <strong>${Core.fromMinutes(totalSaldo)}</strong>
+          </td>
+          <td style="text-align: center;">
+            <button class="btn" style="padding: 4px 8px;" onclick="editEntry('${entry.id}')">Editar</button>
+            <button class="btn" style="padding: 4px 8px; color: var(--neg);" onclick="deleteEntry('${entry.id}')">✕</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const statBalanceEl = document.getElementById('statBalance');
+      if (statBalanceEl) {
+        statBalanceEl.textContent = Core.fromMinutes(totalSaldo);
+        statBalanceEl.className = `metric-value ${totalSaldo >= 0 ? 'pos' : 'neg'}`;
+      }
+    }
+
+    /* =====================================================================
+       VINCULAÇÃO DE EVENTOS
+       ===================================================================== */
+    function safeAddListener(id, event, fn) {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener(event, fn);
+    }
+
+    function setupEventListeners() {
+      document.querySelectorAll('dialog [data-close]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const dialog = e.target.closest('dialog');
+          if (dialog) dialog.close();
+        });
+      });
+
+      safeAddListener('btnImportJSONQuick', 'click', () => {
+        const inp = document.getElementById('jsonQuickInput');
+        if (inp) inp.click();
+      });
+
+      safeAddListener('jsonQuickInput', 'change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => processImportedJSON(ev.target.result);
+        reader.readAsText(file);
+      });
+
+      safeAddListener('btnFinalizarDiaInstantaneo', 'click', finalizarDiaInstantaneo);
+      safeAddListener('btnFinalizarDiaHero', 'click', finalizarDiaInstantaneo);
+
+      safeAddListener('btnBaterPontoAgora', 'click', () => {
+        const todayStr = new Date().toISOString().slice(0, 10);
+        let entry = appState.entries.find(e => e.date === todayStr);
+
+        const now = new Date();
+        const timeNow = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+        const form = document.getElementById('formPonto');
+        if (form) form.reset();
+        document.getElementById('pontoData').value = todayStr;
+
+        if (entry) {
+          document.getElementById('entryEditId').value = entry.id;
+          document.getElementById('pontoEntrada').value = entry.entrada || appState.config.entrada || '08:00';
+          document.getElementById('pontoSaida').value = entry.saida || timeNow;
+          document.getElementById('pontoIntervalo').value = entry.intervalo || 60;
+          document.getElementById('pontoNextDay').checked = !!entry.nextDay;
+          document.getElementById('pontoObs').value = entry.obs || '';
+        } else {
+          document.getElementById('entryEditId').value = '';
+          document.getElementById('pontoEntrada').value = appState.config.entrada || '08:00';
+          document.getElementById('pontoSaida').value = timeNow;
+          document.getElementById('pontoIntervalo').value = appState.config.intervalo || 60;
+          document.getElementById('pontoNextDay').checked = false;
+        }
+
+        atualizarCalculoModal();
+        const modal = document.getElementById('modalPonto');
+        if (modal) modal.showModal();
+      });
+
+      safeAddListener('btnUseHours', 'click', () => {
+        const form = document.getElementById('formUso');
+        if (form) form.reset();
+        document.getElementById('usoData').valueAsDate = new Date();
+        const modal = document.getElementById('modalUso');
+        if (modal) modal.showModal();
+      });
+
+      safeAddListener('btnRegistrarFalta', 'click', () => {
+        const form = document.getElementById('formFalta');
+        if (form) form.reset();
+        document.getElementById('faltaData').valueAsDate = new Date();
+        document.getElementById('faltaDiaTodo').checked = true;
+        toggleFaltaDiaTodo();
+        const modal = document.getElementById('modalFalta');
+        if (modal) modal.showModal();
+      });
+
+      safeAddListener('btnOpenProfile', 'click', () => {
+        const modal = document.getElementById('modalPerfil');
+        if (modal) modal.showModal();
+      });
+
+      safeAddListener('heroAvatarClick', 'click', () => {
+        const modal = document.getElementById('modalPerfil');
+        if (modal) modal.showModal();
+      });
+
+      safeAddListener('btnSettings', 'click', () => {
+        const modal = document.getElementById('modalSettings');
+        if (modal) modal.showModal();
+      });
+
+      safeAddListener('btnTrocarFoto', 'click', () => {
+        const inp = document.getElementById('profilePhotoInput');
+        if (inp) inp.click();
+      });
+
+      safeAddListener('profilePhotoInput', 'change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          appState.profile.photo = ev.target.result;
+          renderProfile();
+        };
+        reader.readAsDataURL(file);
+      });
+
+      safeAddListener('formPerfil', 'submit', (e) => {
+        e.preventDefault();
+        appState.profile.name = document.getElementById('perfilNome').value;
+        appState.profile.role = document.getElementById('perfilCargo').value;
+        saveLocal();
+        renderProfile();
+        const modal = document.getElementById('modalPerfil');
+        if (modal) modal.close();
+        showToast('Perfil salvo!');
+      });
+
+      // BOTÃO SAIR NO TOPO E NO MODAL
+      const logoutHandler = async () => {
+        if (confirm('Deseja realmente sair da sua conta?')) {
+          if (sbClient) await sbClient.auth.signOut();
+          onUserSignedOut();
+          const modal = document.getElementById('modalPerfil');
+          if (modal) modal.close();
+        }
+      };
+
+      safeAddListener('btnLogoutSession', 'click', logoutHandler);
+      safeAddListener('btnTopLogout', 'click', logoutHandler);
+
+      safeAddListener('btnThemeToggle', 'click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+        const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', nextTheme);
+        appState.theme = nextTheme;
+        saveLocal();
+      });
+
+      safeAddListener('btnImprimirEspelho', 'click', () => window.print());
+
+      safeAddListener('searchTableInput', 'input', renderDashboard);
+      safeAddListener('filterMonth', 'change', renderDashboard);
+
+      safeAddListener('faltaDiaTodo', 'change', toggleFaltaDiaTodo);
+      safeAddListener('faltaTipo', 'change', atualizarCalculoFalta);
+      safeAddListener('faltaHoras', 'input', atualizarCalculoFalta);
+      safeAddListener('faltaMinutos', 'input', atualizarCalculoFalta);
+
+      safeAddListener('pontoEntrada', 'input', atualizarCalculoModal);
+      safeAddListener('pontoSaida', 'input', atualizarCalculoModal);
+      safeAddListener('pontoIntervalo', 'input', atualizarCalculoModal);
+      safeAddListener('pontoNextDay', 'change', atualizarCalculoModal);
+
+      safeAddListener('btnCalPrev', 'click', () => {
+        calCurrentDate.setMonth(calCurrentDate.getMonth() - 1);
+        renderMiniCalendar();
+      });
+
+      safeAddListener('btnCalNext', 'click', () => {
+        calCurrentDate.setMonth(calCurrentDate.getMonth() + 1);
+        renderMiniCalendar();
+      });
+
+      safeAddListener('btnExportCSV', 'click', () => {
+        let csv = 'Data,Entrada,Saida,Intervalo(Min),Tipo,Variacao(Minutos),Variacao(Formatada),Observacao\n';
+        appState.entries.forEach(e => {
+          const parts = e.date.split('-');
+          csv += `"${parts[2]}/${parts[1]}/${parts[0]}","${e.entrada || ''}","${e.saida || ''}","${e.intervalo || 60}","${e.type}","${e.variation}","${Core.fromMinutes(e.variation, true)}","${e.obs || ''}"\n`;
+        });
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `extrato_horas_${new Date().toISOString().slice(0, 10)}.csv`;
+        link.click();
+      });
+
+      safeAddListener('formPonto', 'submit', (e) => {
+        e.preventDefault();
+        const id = document.getElementById('entryEditId').value || 'id_' + Date.now();
+        const data = document.getElementById('pontoData').value;
+        const entrada = document.getElementById('pontoEntrada').value;
+        const saida = document.getElementById('pontoSaida').value;
+        const intervalo = Number(document.getElementById('pontoIntervalo').value) || 0;
+        const nextDay = document.getElementById('pontoNextDay').checked;
+        const obs = document.getElementById('pontoObs').value;
+
+        const calc = Core.calcPJ(entrada, saida, intervalo, nextDay, appState.config.expected || 480);
+
+        appState.entries = appState.entries.filter(x => x.id !== id);
+        appState.entries.push({
+          id,
+          date: data,
+          type: 'trabalhado',
+          entrada,
+          saida,
+          intervalo,
+          nextDay,
+          variation: calc.saldo,
+          obs
+        });
+
+        saveLocal();
+        const modal = document.getElementById('modalPonto');
+        if (modal) modal.close();
+      });
+
+      safeAddListener('formUso', 'submit', (e) => {
+        e.preventDefault();
+        const data = document.getElementById('usoData').value;
+        const horas = Number(document.getElementById('usoHoras').value) || 0;
+        const minutos = Number(document.getElementById('usoMinutos').value) || 0;
+        const totalMins = (horas * 60) + minutos;
+
+        if (totalMins <= 0) return alert('Informe um tempo válido.');
+
+        appState.entries.push({
+          id: 'uso_' + Date.now(),
+          date: data,
+          type: 'uso',
+          variation: -totalMins,
+          obs: document.getElementById('usoMotivo').value
+        });
+
+        saveLocal();
+        const modal = document.getElementById('modalUso');
+        if (modal) modal.close();
+      });
+
+      safeAddListener('formFalta', 'submit', (e) => {
+        e.preventDefault();
+        const data = document.getElementById('faltaData').value;
+        const tipo = document.getElementById('faltaTipo').value;
+        const diaTodo = document.getElementById('faltaDiaTodo').checked;
+        const motivo = document.getElementById('faltaMotivo').value;
+
+        let mins = 0;
+        if (diaTodo) {
+          mins = appState.config.expected || 480;
+        } else {
+          const h = Number(document.getElementById('faltaHoras').value) || 0;
+          const m = Number(document.getElementById('faltaMinutos').value) || 0;
+          mins = (h * 60) + m;
+        }
+
+        const isAbonada = tipo === 'atestado';
+        const varMin = isAbonada ? 0 : -mins;
+
+        appState.entries.push({
+          id: 'falta_' + Date.now(),
+          date: data,
+          type: isAbonada ? 'atestado' : 'falta',
+          variation: varMin,
+          obs: `${tipo === 'atestado' ? '[Justificada] ' : '[Ausência] '} ${motivo}`
+        });
+
+        saveLocal();
+        const modal = document.getElementById('modalFalta');
+        if (modal) modal.close();
+      });
+
+      safeAddListener('btnSaveConfigs', 'click', () => {
+        appState.config.entrada = document.getElementById('cfgEntrada').value;
+        appState.config.saida = document.getElementById('cfgSaida').value;
+        appState.config.intervalo = Number(document.getElementById('cfgIntervalo').value);
+        
+        const span = Core.toMinutes(appState.config.saida) - Core.toMinutes(appState.config.entrada);
+        appState.config.expected = span - appState.config.intervalo;
+
+        saveLocal();
+        const modal = document.getElementById('modalSettings');
+        if (modal) modal.close();
+      });
+
+      safeAddListener('btnDownloadBackup', 'click', () => {
+        const blob = new Blob([JSON.stringify(appState, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `backup_realtime_${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+      });
+
+      safeAddListener('btnRestaurarArquivo', 'click', () => {
+        const inp = document.getElementById('fileRestore');
+        if (inp) inp.click();
+      });
+
+      safeAddListener('fileRestore', 'change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => processImportedJSON(ev.target.result);
+        reader.readAsText(file);
+      });
+
+      document.querySelectorAll('.nav-tabs button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const viewId = btn.getAttribute('data-view');
+          const vBanco = document.getElementById('v-banco');
+          const vRel = document.getElementById('v-relatorios');
+          if (vBanco) vBanco.style.display = viewId === 'v-banco' ? 'block' : 'none';
+          if (vRel) vRel.style.display = viewId === 'v-relatorios' ? 'block' : 'none';
+        });
+      });
+
+      safeAddListener('reportTemplateSelect', 'change', renderReportFields);
+      safeAddListener('reportDate', 'change', renderReportFields);
+      safeAddListener('btnCopyReport', 'click', () => {
+        const text = document.getElementById('reportPreview').textContent;
+        navigator.clipboard.writeText(text).then(() => showToast('Copiado para o WhatsApp!'));
+      });
+
+      const dropzone = document.getElementById('csvDropzone');
+      const fileInput = document.getElementById('csvFileInput');
+      if (dropzone && fileInput) {
+        dropzone.onclick = () => fileInput.click();
+        fileInput.onchange = (e) => {
+          if (e.target.files.length) {
+            showToast('CSV importado!');
+            const sel = document.getElementById('reportTemplateSelect');
+            if (sel) sel.value = 'marketing';
+            renderReportFields();
+          }
+        };
+      }
+    }
+
+    function atualizarCalculoModal() {
+      const entrada = document.getElementById('pontoEntrada').value;
+      const saida = document.getElementById('pontoSaida').value;
+      const intervalo = Number(document.getElementById('pontoIntervalo').value) || 0;
+      const nextDay = document.getElementById('pontoNextDay').checked;
+
+      const calc = Core.calcPJ(entrada, saida, intervalo, nextDay, appState.config.expected || 480);
+      const prev = document.getElementById('pontoCalculoPreview');
+      if (prev) {
+        prev.innerHTML = `Líquido trabalhado: <strong>${Core.fromMinutes(calc.totalLiquido)}</strong> (com ${intervalo} min de almoço)<br>Variação no saldo: <strong class="${calc.saldo >= 0 ? 'pos' : 'neg'}">${Core.fromMinutes(calc.saldo, true)}</strong>`;
+      }
+    }
+
+    function toggleFaltaDiaTodo() {
+      const diaTodo = document.getElementById('faltaDiaTodo').checked;
+      const box = document.getElementById('boxFaltaDuracao');
+      if (box) box.style.display = diaTodo ? 'none' : 'block';
+      atualizarCalculoFalta();
+    }
+
+    function atualizarCalculoFalta() {
+      const tipo = document.getElementById('faltaTipo').value;
+      const diaTodo = document.getElementById('faltaDiaTodo').checked;
+      let mins = 0;
+
+      if (diaTodo) {
+        mins = appState.config.expected || 480;
+      } else {
+        const h = Number(document.getElementById('faltaHoras').value) || 0;
+        const m = Number(document.getElementById('faltaMinutos').value) || 0;
+        mins = (h * 60) + m;
+      }
+
+      const previewBox = document.getElementById('faltaCalculoPreview');
+      if (!previewBox) return;
+      if (tipo === 'atestado') {
+        previewBox.innerHTML = `Ausência Abonada: <strong>${Core.fromMinutes(mins)}</strong> (Não desconta do banco)`;
+      } else {
+        previewBox.innerHTML = `Impacto no saldo: <strong class="neg">-${Core.fromMinutes(mins)}</strong> (A compensar)`;
+      }
+    }
+
+    function editEntry(id) {
+      const item = appState.entries.find(x => x.id === id);
+      if (!item) return;
+
+      if (item.type === 'falta' || item.type === 'atestado') {
+        alert('Para ausências, remova o item e registre novamente.');
+        return;
+      }
+
+      document.getElementById('entryEditId').value = item.id;
+      document.getElementById('pontoData').value = item.date;
+      document.getElementById('pontoEntrada').value = item.entrada || '08:00';
+      document.getElementById('pontoSaida').value = item.saida || '17:00';
+      document.getElementById('pontoIntervalo').value = item.intervalo || 60;
+      document.getElementById('pontoNextDay').checked = !!item.nextDay;
+      document.getElementById('pontoObs').value = item.obs || '';
+
+      atualizarCalculoModal();
+      const modal = document.getElementById('modalPonto');
+      if (modal) modal.showModal();
+    }
+
+    function deleteEntry(id) {
+      if (confirm('Deseja excluir este lançamento?')) {
+        appState.entries = appState.entries.filter(x => x.id !== id);
+        saveLocal();
+      }
+    }
+
+    /* =====================================================================
+       RELATÓRIOS DIÁRIOS
+       ===================================================================== */
+    const REPORT_TEMPLATES = {
+      marketing: [
+        { id: 'campanhas', label: 'Campanhas & Anúncios Ativos', type: 'text' },
+        { id: 'metricas', label: 'Métricas & Desempenho do Dia', type: 'textarea' },
+        { id: 'leads', label: 'Total de Leads Confirmados', type: 'text' },
+        { id: 'conteudos', label: 'Stories e Conteúdos Produzidos', type: 'textarea' },
+        { id: 'proximos', label: 'Planejamento para Amanhã', type: 'textarea' }
+      ],
+      captacao: [
+        { id: 'captacoes', label: 'Captações de Imóveis Realizadas', type: 'textarea' },
+        { id: 'contato_proprietarios', label: 'Contatos com Proprietários', type: 'text' },
+        { id: 'pendencias', label: 'Pendências de Documentos', type: 'textarea' }
+      ],
+      atendimento: [
+        { id: 'leads_atendidos', label: 'Novos Leads Atendidos', type: 'text' },
+        { id: 'visitas', label: 'Visitas Agendadas e Realizadas', type: 'textarea' },
+        { id: 'propostas', label: 'Propostas em Negociação', type: 'textarea' }
+      ],
+      geral: [
+        { id: 'atividades', label: 'Principais Entregas de Hoje', type: 'textarea' },
+        { id: 'amanha', label: 'Prioridades de Amanhã', type: 'textarea' }
+      ]
+    };
+
+    function renderReportFields() {
+      const sel = document.getElementById('reportTemplateSelect');
+      const templateKey = sel ? sel.value : 'marketing';
+      const fields = REPORT_TEMPLATES[templateKey] || REPORT_TEMPLATES.geral;
+      const box = document.getElementById('dynamicReportFields');
+      const rDate = document.getElementById('reportDate');
+      const dataRelatorio = rDate ? rDate.value : new Date().toISOString().slice(0, 10);
+      const currentData = (appState.reports[dataRelatorio] || {})[templateKey] || {};
+
+      if (!box) return;
+      box.innerHTML = '';
+      fields.forEach(f => {
+        const wrap = document.createElement('div');
+        wrap.className = 'form-group';
+        wrap.innerHTML = `<label>${f.label}</label>`;
+
+        const input = f.type === 'textarea' ? document.createElement('textarea') : document.createElement('input');
+        input.value = currentData[f.id] || '';
+        input.placeholder = `Preencha ${f.label.toLowerCase()}...`;
+        input.oninput = (e) => {
+          if (!appState.reports[dataRelatorio]) appState.reports[dataRelatorio] = {};
+          if (!appState.reports[dataRelatorio][templateKey]) appState.reports[dataRelatorio][templateKey] = {};
+          appState.reports[dataRelatorio][templateKey][f.id] = e.target.value;
+          saveLocal();
+          updateWhatsAppPreview();
+        };
+
+        wrap.appendChild(input);
+        box.appendChild(wrap);
+      });
+      updateWhatsAppPreview();
+    }
+
+    function updateWhatsAppPreview() {
+      const rDate = document.getElementById('reportDate');
+      const dataRelatorio = rDate ? rDate.value : new Date().toISOString().slice(0, 10);
+      const parts = dataRelatorio.split('-');
+      const d = parts[2] || '';
+      const m = parts[1] || '';
+      const y = parts[0] || '';
+      
+      const sel = document.getElementById('reportTemplateSelect');
+      const templateKey = sel ? sel.value : 'marketing';
+      const fields = REPORT_TEMPLATES[templateKey] || REPORT_TEMPLATES.geral;
+      const currentData = (appState.reports[dataRelatorio] || {})[templateKey] || {};
+
+      let text = `*RELATÓRIO DIÁRIO — ${d}/${m}/${y}*\n`;
+      text += `_Real Estate São Paulo • ${sel && sel.selectedOptions.length ? sel.selectedOptions[0].text : ''}_\n\n`;
+
+      let hasContent = false;
+      fields.forEach(f => {
+        const val = (currentData[f.id] || '').trim();
+        if (val) {
+          hasContent = true;
+          text += `*${f.label.toUpperCase()}*\n`;
+          val.split('\n').forEach(l => {
+            text += l.startsWith('-') || l.startsWith('•') ? `${l}\n` : `• ${l}\n`;
+          });
+          text += '\n';
+        }
+      });
+
+      const prev = document.getElementById('reportPreview');
+      if (prev) {
+        prev.textContent = hasContent ? text.trim() : 'Preencha os campos ao lado para gerar o relatório...';
+      }
+    }
+
+    /* =====================================================================
+       SISTEMA DE AUTENTICAÇÃO REAL & MULTI-PERFIL
+       ===================================================================== */
+    const SB_URL = 'https://tmclvnakdowmytrstvde.supabase.co';
+    const SB_KEY = 'sb_publishable__TtDR8x-PIo41AA9YsKHww_lde9gicL';
+    let sbClient = null;
+    let authMode = 'signup'; // Abre por padrão na criação de conta
+
+    async function initSupabase() {
+      try {
+        if (typeof supabase !== 'undefined' && supabase && typeof supabase.createClient === 'function') {
+          sbClient = supabase.createClient(SB_URL, SB_KEY);
+
+          // RESET INICIAL INTELIGENTE: Limpa sessões antigas que estavam presas no navegador
+          if (!localStorage.getItem('realtime_auth_v7_initialized')) {
+            await sbClient.auth.signOut();
+            localStorage.setItem('realtime_auth_v7_initialized', 'true');
+            onUserSignedOut();
+            return;
+          }
+
+          const { data: { session } } = await sbClient.auth.getSession();
+          if (session && session.user) {
+            onUserSignedIn(session.user);
+          } else {
+            onUserSignedOut();
+          }
+
+          sbClient.auth.onAuthStateChange((event, session) => {
+            if (session && session.user) {
+              onUserSignedIn(session.user);
+            } else {
+              onUserSignedOut();
+            }
+          });
+        } else {
+          onUserSignedOut();
+        }
+      } catch (e) {
+        console.warn('Executando offline.');
+        onUserSignedOut();
+      }
+    }
+
+    function onUserSignedIn(user) {
+      currentUserId = user.id;
+      document.getElementById('authScreen').hidden = true;
+      document.getElementById('appScreen').hidden = false;
+
+      const meta = user.user_metadata || {};
+      appState.profile.email = user.email;
+      if (meta.name) appState.profile.name = meta.name;
+      if (meta.role) appState.profile.role = meta.role;
+
+      loadLocal();
+      renderDashboard();
+      renderMiniCalendar();
+      renderMonthlyChart();
+      updateSyncStatus('online', 'Nuvem Conectada');
+      syncWithCloud();
+    }
+
+    function onUserSignedOut() {
+      currentUserId = 'guest';
+      document.getElementById('appScreen').hidden = true;
+      document.getElementById('authScreen').hidden = false;
+      updateSyncStatus('offline', 'Desconectado');
+    }
+
+    function updateSyncStatus(status, text) {
+      const dot = document.getElementById('syncDot');
+      const txt = document.getElementById('syncText');
+      if (txt) txt.textContent = text;
+      if (dot) {
+        dot.className = `sync-dot ${status === 'online' ? '' : (status === 'error' ? 'error' : 'offline')}`;
+      }
+    }
+
+    async function syncWithCloud() {
+      if (!sbClient || currentUserId === 'guest') return;
+      try {
+        const { data: { session } } = await sbClient.auth.getSession();
+        if (!session || !session.user) return;
+
+        updateSyncStatus('offline', 'Sincronizando...');
+
+        const { data: cloudRow } = await sbClient
+          .from('bh_state')
+          .select('state, updated_at')
+          .eq('user_id', session.user.id)
+          .maybeSingle();
+
+        if (cloudRow && cloudRow.state) {
+          try {
+            const cloudState = JSON.parse(cloudRow.state);
+            const cloudEntries = Array.isArray(cloudState.entries) ? cloudState.entries.map(normalizeEntry).filter(Boolean) : [];
+            
+            const localIds = new Set(appState.entries.map(e => e.id));
+            cloudEntries.forEach(ce => {
+              if (!localIds.has(ce.id)) {
+                appState.entries.push(ce);
+              }
+            });
+
+            if (cloudState.reports) {
+              appState.reports = { ...cloudState.reports, ...appState.reports };
+            }
+          } catch (e) {
+            console.error('Falha ao mesclar dados da nuvem:', e);
+          }
+        }
+
+        const { error: upsertErr } = await sbClient.from('bh_state').upsert({
+          user_id: session.user.id,
+          state: JSON.stringify(appState),
+          updated_at: new Date().toISOString()
+        });
+
+        if (!upsertErr) {
+          updateSyncStatus('online', 'Nuvem OK');
+        } else {
+          updateSyncStatus('error', 'Erro ao salvar');
+        }
+      } catch (err) {
+        updateSyncStatus('error', 'Sem Conexão');
+      }
+    }
+
+    function setupAuthForm() {
+      const tabLogin = document.getElementById('tabAuthLogin');
+      const tabSignup = document.getElementById('tabAuthSignup');
+      const btnSubmit = document.getElementById('btnSubmitAuth');
+      const msgBox = document.getElementById('authMsgBox');
+      const boxSignup = document.getElementById('boxSignupFields');
+
+      tabLogin.onclick = () => {
+        authMode = 'login';
+        tabLogin.className = 'active';
+        tabSignup.className = '';
+        btnSubmit.textContent = 'Entrar no RealTime';
+        boxSignup.style.display = 'none';
+        document.getElementById('authName').required = false;
+        document.getElementById('authRole').required = false;
+        msgBox.textContent = '';
+      };
+
+      tabSignup.onclick = () => {
+        authMode = 'signup';
+        tabSignup.className = 'active';
+        tabLogin.className = '';
+        btnSubmit.textContent = 'Cadastrar e Começar';
+        boxSignup.style.display = 'block';
+        document.getElementById('authName').required = true;
+        document.getElementById('authRole').required = true;
+        msgBox.textContent = '';
+      };
+
+      document.getElementById('btnContinueOffline').onclick = () => {
+        currentUserId = 'guest';
+        document.getElementById('authScreen').hidden = true;
+        document.getElementById('appScreen').hidden = false;
+        loadLocal();
+        renderDashboard();
+        renderMiniCalendar();
+        renderMonthlyChart();
+        updateSyncStatus('offline', 'Modo Convidado');
+        showToast('Modo convidado ativo!');
+      };
+
+      document.getElementById('btnForgotPass').onclick = async () => {
+        const email = document.getElementById('authEmail').value.trim();
+        if (!email) {
+          msgBox.style.color = 'var(--warn)';
+          msgBox.textContent = 'Informe seu e-mail acima para receber o link de redefinição.';
+          return;
+        }
+        if (!sbClient) return alert('Serviço indisponível.');
+        const { error } = await sbClient.auth.resetPasswordForEmail(email);
+        if (error) {
+          msgBox.style.color = 'var(--neg)';
+          msgBox.textContent = error.message;
+        } else {
+          msgBox.style.color = 'var(--pos)';
+          msgBox.textContent = 'Link de redefinição enviado para seu e-mail!';
+        }
+      };
+
+      document.getElementById('formAuth').onsubmit = async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('authEmail').value.trim();
+        const password = document.getElementById('authPassword').value;
+        const name = document.getElementById('authName').value.trim();
+        const role = document.getElementById('authRole').value.trim();
+
+        msgBox.textContent = '';
+        btnSubmit.disabled = true;
+        btnSubmit.textContent = 'Aguarde...';
+
+        try {
+          if (!sbClient) throw new Error('Serviço de autenticação não carregado.');
+
+          if (authMode === 'login') {
+            const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
+            if (error) throw error;
+            onUserSignedIn(data.user);
+          } else {
+            const { data, error } = await sbClient.auth.signUp({
+              email,
+              password,
+              options: {
+                data: {
+                  name: name || 'Colaborador',
+                  role: role || 'Consultor Imobiliário'
+                }
+              }
+            });
+            if (error) throw error;
+            
+            if (data.user && !data.session) {
+              msgBox.style.color = 'var(--pos)';
+              msgBox.textContent = 'Conta criada! Confirme seu e-mail para entrar.';
+            } else if (data.user) {
+              onUserSignedIn(data.user);
+            }
+          }
+        } catch (err) {
+          msgBox.style.color = 'var(--neg)';
+          msgBox.textContent = err.message.includes('Invalid login') ? 'E-mail ou senha incorretos.' : err.message;
+        } finally {
+          btnSubmit.disabled = false;
+          btnSubmit.textContent = authMode === 'login' ? 'Entrar no RealTime' : 'Cadastrar e Começar';
+        }
+      };
+    }
+
+    /* =====================================================================
+       INICIALIZAÇÃO DO SISTEMA
+       ===================================================================== */
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const currentTheme = localStorage.getItem('realtime_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        const repDate = document.getElementById('reportDate');
+        if (repDate) repDate.valueAsDate = new Date();
+
+        setupEventListeners();
+        setupAuthForm();
+        renderHolidaysList();
+        renderReportFields();
+        initSupabase();
+      } catch (err) {
+        console.error('Erro na inicialização:', err);
+      }
+    });
+  </script>
+</body>
+</html>
+```

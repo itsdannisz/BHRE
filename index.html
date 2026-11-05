@@ -1,18 +1,19 @@
-html
 <!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="dark light">
-  <title>RealTime • Real Estate São Paulo</title>
+  <title>RealTime • Real Estate São Paulo (PJ)</title>
   
+  <!-- Tipografia Oficial Montserrat + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
     :root {
+      /* PALETA DE CORES: MODO ESCURO GRAFITE / CARVÃO (ZERO ROXO NO FUNDO) */
       --bg-page: #090d16;
       --card-white: #111827;
       --card-sub: #182234;
@@ -25,7 +26,6 @@ html
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --text-dim: #64748b;
-      --bg-contrast: #111827;
       
       --c-laranja: #EC894D;
       --c-laranja-hover: #d97334;
@@ -37,7 +37,7 @@ html
       --warn: #f59e0b;
       --warn-bg: rgba(245, 158, 11, 0.12);
       
-      --font-main: 'Montserrat', system-ui, sans-serif;
+      --font-main: 'Montserrat', system-ui, -apple-system, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
       
       --radius-lg: 16px;
@@ -47,6 +47,7 @@ html
     }
 
     [data-theme="light"] {
+      /* MODO CLARO: CHAMPAGNE NOBRE E ROXO INSTITUCIONAL */
       --bg-page: #EFECE5;
       --card-white: #ffffff;
       --card-sub: #f5f2ea;
@@ -59,7 +60,6 @@ html
       --text-main: #220C27;
       --text-muted: #645069;
       --text-dim: #8e7a93;
-      --bg-contrast: #ffffff;
       
       --pos: #059669;
       --pos-bg: #ecfdf5;
@@ -93,40 +93,9 @@ html
     .muted { color: var(--text-muted); }
     .icon { width: 18px; height: 18px; flex-shrink: 0; vertical-align: middle; }
 
-    /* LOGO OFICIAL REAL ESTATE SÃO PAULO */
-    .brand-wrap {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      text-decoration: none;
-      color: inherit;
-    }
-    .brand-img-logo {
-      height: 42px;
-      width: auto;
-      display: block;
-      object-fit: contain;
-    }
-    .brand-logo-svg {
-      height: 38px;
-      width: auto;
-      color: var(--text-main);
-      display: block;
-    }
-    .brand-divider {
-      width: 1px;
-      height: 28px;
-      background: var(--border-color);
-    }
-    .brand-app-badge {
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: var(--c-laranja);
-    }
-
-    /* TELA DE LOGIN / CADASTRO */
+    /* =====================================================================
+       TELA DE LOGIN E CADASTRO
+       ===================================================================== */
     #authScreen {
       min-height: 100vh;
       display: flex;
@@ -139,7 +108,7 @@ html
 
     .auth-container {
       width: 100%;
-      max-width: 460px;
+      max-width: 440px;
       background: var(--card-white);
       border: 1px solid var(--border-color);
       border-top: 4px solid var(--c-laranja);
@@ -148,13 +117,11 @@ html
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     }
 
-    .auth-brand-center {
+    .auth-brand-header {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      text-align: center;
+      gap: 14px;
       margin-bottom: 24px;
-      gap: 8px;
     }
 
     .auth-tabs {
@@ -185,7 +152,9 @@ html
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
 
-    /* DASHBOARD PRINCIPAL */
+    /* =====================================================================
+       APLICAÇÃO DO BANCO DE HORAS
+       ===================================================================== */
     #appScreen[hidden] { display: none !important; }
 
     header {
@@ -204,6 +173,69 @@ html
       justify-content: space-between;
       align-items: center;
       gap: 16px;
+    }
+    
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: #090d16;
+      border: 1px solid var(--c-laranja);
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+    }
+    
+    .clock-face {
+      width: 22px;
+      height: 22px;
+      background: #ffffff;
+      border-radius: 50%;
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+    .clock-face::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 10px;
+      width: 2px;
+      height: 8px;
+      background: #090d16;
+      border-radius: 2px;
+      transform-origin: bottom center;
+    }
+    .clock-face::before {
+      content: '';
+      position: absolute;
+      top: 9px;
+      left: 10px;
+      width: 6px;
+      height: 2px;
+      background: var(--c-laranja);
+      border-radius: 2px;
+    }
+
+    .brand-titles b {
+      display: block;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      color: var(--text-main);
+    }
+    .brand-titles span {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--c-laranja);
     }
 
     .header-actions {
@@ -262,6 +294,7 @@ html
     .sync-dot.offline { background: var(--warn); }
     .sync-dot.error { background: var(--neg); }
 
+    /* Layout Central */
     .container {
       max-width: 1260px;
       width: 100%;
@@ -300,7 +333,7 @@ html
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    /* HERO BANNER */
+    /* HERO BANNER REAL ESTATE SÃO PAULO */
     .hero-banner {
       background: var(--hero-bg);
       color: #ffffff;
@@ -391,6 +424,7 @@ html
       overflow: hidden;
     }
 
+    /* 3 Métricas Hero */
     .hero-metrics-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -418,6 +452,7 @@ html
       color: #ffffff;
     }
 
+    /* Dashboard Layout */
     .dashboard-grid {
       display: grid;
       grid-template-columns: 380px 1fr;
@@ -443,7 +478,7 @@ html
       align-items: center;
     }
 
-    /* TIMELINE DE HOJE */
+    /* Timeline PJ */
     .punches-timeline {
       display: flex;
       flex-direction: column;
@@ -493,6 +528,7 @@ html
       margin-top: 18px;
     }
 
+    /* Botão Principal Laranja */
     .btn-laranja {
       background: var(--c-laranja);
       color: #ffffff;
@@ -516,6 +552,7 @@ html
     }
     .btn-laranja:active { transform: translateY(1px); }
 
+    /* Botões Auxiliares */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -540,7 +577,7 @@ html
       margin-top: 12px;
     }
 
-    /* MINI CALENDÁRIO */
+    /* Mini Calendário */
     .mini-cal-header {
       display: flex;
       justify-content: space-between;
@@ -599,6 +636,7 @@ html
     }
     .cal-dot.holiday-dot { background: var(--c-laranja); }
 
+    /* Feriados */
     .holiday-list {
       display: flex;
       flex-direction: column;
@@ -625,6 +663,7 @@ html
       font-weight: 700;
     }
 
+    /* Barra de Busca */
     .table-actions-bar {
       display: flex;
       gap: 10px;
@@ -649,6 +688,7 @@ html
       pointer-events: none;
     }
 
+    /* Tabela */
     .table-container { width: 100%; overflow-x: auto; }
     table {
       width: 100%;
@@ -684,9 +724,8 @@ html
     .tag.neg { background: var(--neg-bg); color: var(--neg); }
     .tag.neutral { background: var(--card-sub); color: var(--text-main); border: 1px solid var(--border-color); }
     .tag.falta { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
-    .tag.locked { background: rgba(236, 137, 77, 0.15); color: var(--c-laranja); border: 1px solid rgba(236, 137, 77, 0.3); }
 
-    /* RELATÓRIOS */
+    /* Relatórios View */
     .report-layout {
       display: grid;
       grid-template-columns: 1.2fr 1fr;
@@ -713,7 +752,7 @@ html
       overflow-y: auto;
     }
 
-    /* MODAIS */
+    /* Modais */
     dialog {
       background: var(--card-white);
       color: var(--text-main);
@@ -777,7 +816,7 @@ html
     }
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* IMPRESSÃO A4 */
+    /* ESTILO DE IMPRESSÃO (EXTRATO PJ) */
     @media print {
       body {
         background: #ffffff !important;
@@ -837,25 +876,14 @@ html
        ===================================================================== -->
   <section id="authScreen">
     <div class="auth-container">
-      <div class="auth-brand-center">
-        <!-- Logo Real Estate São Paulo na Autenticação -->
-        <a href="#" class="brand-wrap" style="justify-content: center; margin-bottom: 6px;">
-          <img src="logo.png" alt="Real Estate São Paulo" class="brand-img-logo" onerror="this.style.display='none'; document.getElementById('authSvgLogo').style.display='block';">
-          <svg id="authSvgLogo" class="brand-logo-svg" viewBox="0 0 360 60" fill="currentColor">
-            <text x="0" y="36" font-family="'Playfair Display', Georgia, serif" font-weight="700" font-size="34" letter-spacing="4">REAL</text>
-            <g transform="translate(126, 4)">
-              <circle cx="26" cy="26" r="23" stroke="currentColor" stroke-width="4.5" fill="none"/>
-              <path d="M17 15h11v22H17z" fill="currentColor"/>
-              <path d="M23 11h11v26H23z" fill="currentColor"/>
-              <line x1="26" y1="16" x2="26" y2="34" stroke="var(--bg-contrast)" stroke-width="1.3"/>
-              <line x1="28.5" y1="16" x2="28.5" y2="34" stroke="var(--bg-contrast)" stroke-width="1.3"/>
-              <line x1="31" y1="16" x2="31" y2="34" stroke="var(--bg-contrast)" stroke-width="1.3"/>
-            </g>
-            <text x="188" y="36" font-family="'Playfair Display', Georgia, serif" font-weight="700" font-size="34" letter-spacing="4">ESTATE</text>
-            <text x="218" y="55" font-family="'Brush Script MT', 'Great Vibes', cursive, sans-serif" font-style="italic" font-size="20" letter-spacing="1">São Paulo</text>
-          </svg>
-        </a>
-        <b style="font-size:18px; letter-spacing:-0.4px;">RealTime</b>
+      <div class="auth-brand-header">
+        <div class="brand-icon">
+          <div class="clock-face"></div>
+        </div>
+        <div>
+          <b style="font-size:18px; letter-spacing:-0.4px;">RealTime</b>
+          <span style="display:block; font-size:12px; color:var(--c-laranja); font-weight:600;">Real Estate São Paulo</span>
+        </div>
       </div>
 
       <div class="auth-tabs">
@@ -864,6 +892,7 @@ html
       </div>
 
       <form id="formAuth">
+        <!-- Campos de Cadastro -->
         <div id="boxSignupFields">
           <div class="form-group">
             <label>Seu Nome Completo</label>
@@ -901,48 +930,44 @@ html
        APLICAÇÃO DO BANCO DE HORAS
        ===================================================================== -->
   <div id="appScreen" hidden>
+    <!-- Topbar Header -->
     <header>
       <div class="header-inner">
-        <!-- Logo Oficial no Topbar -->
-        <a href="#" class="brand-wrap">
-          <img src="logo.png" alt="Real Estate São Paulo" class="brand-img-logo" onerror="this.style.display='none'; document.getElementById('headerSvgLogo').style.display='block';">
-          <svg id="headerSvgLogo" class="brand-logo-svg" viewBox="0 0 360 60" fill="currentColor">
-            <text x="0" y="36" font-family="'Playfair Display', Georgia, serif" font-weight="700" font-size="34" letter-spacing="4">REAL</text>
-            <g transform="translate(126, 4)">
-              <circle cx="26" cy="26" r="23" stroke="currentColor" stroke-width="4.5" fill="none"/>
-              <path d="M17 15h11v22H17z" fill="currentColor"/>
-              <path d="M23 11h11v26H23z" fill="currentColor"/>
-              <line x1="26" y1="16" x2="26" y2="34" stroke="var(--bg-contrast)" stroke-width="1.3"/>
-              <line x1="28.5" y1="16" x2="28.5" y2="34" stroke="var(--bg-contrast)" stroke-width="1.3"/>
-              <line x1="31" y1="16" x2="31" y2="34" stroke="var(--bg-contrast)" stroke-width="1.3"/>
-            </g>
-            <text x="188" y="36" font-family="'Playfair Display', Georgia, serif" font-weight="700" font-size="34" letter-spacing="4">ESTATE</text>
-            <text x="218" y="55" font-family="'Brush Script MT', 'Great Vibes', cursive, sans-serif" font-style="italic" font-size="20" letter-spacing="1">São Paulo</text>
-          </svg>
-          <div class="brand-divider"></div>
-          <span class="brand-app-badge">RealTime</span>
-        </a>
+        <div class="brand-wrap">
+          <div class="brand-icon">
+            <div class="clock-face"></div>
+          </div>
+          <div class="brand-titles">
+            <b>RealTime</b>
+            <span>Real Estate São Paulo</span>
+          </div>
+        </div>
 
         <div class="header-actions">
+          <!-- Chip de Perfil -->
           <button class="profile-chip-btn" id="btnOpenProfile" title="Meu Perfil">
             <div class="avatar-mini" id="topAvatarMini">JN</div>
             <span id="topProfileName">João das Neves</span>
           </button>
 
+          <!-- Indicador de Nuvem / Sincronização -->
           <div class="sync-badge" id="syncStatusBadge">
             <span class="sync-dot" id="syncDot"></span>
             <span id="syncText">Sincronizado</span>
           </div>
 
+          <!-- Botão Sair Rápido no Topo -->
           <button class="btn" id="btnTopLogout" title="Sair da Conta" style="color:var(--neg);">
             Sair
           </button>
 
+          <!-- Botão Importar JSON em destaque -->
           <button class="btn" id="btnImportJSONQuick" title="Restaurar o mês trabalhado do seu JSON" style="border-color:var(--c-laranja); color:var(--c-laranja); font-weight:700;">
             📥 Importar Meu JSON
           </button>
           <input type="file" id="jsonQuickInput" accept=".json" style="display:none">
           
+          <!-- Alternar Tema Claro / Escuro -->
           <button class="btn" id="btnThemeToggle" title="Alternar tema claro/escuro">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
           </button>
@@ -955,6 +980,7 @@ html
     </header>
 
     <main class="container">
+      <!-- Abas & Ações Rápidas -->
       <div class="tabs-wrapper">
         <nav class="nav-tabs">
           <button class="active" data-view="v-banco">Hoje & Banco</button>
@@ -979,6 +1005,7 @@ html
 
       <!-- VIEW 1: BANCO DE HORAS & HOJE -->
       <section id="v-banco">
+        <!-- HERO BANNER REAL ESTATE SÃO PAULO -->
         <div class="hero-banner">
           <div class="hero-top-wrap">
             <div>
@@ -1005,7 +1032,7 @@ html
               <div class="metric-value" id="statHorasHoje">00:00</div>
             </div>
             <div class="metric-block">
-              <div class="metric-label">Saldo do Dia (vs 8h)</div>
+              <div class="metric-label" id="labelSaldoDiaMeta">Saldo do Dia</div>
               <div class="metric-value" id="statSaldoHoje">+00:00</div>
             </div>
             <div class="metric-block">
@@ -1015,7 +1042,9 @@ html
           </div>
         </div>
 
+        <!-- Dashboard Grid -->
         <div class="dashboard-grid">
+          <!-- Coluna Esquerda: Formato PJ + Calendário + Feriados -->
           <div>
             <div class="content-card">
               <div class="card-title">
@@ -1094,10 +1123,6 @@ html
                   <select id="filterMonth" style="width: auto; padding: 6px 10px; font-size: 12px;">
                     <option value="">Todo o Período</option>
                   </select>
-                  <!-- Botão Fechar Mês / Trava Anti-Fraude -->
-                  <button class="btn" id="btnToggleLockMonth" title="Bloquear alterações no mês selecionado">
-                    <span id="lockMonthIcon">🔒</span> <span id="lockMonthText">Fechar Mês</span>
-                  </button>
                   <button class="btn" id="btnUseHours" style="font-size: 11px;">Compensar Horas</button>
                 </div>
               </div>
@@ -1195,7 +1220,7 @@ html
         <div class="form-group">
           <label>Tipo de Ausência</label>
           <select id="faltaTipo">
-            <option value="injustificada">Ausência a Compensar (Desconta 8h)</option>
+            <option value="injustificada">Ausência a Compensar (Desconta Meta Diária)</option>
             <option value="atestado">Ausência Abonada / Justificada (0h)</option>
           </select>
         </div>
@@ -1204,14 +1229,14 @@ html
       <div class="form-group" style="margin-top: 6px;">
         <label style="display: flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer;">
           <input type="checkbox" id="faltaDiaTodo" checked style="width: auto;">
-          Ausência durante o dia todo (8h de meta)
+          Ausência durante o dia todo (Meta Integral)
         </label>
       </div>
 
       <div class="form-group" id="boxFaltaDuracao" style="display: none;">
         <label>Tempo de Ausência</label>
         <div style="display: flex; gap: 6px;">
-          <input type="number" id="faltaHoras" placeholder="Horas" min="0" max="24" value="8">
+          <input type="number" id="faltaHoras" placeholder="Horas" min="0" max="24" value="6">
           <input type="number" id="faltaMinutos" placeholder="Minutos" min="0" max="59" value="0">
         </div>
       </div>
@@ -1299,7 +1324,7 @@ html
       <div class="grid-3" style="margin-top: 6px;">
         <div class="form-group">
           <label>Entrada</label>
-          <input type="time" id="pontoEntrada" value="08:00" required>
+          <input type="time" id="pontoEntrada" value="09:00" required>
         </div>
         <div class="form-group">
           <label>Intervalo Almoço</label>
@@ -1307,7 +1332,7 @@ html
         </div>
         <div class="form-group">
           <label>Saída</label>
-          <input type="time" id="pontoSaida" value="17:00" required>
+          <input type="time" id="pontoSaida" value="16:00" required>
         </div>
       </div>
 
@@ -1368,7 +1393,7 @@ html
     </form>
   </dialog>
 
-  <!-- MODAL: CONFIGURAÇÕES, SEGURANÇA E LGPD -->
+  <!-- MODAL: CONFIGURAÇÕES -->
   <dialog id="modalSettings">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
       <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main);">Configurações & Segurança</h3>
@@ -1378,37 +1403,24 @@ html
     <div class="form-group">
       <label>Horário Habitual de Entrada e Saída</label>
       <div class="grid-2">
-        <input type="time" id="cfgEntrada" value="08:00">
-        <input type="time" id="cfgSaida" value="17:00">
+        <input type="time" id="cfgEntrada" value="09:00">
+        <input type="time" id="cfgSaida" value="16:00">
       </div>
     </div>
 
     <div class="form-group">
       <label>Duração do Almoço (minutos deduzidos automaticamente)</label>
       <input type="number" id="cfgIntervalo" value="60" min="0" max="180">
-      <small class="muted" style="font-size:11px">Padrão: 60 minutos (1 hora)</small>
+      <small class="muted" style="font-size:11px" id="cfgCalculoMetaTexto">Meta líquida calculada: 6h00 por dia</small>
     </div>
 
-    <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 16px 0;">
+    <hr style="border:0; border-top:1px solid var(--border-subtle); margin: 18px 0;">
 
-    <h4 style="font-size: 12px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase;" class="muted">Backup dos Dados</h4>
-    <div style="display: flex; gap: 8px;">
+    <h4 style="font-size:12px; font-weight:700; text-transform:uppercase; color:var(--text-muted); margin-bottom:10px;">Backup dos Dados</h4>
+    <div style="display: flex; gap: 8px; margin-bottom: 18px;">
       <button class="btn" id="btnDownloadBackup" style="flex: 1;">Baixar Backup</button>
       <button class="btn" id="btnRestaurarArquivo" style="flex: 1;">Restaurar Arquivo</button>
       <input type="file" id="fileRestore" accept=".json" style="display: none;">
-    </div>
-
-    <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 16px 0;">
-
-    <!-- Seção de Segurança e LGPD -->
-    <h4 style="font-size: 12px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase;" class="muted">Privacidade & Segurança (LGPD)</h4>
-    <div style="display: flex; flex-direction: column; gap: 8px;">
-      <button class="btn" id="btnExportLGPD" style="width: 100%; justify-content: flex-start;">
-        📄 Exportar Dossiê Completo de Dados (LGPD Art. 18)
-      </button>
-      <button class="btn" id="btnGlobalSignOut" style="width: 100%; justify-content: flex-start; color: var(--warn); border-color: rgba(245, 158, 11, 0.3);">
-        🌐 Desconectar de Todos os Aparelhos
-      </button>
     </div>
 
     <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
@@ -1522,13 +1534,13 @@ html
     }
 
     /* =====================================================================
-       MOTOR CORE DE CÁLCULO PJ (SANITIZADO CONTRA INJEÇÃO)
+       MOTOR CORE DE CÁLCULO PJ
        ===================================================================== */
     const Core = {
       toMinutes(timeStr) {
         if (!timeStr || typeof timeStr !== 'string' || !timeStr.includes(':')) return 0;
         const [h, m] = timeStr.split(':').map(Number);
-        return Math.min(1440, Math.max(0, ((h || 0) * 60) + (m || 0)));
+        return ((h || 0) * 60) + (m || 0);
       },
 
       fromMinutes(mins, signed = false) {
@@ -1540,7 +1552,7 @@ html
         return `${sign}${h}:${m}`;
       },
 
-      calcPJ(entrada, saida, intervaloMin = 60, nextDay = false, expectedMinutes = 480) {
+      calcPJ(entrada, saida, intervaloMin = 60, nextDay = false, expectedMinutes = 360) {
         let mEntrada = Core.toMinutes(entrada);
         let mSaida = Core.toMinutes(saida);
         if (nextDay) mSaida += 1440;
@@ -1551,14 +1563,11 @@ html
         let totalLiquido = Math.max(0, totalBruto - intervaloMin);
         let saldo = totalLiquido - expectedMinutes;
 
-        // Limita a variações fisicamente possíveis em 24h
-        saldo = Math.min(1440, Math.max(-1440, saldo));
-
         return { totalBruto, totalLiquido, saldo };
       }
     };
 
-    function normalizeEntry(e) {
+    function normalizeEntry(e, expectedMins) {
       if (!e) return null;
       const date = e.date || e.d || new Date().toISOString().slice(0, 10);
       
@@ -1567,40 +1576,40 @@ html
       else if (e.t === 'falta' || e.type === 'falta') type = 'falta';
       else if (e.t === 'atestado' || e.type === 'atestado') type = 'atestado';
 
-      const entrada = e.entrada || e.start || (e.punches ? e.punches.e1 : '08:00');
-      const saida = e.saida || e.s || (e.punches ? e.punches.s2 : '17:00');
+      const entrada = e.entrada || e.start || (e.punches ? e.punches.e1 : '09:00');
+      const saida = e.saida || e.s || (e.punches ? e.punches.s2 : '16:00');
       const intervalo = typeof e.intervalo === 'number' ? e.intervalo : (typeof e.break === 'number' ? e.break : 60);
       const nextDay = !!(e.nextDay || e.next);
-      
-      // Recálculo sanitizado para impedir adulteração externa
+      const obs = e.obs || e.n || '';
+      const id = e.id || 'id_' + Math.random().toString(36).slice(2);
+
       let variation = 0;
       if (type === 'trabalhado') {
-        variation = Core.calcPJ(entrada, saida, intervalo, nextDay, 480).saldo;
-      } else {
-        variation = typeof e.variation === 'number' ? Math.max(-1440, Math.min(0, e.variation)) : 0;
+        const calc = Core.calcPJ(entrada, saida, intervalo, nextDay, expectedMins);
+        variation = calc.saldo;
+      } else if (type === 'uso') {
+        variation = typeof e.variation === 'number' ? e.variation : (typeof e.m === 'number' ? e.m : -expectedMins);
+      } else if (type === 'falta') {
+        variation = typeof e.variation === 'number' ? e.variation : -expectedMins;
+      } else if (type === 'atestado') {
+        variation = 0;
       }
-
-      const obs = (e.obs || e.n || '').slice(0, 255);
-      const id = e.id || 'id_' + Math.random().toString(36).slice(2);
       
-      const createdAt = e.createdAt || new Date().toISOString();
-      const updatedAt = e.updatedAt || createdAt;
-      const version = (e.version || 1);
-
-      return { id, date, variation, type, entrada, saida, intervalo, obs, nextDay, createdAt, updatedAt, version };
+      return { id, date, variation, type, entrada, saida, intervalo, obs, nextDay };
     }
 
     /* =====================================================================
-       ESTADO E MULTI-USUÁRIO COM AUDITORIA
+       ESTADO E MULTI-USUÁRIO COM PERSISTÊNCIA REAL
        ===================================================================== */
-    let currentUserId = 'guest';
+    let currentUserId = localStorage.getItem('realtime_current_uid') || 'guest';
 
     function getStorageKey() {
       return `realtime_state_user_${currentUserId}`;
     }
 
+    // Configuração inicial com 09:00 às 16:00 (6h líquidas)
     let appState = {
-      config: { entrada: '08:00', saida: '17:00', intervalo: 60, expected: 480 },
+      config: { entrada: '09:00', saida: '16:00', intervalo: 60, expected: 360 },
       profile: {
         name: 'Colaborador',
         email: '',
@@ -1610,34 +1619,51 @@ html
       },
       entries: [],
       reports: {},
-      closedMonths: [], // Meses trancados contra edição
       theme: 'dark'
     };
 
+    function recalculateExpected() {
+      const span = Core.toMinutes(appState.config.saida) - Core.toMinutes(appState.config.entrada);
+      appState.config.expected = Math.max(0, span - (appState.config.intervalo || 60));
+    }
+
+    function recalculateAllEntries() {
+      recalculateExpected();
+      const exp = appState.config.expected;
+      appState.entries = appState.entries.map(e => normalizeEntry(e, exp)).filter(Boolean);
+    }
+
     function loadLocal() {
       try {
-        const raw = localStorage.getItem(getStorageKey());
+        const raw = localStorage.getItem(getStorageKey()) || localStorage.getItem('realtime_realestate_v6');
         if (raw) {
           const parsed = JSON.parse(raw);
+          if (parsed.config) {
+            appState.config = { ...appState.config, ...parsed.config };
+          }
+          if (parsed.profile) {
+            appState.profile = { ...appState.profile, ...parsed.profile };
+          }
+          recalculateExpected();
+
           const rawEntries = parsed.entries || parsed.e || [];
-          appState = { ...appState, ...parsed };
-          appState.entries = Array.isArray(rawEntries) ? rawEntries.map(normalizeEntry).filter(Boolean) : [];
-          appState.closedMonths = Array.isArray(parsed.closedMonths) ? parsed.closedMonths : [];
+          appState.entries = Array.isArray(rawEntries) 
+            ? rawEntries.map(e => normalizeEntry(e, appState.config.expected)).filter(Boolean) 
+            : [];
           
-          if (parsed.rs) {
-            appState.reports = parsed.rs;
+          if (parsed.reports || parsed.rs) {
+            appState.reports = parsed.reports || parsed.rs;
           }
         }
       } catch (e) {
         console.error('Falha ao carregar estado local:', e);
-        appState.entries = [];
       }
     }
 
     function saveLocal() {
       try {
+        localStorage.setItem('realtime_current_uid', currentUserId);
         localStorage.setItem(getStorageKey(), JSON.stringify(appState));
-        showToast('Dados salvos');
         renderDashboard();
         renderMiniCalendar();
         renderMonthlyChart();
@@ -1656,36 +1682,27 @@ html
     }
 
     /* =====================================================================
-       GRAVAÇÃO NA CAIXA-PRETA DE AUDITORIA (SUPABASE)
+       IMPORTAÇÃO DE ARQUIVO JSON
        ===================================================================== */
-    async function logAudit(action, entryDate, oldData, newData) {
-      if (!sbClient || currentUserId === 'guest') return;
-      try {
-        await sbClient.from('bh_audit_logs').insert({
-          user_id: currentUserId,
-          action,
-          entry_date: entryDate,
-          old_data: oldData ? JSON.stringify(oldData) : null,
-          new_data: newData ? JSON.stringify(newData) : null,
-          created_at: new Date().toISOString()
-        });
-      } catch (err) {
-        console.warn('Falha silenciosa ao registrar auditoria:', err);
-      }
-    }
-
     function processImportedJSON(text) {
       try {
         const parsed = JSON.parse(text);
+        if (parsed.config) {
+          appState.config = { ...appState.config, ...parsed.config };
+        }
+        recalculateExpected();
+
         let importedEntries = [];
-        
         if (Array.isArray(parsed)) importedEntries = parsed;
         else if (Array.isArray(parsed.entries)) importedEntries = parsed.entries;
         else if (Array.isArray(parsed.e)) importedEntries = parsed.e;
 
-        if (importedEntries.length === 0) throw new Error('Nenhum registro encontrado.');
+        if (importedEntries.length === 0) {
+          throw new Error('Nenhum registro de horas encontrado no arquivo.');
+        }
 
-        const normalized = importedEntries.map(normalizeEntry).filter(Boolean);
+        const normalized = importedEntries.map(e => normalizeEntry(e, appState.config.expected)).filter(Boolean);
+        
         const existingIds = new Set(appState.entries.map(e => e.id));
         normalized.forEach(item => {
           if (!existingIds.has(item.id)) {
@@ -1700,7 +1717,6 @@ html
           appState.reports = { ...appState.reports, ...(parsed.reports || parsed.rs) };
         }
 
-        logAudit('IMPORT_JSON', new Date().toISOString().slice(0, 10), null, { count: normalized.length });
         saveLocal();
         showToast(`Sucesso! ${normalized.length} lançamentos recuperados!`);
       } catch (err) {
@@ -1708,30 +1724,24 @@ html
       }
     }
 
-    function isMonthLocked(dateStr) {
-      if (!dateStr) return false;
-      const mKey = dateStr.slice(0, 7);
-      return (appState.closedMonths || []).includes(mKey);
-    }
-
+    /* =====================================================================
+       FUNÇÃO 1-TOQUE: FINALIZAR DIA
+       ===================================================================== */
     function finalizarDiaInstantaneo() {
       const now = new Date();
       const timeNow = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
       const todayStr = now.toISOString().slice(0, 10);
       
-      if (isMonthLocked(todayStr)) {
-        return alert('Este mês está fechado e bloqueado contra alterações.');
-      }
-
-      let oldEntry = appState.entries.find(e => e.date === todayStr);
-      let entrada = oldEntry ? oldEntry.entrada : (appState.config.entrada || '08:00');
+      let entry = appState.entries.find(e => e.date === todayStr);
+      let entrada = entry ? entry.entrada : (appState.config.entrada || '09:00');
       let saida = timeNow;
-      let intervalo = appState.config.intervalo || 60;
+      let intervalo = appState.config.intervalo !== undefined ? appState.config.intervalo : 60;
 
-      const calc = Core.calcPJ(entrada, saida, intervalo, false, appState.config.expected || 480);
+      const calc = Core.calcPJ(entrada, saida, intervalo, false, appState.config.expected || 360);
 
-      const newEntry = {
-        id: oldEntry ? oldEntry.id : 'id_' + Date.now(),
+      appState.entries = appState.entries.filter(e => e.date !== todayStr);
+      appState.entries.push({
+        id: entry ? entry.id : 'id_' + Date.now(),
         date: todayStr,
         type: 'trabalhado',
         entrada,
@@ -1739,20 +1749,16 @@ html
         intervalo,
         nextDay: false,
         variation: calc.saldo,
-        obs: 'Finalizado via 1-Toque (PJ)',
-        createdAt: oldEntry ? oldEntry.createdAt : new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        version: oldEntry ? (oldEntry.version + 1) : 1
-      };
+        obs: 'Finalizado via 1-Toque (PJ)'
+      });
 
-      appState.entries = appState.entries.filter(e => e.date !== todayStr);
-      appState.entries.push(newEntry);
-
-      logAudit('FINALIZAR_DIA_1TOQUE', todayStr, oldEntry, newEntry);
       saveLocal();
       showToast(`Expediente finalizado às ${saida}! Saldo: ${Core.fromMinutes(calc.saldo, true)}`);
     }
 
+    /* =====================================================================
+       PERFIL
+       ===================================================================== */
     function renderProfile() {
       const p = appState.profile;
       const topName = document.getElementById('topProfileName');
@@ -1796,6 +1802,9 @@ html
       return curHour < 12 ? 'Bom dia' : curHour < 18 ? 'Boa tarde' : 'Boa noite';
     }
 
+    /* =====================================================================
+       GRÁFICO MENSAL
+       ===================================================================== */
     function renderMonthlyChart() {
       const box = document.getElementById('chartMonthlyBox');
       if (!box) return;
@@ -1840,6 +1849,9 @@ html
       box.innerHTML = svg;
     }
 
+    /* =====================================================================
+       DASHBOARD
+       ===================================================================== */
     function renderDashboard() {
       const todayStr = new Date().toISOString().slice(0, 10);
       const [anoT, mesT, diaT] = todayStr.split('-');
@@ -1852,6 +1864,11 @@ html
 
       renderProfile();
 
+      // Atualiza etiqueta de saldo do dia com base na meta diária configurada
+      const expHours = Core.fromMinutes(appState.config.expected || 360);
+      const metaLabel = document.getElementById('labelSaldoDiaMeta');
+      if (metaLabel) metaLabel.textContent = `Saldo do Dia (vs ${expHours})`;
+
       const todayEntry = appState.entries.find(e => e.date === todayStr);
       const liveDot = document.getElementById('liveStatusDot');
       const liveText = document.getElementById('liveStatusText');
@@ -1859,9 +1876,9 @@ html
       if (todayEntry && todayEntry.type === 'trabalhado') {
         document.getElementById('timeEntradaDisplay').textContent = todayEntry.entrada || '--:--';
         document.getElementById('timeSaidaDisplay').textContent = todayEntry.saida || '--:--';
-        document.getElementById('intervalDurationDisplay').textContent = Core.fromMinutes(todayEntry.intervalo || 60);
+        document.getElementById('intervalDurationDisplay').textContent = Core.fromMinutes(todayEntry.intervalo !== undefined ? todayEntry.intervalo : 60);
 
-        const calc = Core.calcPJ(todayEntry.entrada, todayEntry.saida, todayEntry.intervalo, todayEntry.nextDay, appState.config.expected);
+        const calc = Core.calcPJ(todayEntry.entrada, todayEntry.saida, todayEntry.intervalo, todayEntry.nextDay, appState.config.expected || 360);
         document.getElementById('statHorasHoje').textContent = Core.fromMinutes(calc.totalLiquido);
         document.getElementById('statSaldoHoje').textContent = Core.fromMinutes(todayEntry.variation, true);
         document.getElementById('statSaldoHoje').className = `metric-value ${todayEntry.variation >= 0 ? 'pos' : 'neg'}`;
@@ -1876,7 +1893,7 @@ html
       } else {
         document.getElementById('timeEntradaDisplay').textContent = '--:--';
         document.getElementById('timeSaidaDisplay').textContent = '--:--';
-        document.getElementById('intervalDurationDisplay').textContent = '01:00';
+        document.getElementById('intervalDurationDisplay').textContent = Core.fromMinutes(appState.config.intervalo || 60);
         document.getElementById('statHorasHoje').textContent = '00:00';
         document.getElementById('statSaldoHoje').textContent = '+00:00';
         if (liveText) liveText.textContent = 'Expediente Não Iniciado';
@@ -1902,21 +1919,10 @@ html
           const parts = m.split('-');
           const opt = document.createElement('option');
           opt.value = m;
-          const isLocked = (appState.closedMonths || []).includes(m);
-          opt.textContent = `${parts[1]}/${parts[0]} ${isLocked ? '🔒' : ''}`;
+          opt.textContent = `${parts[1]}/${parts[0]}`;
           if (m === curSel) opt.selected = true;
           selMonth.appendChild(opt);
         });
-      }
-
-      // Atualiza texto do botão Fechar Mês
-      const curSelectedMonth = filterMonth || todayStr.slice(0, 7);
-      const isCurMonthLocked = (appState.closedMonths || []).includes(curSelectedMonth);
-      const lockIcon = document.getElementById('lockMonthIcon');
-      const lockText = document.getElementById('lockMonthText');
-      if (lockIcon && lockText) {
-        lockIcon.textContent = isCurMonthLocked ? '🔓' : '🔒';
-        lockText.textContent = isCurMonthLocked ? 'Reabrir Mês' : 'Fechar Mês';
       }
 
       const filtered = appState.entries.filter(e => {
@@ -1941,15 +1947,12 @@ html
         if (entry.type === 'falta') { tipoBadge = 'Ausência'; tipoClass = 'falta'; }
         if (entry.type === 'atestado') { tipoBadge = 'Abonada'; tipoClass = 'neutral'; }
 
-        const entryLocked = isMonthLocked(entry.date);
-
         tr.innerHTML = `
           <td><strong>${d}/${m}/${y}</strong></td>
           <td>
             ${entry.type === 'trabalhado' 
-              ? `<span class="mono">${entry.entrada} → ${entry.saida}</span> <span class="muted" style="font-size:11px">(-${Core.fromMinutes(entry.intervalo || 60)} almoço)</span>`
+              ? `<span class="mono">${entry.entrada} → ${entry.saida}</span> <span class="muted" style="font-size:11px">(-${Core.fromMinutes(entry.intervalo !== undefined ? entry.intervalo : 60)} almoço)</span>`
               : (entry.type === 'uso' ? `Folga / Desconto: ${Core.fromMinutes(Math.abs(entry.variation))}` : 'Ausência Registrada')}
-            ${entryLocked ? '<span class="tag locked" title="Mês fechado">🔒 Trancado</span>' : ''}
             ${entry.obs ? `<div class="muted" style="font-size:11px; margin-top:2px;">${entry.obs}</div>` : ''}
           </td>
           <td>
@@ -1962,8 +1965,8 @@ html
             <strong>${Core.fromMinutes(totalSaldo)}</strong>
           </td>
           <td style="text-align: center;">
-            <button class="btn" style="padding: 4px 8px;" onclick="editEntry('${entry.id}')" ${entryLocked ? 'disabled title="Mês fechado"' : ''}>Editar</button>
-            <button class="btn" style="padding: 4px 8px; color: var(--neg);" onclick="deleteEntry('${entry.id}')" ${entryLocked ? 'disabled title="Mês fechado"' : ''}>✕</button>
+            <button class="btn" style="padding: 4px 8px;" onclick="editEntry('${entry.id}')">Editar</button>
+            <button class="btn" style="padding: 4px 8px; color: var(--neg);" onclick="deleteEntry('${entry.id}')">✕</button>
           </td>
         `;
         tbody.appendChild(tr);
@@ -1976,6 +1979,9 @@ html
       }
     }
 
+    /* =====================================================================
+       VINCULAÇÃO DE EVENTOS
+       ===================================================================== */
     function safeAddListener(id, event, fn) {
       const el = document.getElementById(id);
       if (el) el.addEventListener(event, fn);
@@ -2007,11 +2013,8 @@ html
 
       safeAddListener('btnBaterPontoAgora', 'click', () => {
         const todayStr = new Date().toISOString().slice(0, 10);
-        if (isMonthLocked(todayStr)) {
-          return alert('O mês atual está trancado contra alterações.');
-        }
-
         let entry = appState.entries.find(e => e.date === todayStr);
+
         const now = new Date();
         const timeNow = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
@@ -2021,16 +2024,16 @@ html
 
         if (entry) {
           document.getElementById('entryEditId').value = entry.id;
-          document.getElementById('pontoEntrada').value = entry.entrada || appState.config.entrada || '08:00';
+          document.getElementById('pontoEntrada').value = entry.entrada || appState.config.entrada || '09:00';
           document.getElementById('pontoSaida').value = entry.saida || timeNow;
-          document.getElementById('pontoIntervalo').value = entry.intervalo || 60;
+          document.getElementById('pontoIntervalo').value = entry.intervalo !== undefined ? entry.intervalo : 60;
           document.getElementById('pontoNextDay').checked = !!entry.nextDay;
           document.getElementById('pontoObs').value = entry.obs || '';
         } else {
           document.getElementById('entryEditId').value = '';
-          document.getElementById('pontoEntrada').value = appState.config.entrada || '08:00';
+          document.getElementById('pontoEntrada').value = appState.config.entrada || '09:00';
           document.getElementById('pontoSaida').value = timeNow;
-          document.getElementById('pontoIntervalo').value = appState.config.intervalo || 60;
+          document.getElementById('pontoIntervalo').value = appState.config.intervalo !== undefined ? appState.config.intervalo : 60;
           document.getElementById('pontoNextDay').checked = false;
         }
 
@@ -2067,10 +2070,19 @@ html
         if (modal) modal.showModal();
       });
 
+      // ABERTURA DE CONFIGURAÇÕES COM CARGA EXATA DOS DADOS
       safeAddListener('btnSettings', 'click', () => {
+        document.getElementById('cfgEntrada').value = appState.config.entrada || '09:00';
+        document.getElementById('cfgSaida').value = appState.config.saida || '16:00';
+        document.getElementById('cfgIntervalo').value = appState.config.intervalo !== undefined ? appState.config.intervalo : 60;
+        atualizarTextoCalculoMeta();
         const modal = document.getElementById('modalSettings');
         if (modal) modal.showModal();
       });
+
+      safeAddListener('cfgEntrada', 'input', atualizarTextoCalculoMeta);
+      safeAddListener('cfgSaida', 'input', atualizarTextoCalculoMeta);
+      safeAddListener('cfgIntervalo', 'input', atualizarTextoCalculoMeta);
 
       safeAddListener('btnTrocarFoto', 'click', () => {
         const inp = document.getElementById('profilePhotoInput');
@@ -2092,66 +2104,11 @@ html
         e.preventDefault();
         appState.profile.name = document.getElementById('perfilNome').value;
         appState.profile.role = document.getElementById('perfilCargo').value;
-        logAudit('UPDATE_PROFILE', new Date().toISOString().slice(0, 10), null, appState.profile);
         saveLocal();
         renderProfile();
         const modal = document.getElementById('modalPerfil');
         if (modal) modal.close();
         showToast('Perfil salvo!');
-      });
-
-      // TRAVA DE FECHAMENTO DE MÊS
-      safeAddListener('btnToggleLockMonth', 'click', () => {
-        const fMonth = document.getElementById('filterMonth').value || new Date().toISOString().slice(0, 7);
-        appState.closedMonths = appState.closedMonths || [];
-        const isLocked = appState.closedMonths.includes(fMonth);
-
-        if (isLocked) {
-          const reason = prompt('Informe a justificativa para reabrir este mês faturado:');
-          if (!reason) return alert('A justificativa é obrigatória para reabrir o mês.');
-          appState.closedMonths = appState.closedMonths.filter(m => m !== fMonth);
-          logAudit('REOPEN_MONTH', `${fMonth}-01`, null, { month: fMonth, reason });
-          showToast(`Mês ${fMonth} reaberto para ajustes.`);
-        } else {
-          if (!confirm(`Deseja fechar e trancar o mês ${fMonth}? As edições serão bloqueadas contra alterações acidentais.`)) return;
-          appState.closedMonths.push(fMonth);
-          logAudit('CLOSE_MONTH', `${fMonth}-01`, null, { month: fMonth });
-          showToast(`Mês ${fMonth} fechado e protegido com sucesso!`);
-        }
-        saveLocal();
-      });
-
-      // EXPORTAR DOSSIÊ LGPD
-      safeAddListener('btnExportLGPD', 'click', () => {
-        const dossier = {
-          dossierType: 'LGPD Art. 18 - Portabilidade de Dados Pessoais',
-          exportDate: new Date().toISOString(),
-          employee: appState.profile,
-          configuration: appState.config,
-          historyEntries: appState.entries,
-          dailyReports: appState.reports
-        };
-        const blob = new Blob([JSON.stringify(dossier, null, 2)], { type: 'application/json' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `dossie_lgpd_${appState.profile.name.replace(/\s+/g, '_')}.json`;
-        a.click();
-        logAudit('EXPORT_LGPD', new Date().toISOString().slice(0, 10), null, { status: 'exported' });
-        showToast('Dossiê LGPD exportado com sucesso!');
-      });
-
-      // LOGOUT GLOBAL
-      safeAddListener('btnGlobalSignOut', 'click', async () => {
-        if (!confirm('Deseja desconectar sua conta de TODOS os celulares e computadores?')) return;
-        if (sbClient) {
-          try {
-            await sbClient.auth.signOut({ scope: 'global' });
-          } catch {}
-        }
-        onUserSignedOut();
-        showToast('Desconectado de todos os aparelhos!');
-        const modal = document.getElementById('modalSettings');
-        if (modal) modal.close();
       });
 
       const logoutHandler = async () => {
@@ -2212,23 +2169,20 @@ html
         link.click();
       });
 
-      // Salvar Ponto Manual com Auditoria
       safeAddListener('formPonto', 'submit', (e) => {
         e.preventDefault();
-        const data = document.getElementById('pontoData').value;
-        if (isMonthLocked(data)) return alert('Este mês está fechado e não aceita novos lançamentos.');
-
         const id = document.getElementById('entryEditId').value || 'id_' + Date.now();
+        const data = document.getElementById('pontoData').value;
         const entrada = document.getElementById('pontoEntrada').value;
         const saida = document.getElementById('pontoSaida').value;
         const intervalo = Number(document.getElementById('pontoIntervalo').value) || 0;
         const nextDay = document.getElementById('pontoNextDay').checked;
         const obs = document.getElementById('pontoObs').value;
 
-        const calc = Core.calcPJ(entrada, saida, intervalo, nextDay, appState.config.expected || 480);
-        const oldEntry = appState.entries.find(x => x.id === id);
+        const calc = Core.calcPJ(entrada, saida, intervalo, nextDay, appState.config.expected || 360);
 
-        const newEntry = {
+        appState.entries = appState.entries.filter(x => x.id !== id);
+        appState.entries.push({
           id,
           date: data,
           type: 'trabalhado',
@@ -2237,64 +2191,46 @@ html
           intervalo,
           nextDay,
           variation: calc.saldo,
-          obs,
-          createdAt: oldEntry ? oldEntry.createdAt : new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          version: oldEntry ? (oldEntry.version + 1) : 1
-        };
+          obs
+        });
 
-        appState.entries = appState.entries.filter(x => x.id !== id);
-        appState.entries.push(newEntry);
-
-        logAudit(oldEntry ? 'UPDATE_PONTO' : 'INSERT_PONTO', data, oldEntry, newEntry);
         saveLocal();
         const modal = document.getElementById('modalPonto');
         if (modal) modal.close();
       });
 
-      // Compensação
       safeAddListener('formUso', 'submit', (e) => {
         e.preventDefault();
         const data = document.getElementById('usoData').value;
-        if (isMonthLocked(data)) return alert('Este mês está fechado e não aceita lançamentos.');
-
         const horas = Number(document.getElementById('usoHoras').value) || 0;
         const minutos = Number(document.getElementById('usoMinutos').value) || 0;
         const totalMins = (horas * 60) + minutos;
 
         if (totalMins <= 0) return alert('Informe um tempo válido.');
 
-        const newEntry = {
+        appState.entries.push({
           id: 'uso_' + Date.now(),
           date: data,
           type: 'uso',
           variation: -totalMins,
-          obs: document.getElementById('usoMotivo').value,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          version: 1
-        };
+          obs: document.getElementById('usoMotivo').value
+        });
 
-        appState.entries.push(newEntry);
-        logAudit('INSERT_COMPENSACAO', data, null, newEntry);
         saveLocal();
         const modal = document.getElementById('modalUso');
         if (modal) modal.close();
       });
 
-      // Ausência
       safeAddListener('formFalta', 'submit', (e) => {
         e.preventDefault();
         const data = document.getElementById('faltaData').value;
-        if (isMonthLocked(data)) return alert('Este mês está fechado e não aceita lançamentos.');
-
         const tipo = document.getElementById('faltaTipo').value;
         const diaTodo = document.getElementById('faltaDiaTodo').checked;
         const motivo = document.getElementById('faltaMotivo').value;
 
         let mins = 0;
         if (diaTodo) {
-          mins = appState.config.expected || 480;
+          mins = appState.config.expected || 360;
         } else {
           const h = Number(document.getElementById('faltaHoras').value) || 0;
           const m = Number(document.getElementById('faltaMinutos').value) || 0;
@@ -2302,36 +2238,33 @@ html
         }
 
         const isAbonada = tipo === 'atestado';
-        const newEntry = {
+        const varMin = isAbonada ? 0 : -mins;
+
+        appState.entries.push({
           id: 'falta_' + Date.now(),
           date: data,
           type: isAbonada ? 'atestado' : 'falta',
-          variation: isAbonada ? 0 : -mins,
-          obs: `${tipo === 'atestado' ? '[Atestado] ' : '[Ausência] '} ${motivo}`,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          version: 1
-        };
+          variation: varMin,
+          obs: `${tipo === 'atestado' ? '[Justificada] ' : '[Ausência] '} ${motivo}`
+        });
 
-        appState.entries.push(newEntry);
-        logAudit('INSERT_AUSENCIA', data, null, newEntry);
         saveLocal();
         const modal = document.getElementById('modalFalta');
         if (modal) modal.close();
       });
 
-      // Configurações
+      // SALVAR PREFERÊNCIAS + RECÁLCULO AUTOMÁTICO DE TODOS OS DIAS
       safeAddListener('btnSaveConfigs', 'click', () => {
         appState.config.entrada = document.getElementById('cfgEntrada').value;
         appState.config.saida = document.getElementById('cfgSaida').value;
         appState.config.intervalo = Number(document.getElementById('cfgIntervalo').value);
         
-        const span = Core.toMinutes(appState.config.saida) - Core.toMinutes(appState.config.entrada);
-        appState.config.expected = span - appState.config.intervalo;
-
+        recalculateAllEntries();
         saveLocal();
+        
         const modal = document.getElementById('modalSettings');
         if (modal) modal.close();
+        showToast('Jornada atualizada e todo o histórico recalculado com sucesso!');
       });
 
       safeAddListener('btnDownloadBackup', 'click', () => {
@@ -2389,13 +2322,25 @@ html
       }
     }
 
+    function atualizarTextoCalculoMeta() {
+      const ent = document.getElementById('cfgEntrada').value;
+      const sai = document.getElementById('cfgSaida').value;
+      const int = Number(document.getElementById('cfgIntervalo').value) || 0;
+      const span = Core.toMinutes(sai) - Core.toMinutes(ent);
+      const liq = Math.max(0, span - int);
+      const txt = document.getElementById('cfgCalculoMetaTexto');
+      if (txt) {
+        txt.textContent = `Meta líquida calculada: ${Core.fromMinutes(liq)} por dia (saídas após ${sai} contarão como saldo positivo)`;
+      }
+    }
+
     function atualizarCalculoModal() {
       const entrada = document.getElementById('pontoEntrada').value;
       const saida = document.getElementById('pontoSaida').value;
       const intervalo = Number(document.getElementById('pontoIntervalo').value) || 0;
       const nextDay = document.getElementById('pontoNextDay').checked;
 
-      const calc = Core.calcPJ(entrada, saida, intervalo, nextDay, appState.config.expected || 480);
+      const calc = Core.calcPJ(entrada, saida, intervalo, nextDay, appState.config.expected || 360);
       const prev = document.getElementById('pontoCalculoPreview');
       if (prev) {
         prev.innerHTML = `Líquido trabalhado: <strong>${Core.fromMinutes(calc.totalLiquido)}</strong> (com ${intervalo} min de almoço)<br>Variação no saldo: <strong class="${calc.saldo >= 0 ? 'pos' : 'neg'}">${Core.fromMinutes(calc.saldo, true)}</strong>`;
@@ -2415,7 +2360,7 @@ html
       let mins = 0;
 
       if (diaTodo) {
-        mins = appState.config.expected || 480;
+        mins = appState.config.expected || 360;
       } else {
         const h = Number(document.getElementById('faltaHoras').value) || 0;
         const m = Number(document.getElementById('faltaMinutos').value) || 0;
@@ -2435,10 +2380,6 @@ html
       const item = appState.entries.find(x => x.id === id);
       if (!item) return;
 
-      if (isMonthLocked(item.date)) {
-        return alert('Este mês está fechado. Para editar, você deve reabrir o mês justificando o motivo.');
-      }
-
       if (item.type === 'falta' || item.type === 'atestado') {
         alert('Para ausências, remova o item e registre novamente.');
         return;
@@ -2446,9 +2387,9 @@ html
 
       document.getElementById('entryEditId').value = item.id;
       document.getElementById('pontoData').value = item.date;
-      document.getElementById('pontoEntrada').value = item.entrada || '08:00';
-      document.getElementById('pontoSaida').value = item.saida || '17:00';
-      document.getElementById('pontoIntervalo').value = item.intervalo || 60;
+      document.getElementById('pontoEntrada').value = item.entrada || '09:00';
+      document.getElementById('pontoSaida').value = item.saida || '16:00';
+      document.getElementById('pontoIntervalo').value = item.intervalo !== undefined ? item.intervalo : 60;
       document.getElementById('pontoNextDay').checked = !!item.nextDay;
       document.getElementById('pontoObs').value = item.obs || '';
 
@@ -2458,15 +2399,7 @@ html
     }
 
     function deleteEntry(id) {
-      const item = appState.entries.find(x => x.id === id);
-      if (!item) return;
-
-      if (isMonthLocked(item.date)) {
-        return alert('Este mês está fechado e não permite exclusões.');
-      }
-
-      if (confirm('Deseja excluir este lançamento? A ação será registrada na auditoria.')) {
-        logAudit('DELETE_ENTRY', item.date, item, null);
+      if (confirm('Deseja excluir este lançamento?')) {
         appState.entries = appState.entries.filter(x => x.id !== id);
         saveLocal();
       }
@@ -2568,32 +2501,18 @@ html
     }
 
     /* =====================================================================
-       SUPABASE & SISTEMA DE AUTENTICAÇÃO
+       AUTENTICAÇÃO & SUPABASE
        ===================================================================== */
-    // ⚠️ SUBSTITUA PELAS SUAS CREDENCIAIS DO SUPABASE (Aba BHRE)
-    const SB_URL = 'https://cqxgfqbgkjqersrnuffx.supabase.co';
-    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxeGdmcWJna2pxZXJzcm51ZmZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4Mjc2NTMsImV4cCI6MjEwOTQwMzY1M30.kIVQx4Jel8ZryZaTnc1jtTsbvPuGh_F9-RIwPIBl9bs';;
+    // Substitua abaixo pelas suas credenciais ativas do projeto Supabase
+    const SB_URL = 'https://cqxgfqbgkjqersrnuffx.supabase.co'; // <--- INSIRA SUA URL DO SUPABASE
+     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxeGdmcWJna2pxZXJzcm51ZmZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4Mjc2NTMsImV4cCI6MjEwOTQwMzY1M30.kIVQx4Jel8ZryZaTnc1jtTsbvPuGh_F9-RIwPIBl9bs'; // <--- INSIRA SUA CHAVE ANON/PUBLIC DO SUPABASE
     let sbClient = null;
     let authMode = 'signup';
 
-    async function initSupabase() {
+    function initSupabase() {
       try {
-        if (typeof supabase !== 'undefined' && supabase && typeof supabase.createClient === 'function') {
+        if (typeof supabase !== 'undefined' && supabase && typeof supabase.createClient === 'function' && !SB_URL.includes('abcdefghijklmnop')) {
           sbClient = supabase.createClient(SB_URL, SB_KEY);
-
-          if (!localStorage.getItem('realtime_auth_v10_cleared')) {
-            await sbClient.auth.signOut();
-            localStorage.setItem('realtime_auth_v10_cleared', 'true');
-            onUserSignedOut();
-            return;
-          }
-
-          const { data: { session } } = await sbClient.auth.getSession();
-          if (session && session.user) {
-            onUserSignedIn(session.user);
-          } else {
-            onUserSignedOut();
-          }
 
           sbClient.auth.onAuthStateChange((event, session) => {
             if (session && session.user) {
@@ -2603,6 +2522,7 @@ html
             }
           });
         } else {
+          // Se não configurou as chaves ainda, permite usar no modo local/convidado
           onUserSignedOut();
         }
       } catch (e) {
@@ -2613,6 +2533,7 @@ html
 
     function onUserSignedIn(user) {
       currentUserId = user.id;
+      localStorage.setItem('realtime_current_uid', currentUserId);
       document.getElementById('authScreen').hidden = true;
       document.getElementById('appScreen').hidden = false;
 
@@ -2631,9 +2552,10 @@ html
 
     function onUserSignedOut() {
       currentUserId = 'guest';
+      localStorage.removeItem('realtime_current_uid');
       document.getElementById('appScreen').hidden = true;
       document.getElementById('authScreen').hidden = false;
-      updateSyncStatus('offline', 'Desconectado');
+      updateSyncStatus('offline', 'Modo Local');
     }
 
     function updateSyncStatus(status, text) {
@@ -2662,7 +2584,15 @@ html
         if (cloudRow && cloudRow.state) {
           try {
             const cloudState = JSON.parse(cloudRow.state);
-            const cloudEntries = Array.isArray(cloudState.entries) ? cloudState.entries.map(normalizeEntry).filter(Boolean) : [];
+            // Sincroniza configurações personalizadas da nuvem
+            if (cloudState.config) {
+              appState.config = { ...appState.config, ...cloudState.config };
+              recalculateExpected();
+            }
+
+            const cloudEntries = Array.isArray(cloudState.entries) 
+              ? cloudState.entries.map(e => normalizeEntry(e, appState.config.expected)).filter(Boolean) 
+              : [];
             
             const localIds = new Set(appState.entries.map(e => e.id));
             cloudEntries.forEach(ce => {
@@ -2673,9 +2603,6 @@ html
 
             if (cloudState.reports) {
               appState.reports = { ...cloudState.reports, ...appState.reports };
-            }
-            if (cloudState.closedMonths) {
-              appState.closedMonths = [...new Set([...(appState.closedMonths || []), ...cloudState.closedMonths])];
             }
           } catch (e) {
             console.error('Falha ao mesclar dados da nuvem:', e);
@@ -2735,8 +2662,8 @@ html
         renderDashboard();
         renderMiniCalendar();
         renderMonthlyChart();
-        updateSyncStatus('offline', 'Modo Convidado');
-        showToast('Modo convidado ativo!');
+        updateSyncStatus('offline', 'Modo Local');
+        showToast('Modo local ativo! Seus dados ficam salvos neste navegador.');
       };
 
       document.getElementById('btnForgotPass').onclick = async () => {
@@ -2746,7 +2673,7 @@ html
           msgBox.textContent = 'Informe seu e-mail acima para receber o link de redefinição.';
           return;
         }
-        if (!sbClient) return alert('Serviço indisponível.');
+        if (!sbClient) return alert('Configuração do Supabase pendente.');
         const { error } = await sbClient.auth.resetPasswordForEmail(email);
         if (error) {
           msgBox.style.color = 'var(--neg)';
@@ -2769,7 +2696,7 @@ html
         btnSubmit.textContent = 'Aguarde...';
 
         try {
-          if (!sbClient) throw new Error('Serviço de autenticação não carregado.');
+          if (!sbClient) throw new Error('Configure a URL e a Chave do Supabase no código.');
 
           if (authMode === 'login') {
             const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
@@ -2790,14 +2717,21 @@ html
             
             if (data.user && !data.session) {
               msgBox.style.color = 'var(--pos)';
-              msgBox.textContent = 'Conta criada! Confirme seu e-mail para ativar.';
+              msgBox.textContent = 'Conta criada com sucesso! Verifique seu e-mail para confirmar o cadastro.';
             } else if (data.user) {
               onUserSignedIn(data.user);
             }
           }
         } catch (err) {
           msgBox.style.color = 'var(--neg)';
-          msgBox.textContent = err.message.includes('Invalid login') ? 'E-mail ou senha incorretos.' : err.message;
+          const msg = err.message || '';
+          if (msg.includes('Failed to fetch')) {
+            msgBox.textContent = 'Erro de conexão: confira se a URL do Supabase está correta e não pausada.';
+          } else if (msg.includes('Invalid login')) {
+            msgBox.textContent = 'E-mail ou senha incorretos.';
+          } else {
+            msgBox.textContent = msg;
+          }
         } finally {
           btnSubmit.disabled = false;
           btnSubmit.textContent = authMode === 'login' ? 'Entrar no RealTime' : 'Cadastrar e Começar';
@@ -2816,6 +2750,7 @@ html
         const repDate = document.getElementById('reportDate');
         if (repDate) repDate.valueAsDate = new Date();
 
+        loadLocal();
         setupEventListeners();
         setupAuthForm();
         renderHolidaysList();

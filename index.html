@@ -4,15 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="dark light">
-  <title>RealTime • Real Estate São Paulo</title>
+  <title>Real Estate São Paulo • RealTime</title>
   
-  <!-- Tipografia Oficial Montserrat + JetBrains Mono -->
+  <!-- Tipografia: Montserrat + Playfair Display (Logo) + Great Vibes (São Paulo Script) + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=JetBrains+Mono:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
   
   <style>
     :root {
+      /* CORES OFICIAIS REAL ESTATE SÃO PAULO */
+      --c-roxo: #220C27;
+      --c-laranja: #EC894D;
+      --c-laranja-hover: #d97334;
+      --c-champagne: #EFECE5;
+      --c-champagne-sub: #DDD6C6;
+      --c-bege: #C4B9A0;
+
       /* MODO ESCURO GRAFITE / CARVÃO (ZERO ROXO NO FUNDO) */
       --bg-page: #090d16;
       --card-white: #111827;
@@ -27,9 +35,6 @@
       --text-muted: #94a3b8;
       --text-dim: #64748b;
       
-      --c-laranja: #EC894D;
-      --c-laranja-hover: #d97334;
-      
       --pos: #10b981;
       --pos-bg: rgba(16, 185, 129, 0.12);
       --neg: #ef4444;
@@ -38,6 +43,8 @@
       --warn-bg: rgba(245, 158, 11, 0.12);
       
       --font-main: 'Montserrat', system-ui, -apple-system, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-script: 'Great Vibes', 'Brush Script MT', cursive;
       --font-mono: 'JetBrains Mono', monospace;
       
       --radius-lg: 16px;
@@ -47,7 +54,7 @@
     }
 
     [data-theme="light"] {
-      /* MODO CLARO COM CHAMPAGNE E ROXO INSTITUCIONAL */
+      /* MODO CLARO: CHAMPAGNE, ROXO INSTITUCIONAL E LARANJA */
       --bg-page: #EFECE5;
       --card-white: #ffffff;
       --card-sub: #f5f2ea;
@@ -94,7 +101,18 @@
     .icon { width: 18px; height: 18px; flex-shrink: 0; vertical-align: middle; }
 
     /* =====================================================================
-       TELA DE LOGIN E CADASTRO DEDICADA
+       LOGO OFICIAL REAL ESTATE SÃO PAULO (SVG DINÂMICO)
+       ===================================================================== */
+    .company-logo-svg {
+      height: 38px;
+      width: auto;
+      color: var(--text-main);
+      display: block;
+      transition: color 0.2s ease;
+    }
+
+    /* =====================================================================
+       TELA DE LOGIN E CADASTRO REALTIME
        ===================================================================== */
     #authScreen {
       min-height: 100vh;
@@ -108,7 +126,7 @@
 
     .auth-container {
       width: 100%;
-      max-width: 440px;
+      max-width: 450px;
       background: var(--card-white);
       border: 1px solid var(--border-color);
       border-top: 4px solid var(--c-laranja);
@@ -119,9 +137,11 @@
 
     .auth-brand-header {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       margin-bottom: 24px;
+      text-align: center;
     }
 
     .auth-tabs {
@@ -153,7 +173,7 @@
     }
 
     /* =====================================================================
-       DASHBOARD PRINCIPAL (SÓ APARECE DEPOIS DE LOGAR)
+       DASHBOARD PRINCIPAL
        ===================================================================== */
     #appScreen[hidden] { display: none !important; }
 
@@ -178,63 +198,29 @@
     .brand-wrap {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       text-decoration: none;
       color: inherit;
     }
-    
-    .brand-icon {
-      width: 40px;
-      height: 40px;
-      background: #090d16;
-      border: 1px solid var(--c-laranja);
-      border-radius: 11px;
-      display: grid;
-      place-items: center;
-    }
-    
-    .clock-face {
-      width: 22px;
-      height: 22px;
-      background: #ffffff;
-      border-radius: 50%;
-      position: relative;
-      display: grid;
-      place-items: center;
-    }
-    .clock-face::after {
-      content: '';
-      position: absolute;
-      top: 3px;
-      left: 10px;
-      width: 2px;
-      height: 8px;
-      background: #090d16;
-      border-radius: 2px;
-      transform-origin: bottom center;
-    }
-    .clock-face::before {
-      content: '';
-      position: absolute;
-      top: 9px;
-      left: 10px;
-      width: 6px;
-      height: 2px;
-      background: var(--c-laranja);
-      border-radius: 2px;
-    }
 
-    .brand-titles b {
-      display: block;
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-      color: var(--text-main);
+    .brand-divider {
+      width: 1px;
+      height: 28px;
+      background: var(--border-color);
     }
-    .brand-titles span {
-      display: block;
+    
+    .app-system-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--card-sub);
+      border: 1px solid var(--border-subtle);
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
       color: var(--c-laranja);
     }
 
@@ -814,7 +800,7 @@
     }
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* IMPRESSÃO A4 */
+    /* IMPRESSÃO A4 (EXTRATO PJ) */
     @media print {
       body {
         background: #ffffff !important;
@@ -864,6 +850,7 @@
       .metric-block:not(:last-child) { border-right: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 12px; }
       .container { padding: 16px; }
       .grid-3 { grid-template-columns: 1fr; }
+      .brand-divider, .app-system-tag { display: none; }
     }
   </style>
 </head>
@@ -875,13 +862,22 @@
   <section id="authScreen">
     <div class="auth-container">
       <div class="auth-brand-header">
-        <div class="brand-icon">
-          <div class="clock-face"></div>
-        </div>
-        <div>
-          <b style="font-size:18px; letter-spacing:-0.4px;">RealTime</b>
-          <span style="display:block; font-size:12px; color:var(--c-laranja); font-weight:600;">Real Estate São Paulo</span>
-        </div>
+        <!-- Logo Oficial Real Estate São Paulo no Login -->
+        <svg class="company-logo-svg" style="height:44px;" viewBox="0 0 340 56" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <text x="2" y="34" font-family="'Playfair Display', serif" font-weight="700" font-size="32" letter-spacing="3">REAL</text>
+          <g transform="translate(116, 5)">
+            <circle cx="22" cy="22" r="20" stroke="currentColor" stroke-width="4.5" fill="none"/>
+            <rect x="13" y="15" width="10" height="21" fill="currentColor"/>
+            <rect x="18" y="10" width="10" height="26" fill="currentColor"/>
+            <line x1="20.5" y1="13" x2="20.5" y2="34" stroke="var(--card-white)" stroke-width="1.2"/>
+            <line x1="23" y1="13" x2="23" y2="34" stroke="var(--card-white)" stroke-width="1.2"/>
+            <line x1="25.5" y1="13" x2="25.5" y2="34" stroke="var(--card-white)" stroke-width="1.2"/>
+          </g>
+          <text x="168" y="34" font-family="'Playfair Display', serif" font-weight="700" font-size="32" letter-spacing="3">ESTATE</text>
+          <text x="206" y="52" font-family="var(--font-script)" font-style="italic" font-size="18" fill="var(--c-laranja)">São Paulo</text>
+        </svg>
+
+        <span style="font-size:12px; color:var(--text-muted); font-weight:600;">Gestão de Horas & Ponto PJ</span>
       </div>
 
       <div class="auth-tabs">
@@ -890,7 +886,7 @@
       </div>
 
       <form id="formAuth">
-        <!-- Campos de Cadastro (Padrão inicial) -->
+        <!-- Campos de Cadastro -->
         <div id="boxSignupFields">
           <div class="form-group">
             <label>Seu Nome Completo</label>
@@ -925,20 +921,30 @@
   </section>
 
   <!-- =====================================================================
-       APLICAÇÃO DO BANCO DE HORAS (BLOQUEADA ATÉ FAZER LOGIN)
+       APLICAÇÃO DO BANCO DE HORAS (PROTEGIDA POR LOGIN)
        ===================================================================== -->
   <div id="appScreen" hidden>
     <!-- Topbar Header -->
     <header>
       <div class="header-inner">
         <div class="brand-wrap">
-          <div class="brand-icon">
-            <div class="clock-face"></div>
-          </div>
-          <div class="brand-titles">
-            <b>RealTime</b>
-            <span>Real Estate São Paulo</span>
-          </div>
+          <!-- Logo Oficial Real Estate São Paulo Vetorizada -->
+          <svg class="company-logo-svg" viewBox="0 0 340 56" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <text x="2" y="34" font-family="'Playfair Display', serif" font-weight="700" font-size="32" letter-spacing="3">REAL</text>
+            <g transform="translate(116, 5)">
+              <circle cx="22" cy="22" r="20" stroke="currentColor" stroke-width="4.5" fill="none"/>
+              <rect x="13" y="15" width="10" height="21" fill="currentColor"/>
+              <rect x="18" y="10" width="10" height="26" fill="currentColor"/>
+              <line x1="20.5" y1="13" x2="20.5" y2="34" stroke="var(--card-white)" stroke-width="1.2"/>
+              <line x1="23" y1="13" x2="23" y2="34" stroke="var(--card-white)" stroke-width="1.2"/>
+              <line x1="25.5" y1="13" x2="25.5" y2="34" stroke="var(--card-white)" stroke-width="1.2"/>
+            </g>
+            <text x="168" y="34" font-family="'Playfair Display', serif" font-weight="700" font-size="32" letter-spacing="3">ESTATE</text>
+            <text x="206" y="52" font-family="var(--font-script)" font-style="italic" font-size="18" fill="var(--c-laranja)">São Paulo</text>
+          </svg>
+
+          <div class="brand-divider"></div>
+          <span class="app-system-tag">RealTime</span>
         </div>
 
         <div class="header-actions">
@@ -2062,7 +2068,7 @@
         showToast('Perfil salvo!');
       });
 
-      // BOTÃO SAIR NO TOPO E NO MODAL
+      // LOGOUT REAL
       const logoutHandler = async () => {
         if (confirm('Deseja realmente sair da sua conta?')) {
           if (sbClient) await sbClient.auth.signOut();
@@ -2417,8 +2423,9 @@
       const fields = REPORT_TEMPLATES[templateKey] || REPORT_TEMPLATES.geral;
       const currentData = (appState.reports[dataRelatorio] || {})[templateKey] || {};
 
-      let text = `*RELATÓRIO DIÁRIO — ${d}/${m}/${y}*\n`;
-      text += `_Real Estate São Paulo • ${sel && sel.selectedOptions.length ? sel.selectedOptions[0].text : ''}_\n\n`;
+      let text = `*REAL ESTATE SÃO PAULO*\n`;
+      text += `*RELATÓRIO DIÁRIO — ${d}/${m}/${y}*\n`;
+      text += `_Modelo: ${sel && sel.selectedOptions.length ? sel.selectedOptions[0].text : ''}_\n\n`;
 
       let hasContent = false;
       fields.forEach(f => {
@@ -2440,22 +2447,23 @@
     }
 
     /* =====================================================================
-       SISTEMA DE AUTENTICAÇÃO REAL & MULTI-PERFIL
+       AUTENTICAÇÃO & SUPABASE MULTI-PERFIL
        ===================================================================== */
-    const SB_URL = 'https://cqxgfqbgkjqersrnuffx.supabase.co';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxeGdmcWJna2pxZXJzcm51ZmZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4Mjc2NTMsImV4cCI6MjEwOTQwMzY1M30.kIVQx4Jel8ZryZaTnc1jtTsbvPuGh_F9-RIwPIBl9bs';
+    // Substitua abaixo pelas suas chaves novas do Supabase:
+    const SB_URL = 'https://tmclvnakdowmytrstvde.supabase.co';
+    const SB_KEY = 'sb_publishable__TtDR8x-PIo41AA9YsKHww_lde9gicL';
     let sbClient = null;
-    let authMode = 'signup'; // Abre por padrão na criação de conta
+    let authMode = 'signup';
 
     async function initSupabase() {
       try {
         if (typeof supabase !== 'undefined' && supabase && typeof supabase.createClient === 'function') {
           sbClient = supabase.createClient(SB_URL, SB_KEY);
 
-          // RESET INICIAL INTELIGENTE: Limpa sessões antigas que estavam presas no navegador
-          if (!localStorage.getItem('realtime_auth_v7_initialized')) {
-            await sbClient.auth.signOut();
-            localStorage.setItem('realtime_auth_v7_initialized', 'true');
+          // LIMPEZA AUTOMÁTICA DE SESSÕES RESIDUAIS ANTIGAS DO NAVEGADOR
+          if (!localStorage.getItem('realtime_fresh_auth_v8')) {
+            try { await sbClient.auth.signOut(); } catch(e){}
+            localStorage.setItem('realtime_fresh_auth_v8', 'true');
             onUserSignedOut();
             return;
           }
@@ -2638,7 +2646,7 @@ const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
         btnSubmit.textContent = 'Aguarde...';
 
         try {
-          if (!sbClient) throw new Error('Serviço de autenticação não carregado.');
+          if (!sbClient) throw new Error('Serviço de autenticação offline.');
 
           if (authMode === 'login') {
             const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
@@ -2659,14 +2667,21 @@ const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
             
             if (data.user && !data.session) {
               msgBox.style.color = 'var(--pos)';
-              msgBox.textContent = 'Conta criada! Confirme seu e-mail para entrar.';
+              msgBox.textContent = 'Conta criada com sucesso! Verifique seu e-mail para confirmar.';
             } else if (data.user) {
               onUserSignedIn(data.user);
             }
           }
         } catch (err) {
           msgBox.style.color = 'var(--neg)';
-          msgBox.textContent = err.message.includes('Invalid login') ? 'E-mail ou senha incorretos.' : err.message;
+          const m = err.message || '';
+          if (m.includes('Failed to fetch') || m.includes('NetworkError')) {
+            msgBox.textContent = 'Servidor inacessível: confira sua URL e chave do Supabase no código ou entre como Convidado.';
+          } else if (m.includes('Invalid login')) {
+            msgBox.textContent = 'E-mail ou senha incorretos.';
+          } else {
+            msgBox.textContent = m;
+          }
         } finally {
           btnSubmit.disabled = false;
           btnSubmit.textContent = authMode === 'login' ? 'Entrar no RealTime' : 'Cadastrar e Começar';
@@ -2697,3 +2712,5 @@ const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
   </script>
 </body>
 </html>
+
+

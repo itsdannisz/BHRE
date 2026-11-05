@@ -12,7 +12,6 @@
   
   <style>
     :root {
-      /* MODO ESCURO GRAFITE / ZERO ROXO NO FUNDO */
       --bg-page: #090d16;
       --card-white: #111827;
       --card-sub: #182234;
@@ -47,7 +46,6 @@
     }
 
     [data-theme="light"] {
-      /* MODO CLARO CHAMPAGNE NOBRE */
       --bg-page: #EFECE5;
       --card-white: #ffffff;
       --card-sub: #f5f2ea;
@@ -685,6 +683,7 @@
     .tag.neg { background: var(--neg-bg); color: var(--neg); }
     .tag.neutral { background: var(--card-sub); color: var(--text-main); border: 1px solid var(--border-color); }
     .tag.falta { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .tag.locked { background: rgba(236, 137, 77, 0.15); color: var(--c-laranja); border: 1px solid rgba(236, 137, 77, 0.3); }
 
     /* RELATÓRIOS */
     .report-layout {
@@ -903,7 +902,7 @@
   <div id="appScreen" hidden>
     <header>
       <div class="header-inner">
-        <!-- Logo Real Estate São Paulo Oficial no Topbar -->
+        <!-- Logo Oficial no Topbar -->
         <a href="#" class="brand-wrap">
           <img src="logo.png" alt="Real Estate São Paulo" class="brand-img-logo" onerror="this.style.display='none'; document.getElementById('headerSvgLogo').style.display='block';">
           <svg id="headerSvgLogo" class="brand-logo-svg" viewBox="0 0 360 60" fill="currentColor">
@@ -934,7 +933,7 @@
             <span id="syncText">Sincronizado</span>
           </div>
 
-          <button class="btn" id="btnTopLogout" title="Sair da Conta e Trocar de Usuário" style="color:var(--neg);">
+          <button class="btn" id="btnTopLogout" title="Sair da Conta" style="color:var(--neg);">
             Sair
           </button>
 
@@ -1053,6 +1052,7 @@
               </div>
             </div>
 
+            <!-- Mini Calendário -->
             <div class="content-card">
               <div class="mini-cal-header">
                 <button class="btn" style="padding: 4px 8px;" id="btnCalPrev">‹</button>
@@ -1062,6 +1062,7 @@
               <div class="cal-grid" id="calGridBox"></div>
             </div>
 
+            <!-- Feriados -->
             <div class="content-card">
               <div class="card-title">
                 <span>Feriados Nacionais</span>
@@ -1071,6 +1072,7 @@
             </div>
           </div>
 
+          <!-- Coluna Direita: Histórico Geral + Gráfico -->
           <div>
             <div class="content-card">
               <div class="card-title">
@@ -1091,6 +1093,10 @@
                   <select id="filterMonth" style="width: auto; padding: 6px 10px; font-size: 12px;">
                     <option value="">Todo o Período</option>
                   </select>
+                  <!-- Botão Fechar Mês / Trava Anti-Fraude -->
+                  <button class="btn" id="btnToggleLockMonth" title="Bloquear alterações no mês selecionado">
+                    <span id="lockMonthIcon">🔒</span> <span id="lockMonthText">Fechar Mês</span>
+                  </button>
                   <button class="btn" id="btnUseHours" style="font-size: 11px;">Compensar Horas</button>
                 </div>
               </div>
@@ -1361,10 +1367,10 @@
     </form>
   </dialog>
 
-  <!-- MODAL: CONFIGURAÇÕES -->
+  <!-- MODAL: CONFIGURAÇÕES, SEGURANÇA E LGPD -->
   <dialog id="modalSettings">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
-      <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main);">Jornada Contratual (PJ)</h3>
+      <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main);">Configurações & Segurança</h3>
       <button type="button" class="btn" data-close style="border: 0;">✕</button>
     </div>
 
@@ -1382,10 +1388,26 @@
       <small class="muted" style="font-size:11px">Padrão: 60 minutos (1 hora)</small>
     </div>
 
-    <div style="display: flex; gap: 8px; margin-top: 18px;">
+    <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 16px 0;">
+
+    <h4 style="font-size: 12px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase;" class="muted">Backup dos Dados</h4>
+    <div style="display: flex; gap: 8px;">
       <button class="btn" id="btnDownloadBackup" style="flex: 1;">Baixar Backup</button>
       <button class="btn" id="btnRestaurarArquivo" style="flex: 1;">Restaurar Arquivo</button>
       <input type="file" id="fileRestore" accept=".json" style="display: none;">
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 16px 0;">
+
+    <!-- Seção de Segurança e LGPD -->
+    <h4 style="font-size: 12px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase;" class="muted">Privacidade & Segurança (LGPD)</h4>
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <button class="btn" id="btnExportLGPD" style="width: 100%; justify-content: flex-start;">
+        📄 Exportar Dossiê Completo de Dados (LGPD Art. 18)
+      </button>
+      <button class="btn" id="btnGlobalSignOut" style="width: 100%; justify-content: flex-start; color: var(--warn); border-color: rgba(245, 158, 11, 0.3);">
+        🌐 Desconectar de Todos os Aparelhos
+      </button>
     </div>
 
     <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
@@ -1499,13 +1521,13 @@
     }
 
     /* =====================================================================
-       MOTOR CORE DE CÁLCULO PJ
+       MOTOR CORE DE CÁLCULO PJ (SANITIZADO CONTRA INJEÇÃO)
        ===================================================================== */
     const Core = {
       toMinutes(timeStr) {
         if (!timeStr || typeof timeStr !== 'string' || !timeStr.includes(':')) return 0;
         const [h, m] = timeStr.split(':').map(Number);
-        return ((h || 0) * 60) + (m || 0);
+        return Math.min(1440, Math.max(0, ((h || 0) * 60) + (m || 0)));
       },
 
       fromMinutes(mins, signed = false) {
@@ -1528,6 +1550,9 @@
         let totalLiquido = Math.max(0, totalBruto - intervaloMin);
         let saldo = totalLiquido - expectedMinutes;
 
+        // Limita a variações fisicamente possíveis em 24h
+        saldo = Math.min(1440, Math.max(-1440, saldo));
+
         return { totalBruto, totalLiquido, saldo };
       }
     };
@@ -1541,20 +1566,31 @@
       else if (e.t === 'falta' || e.type === 'falta') type = 'falta';
       else if (e.t === 'atestado' || e.type === 'atestado') type = 'atestado';
 
-      const variation = typeof e.variation === 'number' ? e.variation : (typeof e.m === 'number' ? e.m : 0);
       const entrada = e.entrada || e.start || (e.punches ? e.punches.e1 : '08:00');
       const saida = e.saida || e.s || (e.punches ? e.punches.s2 : '17:00');
       const intervalo = typeof e.intervalo === 'number' ? e.intervalo : (typeof e.break === 'number' ? e.break : 60);
-      
-      const obs = e.obs || e.n || '';
       const nextDay = !!(e.nextDay || e.next);
+      
+      // Recálculo sanitizado para impedir adulteração externa
+      let variation = 0;
+      if (type === 'trabalhado') {
+        variation = Core.calcPJ(entrada, saida, intervalo, nextDay, 480).saldo;
+      } else {
+        variation = typeof e.variation === 'number' ? Math.max(-1440, Math.min(0, e.variation)) : 0;
+      }
+
+      const obs = (e.obs || e.n || '').slice(0, 255);
       const id = e.id || 'id_' + Math.random().toString(36).slice(2);
       
-      return { id, date, variation, type, entrada, saida, intervalo, obs, nextDay };
+      const createdAt = e.createdAt || new Date().toISOString();
+      const updatedAt = e.updatedAt || createdAt;
+      const version = (e.version || 1);
+
+      return { id, date, variation, type, entrada, saida, intervalo, obs, nextDay, createdAt, updatedAt, version };
     }
 
     /* =====================================================================
-       ESTADO E MULTI-USUÁRIO
+       ESTADO E MULTI-USUÁRIO COM AUDITORIA
        ===================================================================== */
     let currentUserId = 'guest';
 
@@ -1573,6 +1609,7 @@
       },
       entries: [],
       reports: {},
+      closedMonths: [], // Meses trancados contra edição
       theme: 'dark'
     };
 
@@ -1584,6 +1621,7 @@
           const rawEntries = parsed.entries || parsed.e || [];
           appState = { ...appState, ...parsed };
           appState.entries = Array.isArray(rawEntries) ? rawEntries.map(normalizeEntry).filter(Boolean) : [];
+          appState.closedMonths = Array.isArray(parsed.closedMonths) ? parsed.closedMonths : [];
           
           if (parsed.rs) {
             appState.reports = parsed.rs;
@@ -1616,25 +1654,37 @@
       setTimeout(() => t.classList.remove('show'), 3200);
     }
 
+    /* =====================================================================
+       GRAVAÇÃO NA CAIXA-PRETA DE AUDITORIA (SUPABASE)
+       ===================================================================== */
+    async function logAudit(action, entryDate, oldData, newData) {
+      if (!sbClient || currentUserId === 'guest') return;
+      try {
+        await sbClient.from('bh_audit_logs').insert({
+          user_id: currentUserId,
+          action,
+          entry_date: entryDate,
+          old_data: oldData ? JSON.stringify(oldData) : null,
+          new_data: newData ? JSON.stringify(newData) : null,
+          created_at: new Date().toISOString()
+        });
+      } catch (err) {
+        console.warn('Falha silenciosa ao registrar auditoria:', err);
+      }
+    }
+
     function processImportedJSON(text) {
       try {
         const parsed = JSON.parse(text);
         let importedEntries = [];
         
-        if (Array.isArray(parsed)) {
-          importedEntries = parsed;
-        } else if (Array.isArray(parsed.entries)) {
-          importedEntries = parsed.entries;
-        } else if (Array.isArray(parsed.e)) {
-          importedEntries = parsed.e;
-        }
+        if (Array.isArray(parsed)) importedEntries = parsed;
+        else if (Array.isArray(parsed.entries)) importedEntries = parsed.entries;
+        else if (Array.isArray(parsed.e)) importedEntries = parsed.e;
 
-        if (importedEntries.length === 0) {
-          throw new Error('Nenhum registro de horas encontrado no arquivo.');
-        }
+        if (importedEntries.length === 0) throw new Error('Nenhum registro encontrado.');
 
         const normalized = importedEntries.map(normalizeEntry).filter(Boolean);
-        
         const existingIds = new Set(appState.entries.map(e => e.id));
         normalized.forEach(item => {
           if (!existingIds.has(item.id)) {
@@ -1649,6 +1699,7 @@
           appState.reports = { ...appState.reports, ...(parsed.reports || parsed.rs) };
         }
 
+        logAudit('IMPORT_JSON', new Date().toISOString().slice(0, 10), null, { count: normalized.length });
         saveLocal();
         showToast(`Sucesso! ${normalized.length} lançamentos recuperados!`);
       } catch (err) {
@@ -1656,21 +1707,30 @@
       }
     }
 
+    function isMonthLocked(dateStr) {
+      if (!dateStr) return false;
+      const mKey = dateStr.slice(0, 7);
+      return (appState.closedMonths || []).includes(mKey);
+    }
+
     function finalizarDiaInstantaneo() {
       const now = new Date();
       const timeNow = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
       const todayStr = now.toISOString().slice(0, 10);
       
-      let entry = appState.entries.find(e => e.date === todayStr);
-      let entrada = entry ? entry.entrada : (appState.config.entrada || '08:00');
+      if (isMonthLocked(todayStr)) {
+        return alert('Este mês está fechado e bloqueado contra alterações.');
+      }
+
+      let oldEntry = appState.entries.find(e => e.date === todayStr);
+      let entrada = oldEntry ? oldEntry.entrada : (appState.config.entrada || '08:00');
       let saida = timeNow;
       let intervalo = appState.config.intervalo || 60;
 
       const calc = Core.calcPJ(entrada, saida, intervalo, false, appState.config.expected || 480);
 
-      appState.entries = appState.entries.filter(e => e.date !== todayStr);
-      appState.entries.push({
-        id: entry ? entry.id : 'id_' + Date.now(),
+      const newEntry = {
+        id: oldEntry ? oldEntry.id : 'id_' + Date.now(),
         date: todayStr,
         type: 'trabalhado',
         entrada,
@@ -1678,9 +1738,16 @@
         intervalo,
         nextDay: false,
         variation: calc.saldo,
-        obs: 'Finalizado via 1-Toque (PJ)'
-      });
+        obs: 'Finalizado via 1-Toque (PJ)',
+        createdAt: oldEntry ? oldEntry.createdAt : new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        version: oldEntry ? (oldEntry.version + 1) : 1
+      };
 
+      appState.entries = appState.entries.filter(e => e.date !== todayStr);
+      appState.entries.push(newEntry);
+
+      logAudit('FINALIZAR_DIA_1TOQUE', todayStr, oldEntry, newEntry);
       saveLocal();
       showToast(`Expediente finalizado às ${saida}! Saldo: ${Core.fromMinutes(calc.saldo, true)}`);
     }
@@ -1834,10 +1901,21 @@
           const parts = m.split('-');
           const opt = document.createElement('option');
           opt.value = m;
-          opt.textContent = `${parts[1]}/${parts[0]}`;
+          const isLocked = (appState.closedMonths || []).includes(m);
+          opt.textContent = `${parts[1]}/${parts[0]} ${isLocked ? '🔒' : ''}`;
           if (m === curSel) opt.selected = true;
           selMonth.appendChild(opt);
         });
+      }
+
+      // Atualiza texto do botão Fechar Mês
+      const curSelectedMonth = filterMonth || todayStr.slice(0, 7);
+      const isCurMonthLocked = (appState.closedMonths || []).includes(curSelectedMonth);
+      const lockIcon = document.getElementById('lockMonthIcon');
+      const lockText = document.getElementById('lockMonthText');
+      if (lockIcon && lockText) {
+        lockIcon.textContent = isCurMonthLocked ? '🔓' : '🔒';
+        lockText.textContent = isCurMonthLocked ? 'Reabrir Mês' : 'Fechar Mês';
       }
 
       const filtered = appState.entries.filter(e => {
@@ -1862,12 +1940,15 @@
         if (entry.type === 'falta') { tipoBadge = 'Ausência'; tipoClass = 'falta'; }
         if (entry.type === 'atestado') { tipoBadge = 'Abonada'; tipoClass = 'neutral'; }
 
+        const entryLocked = isMonthLocked(entry.date);
+
         tr.innerHTML = `
           <td><strong>${d}/${m}/${y}</strong></td>
           <td>
             ${entry.type === 'trabalhado' 
               ? `<span class="mono">${entry.entrada} → ${entry.saida}</span> <span class="muted" style="font-size:11px">(-${Core.fromMinutes(entry.intervalo || 60)} almoço)</span>`
               : (entry.type === 'uso' ? `Folga / Desconto: ${Core.fromMinutes(Math.abs(entry.variation))}` : 'Ausência Registrada')}
+            ${entryLocked ? '<span class="tag locked" title="Mês fechado">🔒 Trancado</span>' : ''}
             ${entry.obs ? `<div class="muted" style="font-size:11px; margin-top:2px;">${entry.obs}</div>` : ''}
           </td>
           <td>
@@ -1880,8 +1961,8 @@
             <strong>${Core.fromMinutes(totalSaldo)}</strong>
           </td>
           <td style="text-align: center;">
-            <button class="btn" style="padding: 4px 8px;" onclick="editEntry('${entry.id}')">Editar</button>
-            <button class="btn" style="padding: 4px 8px; color: var(--neg);" onclick="deleteEntry('${entry.id}')">✕</button>
+            <button class="btn" style="padding: 4px 8px;" onclick="editEntry('${entry.id}')" ${entryLocked ? 'disabled title="Mês fechado"' : ''}>Editar</button>
+            <button class="btn" style="padding: 4px 8px; color: var(--neg);" onclick="deleteEntry('${entry.id}')" ${entryLocked ? 'disabled title="Mês fechado"' : ''}>✕</button>
           </td>
         `;
         tbody.appendChild(tr);
@@ -1925,8 +2006,11 @@
 
       safeAddListener('btnBaterPontoAgora', 'click', () => {
         const todayStr = new Date().toISOString().slice(0, 10);
-        let entry = appState.entries.find(e => e.date === todayStr);
+        if (isMonthLocked(todayStr)) {
+          return alert('O mês atual está trancado contra alterações.');
+        }
 
+        let entry = appState.entries.find(e => e.date === todayStr);
         const now = new Date();
         const timeNow = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
@@ -2007,11 +2091,66 @@
         e.preventDefault();
         appState.profile.name = document.getElementById('perfilNome').value;
         appState.profile.role = document.getElementById('perfilCargo').value;
+        logAudit('UPDATE_PROFILE', new Date().toISOString().slice(0, 10), null, appState.profile);
         saveLocal();
         renderProfile();
         const modal = document.getElementById('modalPerfil');
         if (modal) modal.close();
         showToast('Perfil salvo!');
+      });
+
+      // TRAVA DE FECHAMENTO DE MÊS
+      safeAddListener('btnToggleLockMonth', 'click', () => {
+        const fMonth = document.getElementById('filterMonth').value || new Date().toISOString().slice(0, 7);
+        appState.closedMonths = appState.closedMonths || [];
+        const isLocked = appState.closedMonths.includes(fMonth);
+
+        if (isLocked) {
+          const reason = prompt('Informe a justificativa para reabrir este mês faturado:');
+          if (!reason) return alert('A justificativa é obrigatória para reabrir o mês.');
+          appState.closedMonths = appState.closedMonths.filter(m => m !== fMonth);
+          logAudit('REOPEN_MONTH', `${fMonth}-01`, null, { month: fMonth, reason });
+          showToast(`Mês ${fMonth} reaberto para ajustes.`);
+        } else {
+          if (!confirm(`Deseja fechar e trancar o mês ${fMonth}? As edições serão bloqueadas contra alterações acidentais.`)) return;
+          appState.closedMonths.push(fMonth);
+          logAudit('CLOSE_MONTH', `${fMonth}-01`, null, { month: fMonth });
+          showToast(`Mês ${fMonth} fechado e protegido com sucesso!`);
+        }
+        saveLocal();
+      });
+
+      // EXPORTAR DOSSIÊ LGPD
+      safeAddListener('btnExportLGPD', 'click', () => {
+        const dossier = {
+          dossierType: 'LGPD Art. 18 - Portabilidade de Dados Pessoais',
+          exportDate: new Date().toISOString(),
+          employee: appState.profile,
+          configuration: appState.config,
+          historyEntries: appState.entries,
+          dailyReports: appState.reports
+        };
+        const blob = new Blob([JSON.stringify(dossier, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `dossie_lgpd_${appState.profile.name.replace(/\s+/g, '_')}.json`;
+        a.click();
+        logAudit('EXPORT_LGPD', new Date().toISOString().slice(0, 10), null, { status: 'exported' });
+        showToast('Dossiê LGPD exportado com sucesso!');
+      });
+
+      // LOGOUT GLOBAL
+      safeAddListener('btnGlobalSignOut', 'click', async () => {
+        if (!confirm('Deseja desconectar sua conta de TODOS os celulares e computadores?')) return;
+        if (sbClient) {
+          try {
+            await sbClient.auth.signOut({ scope: 'global' });
+          } catch {}
+        }
+        onUserSignedOut();
+        showToast('Desconectado de todos os aparelhos!');
+        const modal = document.getElementById('modalSettings');
+        if (modal) modal.close();
       });
 
       const logoutHandler = async () => {
@@ -2072,10 +2211,13 @@
         link.click();
       });
 
+      // Salvar Ponto Manual com Auditoria
       safeAddListener('formPonto', 'submit', (e) => {
         e.preventDefault();
-        const id = document.getElementById('entryEditId').value || 'id_' + Date.now();
         const data = document.getElementById('pontoData').value;
+        if (isMonthLocked(data)) return alert('Este mês está fechado e não aceita novos lançamentos.');
+
+        const id = document.getElementById('entryEditId').value || 'id_' + Date.now();
         const entrada = document.getElementById('pontoEntrada').value;
         const saida = document.getElementById('pontoSaida').value;
         const intervalo = Number(document.getElementById('pontoIntervalo').value) || 0;
@@ -2083,9 +2225,9 @@
         const obs = document.getElementById('pontoObs').value;
 
         const calc = Core.calcPJ(entrada, saida, intervalo, nextDay, appState.config.expected || 480);
+        const oldEntry = appState.entries.find(x => x.id === id);
 
-        appState.entries = appState.entries.filter(x => x.id !== id);
-        appState.entries.push({
+        const newEntry = {
           id,
           date: data,
           type: 'trabalhado',
@@ -2094,39 +2236,57 @@
           intervalo,
           nextDay,
           variation: calc.saldo,
-          obs
-        });
+          obs,
+          createdAt: oldEntry ? oldEntry.createdAt : new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          version: oldEntry ? (oldEntry.version + 1) : 1
+        };
 
+        appState.entries = appState.entries.filter(x => x.id !== id);
+        appState.entries.push(newEntry);
+
+        logAudit(oldEntry ? 'UPDATE_PONTO' : 'INSERT_PONTO', data, oldEntry, newEntry);
         saveLocal();
         const modal = document.getElementById('modalPonto');
         if (modal) modal.close();
       });
 
+      // Compensação
       safeAddListener('formUso', 'submit', (e) => {
         e.preventDefault();
         const data = document.getElementById('usoData').value;
+        if (isMonthLocked(data)) return alert('Este mês está fechado e não aceita lançamentos.');
+
         const horas = Number(document.getElementById('usoHoras').value) || 0;
         const minutos = Number(document.getElementById('usoMinutos').value) || 0;
         const totalMins = (horas * 60) + minutos;
 
         if (totalMins <= 0) return alert('Informe um tempo válido.');
 
-        appState.entries.push({
+        const newEntry = {
           id: 'uso_' + Date.now(),
           date: data,
           type: 'uso',
           variation: -totalMins,
-          obs: document.getElementById('usoMotivo').value
-        });
+          obs: document.getElementById('usoMotivo').value,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          version: 1
+        };
 
+        appState.entries.push(newEntry);
+        logAudit('INSERT_COMPENSACAO', data, null, newEntry);
         saveLocal();
         const modal = document.getElementById('modalUso');
         if (modal) modal.close();
       });
 
+      // Ausência
       safeAddListener('formFalta', 'submit', (e) => {
         e.preventDefault();
         const data = document.getElementById('faltaData').value;
+        if (isMonthLocked(data)) return alert('Este mês está fechado e não aceita lançamentos.');
+
         const tipo = document.getElementById('faltaTipo').value;
         const diaTodo = document.getElementById('faltaDiaTodo').checked;
         const motivo = document.getElementById('faltaMotivo').value;
@@ -2141,21 +2301,25 @@
         }
 
         const isAbonada = tipo === 'atestado';
-        const varMin = isAbonada ? 0 : -mins;
-
-        appState.entries.push({
+        const newEntry = {
           id: 'falta_' + Date.now(),
           date: data,
           type: isAbonada ? 'atestado' : 'falta',
-          variation: varMin,
-          obs: `${tipo === 'atestado' ? '[Justificada] ' : '[Ausência] '} ${motivo}`
-        });
+          variation: isAbonada ? 0 : -mins,
+          obs: `${tipo === 'atestado' ? '[Atestado] ' : '[Ausência] '} ${motivo}`,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          version: 1
+        };
 
+        appState.entries.push(newEntry);
+        logAudit('INSERT_AUSENCIA', data, null, newEntry);
         saveLocal();
         const modal = document.getElementById('modalFalta');
         if (modal) modal.close();
       });
 
+      // Configurações
       safeAddListener('btnSaveConfigs', 'click', () => {
         appState.config.entrada = document.getElementById('cfgEntrada').value;
         appState.config.saida = document.getElementById('cfgSaida').value;
@@ -2270,6 +2434,10 @@
       const item = appState.entries.find(x => x.id === id);
       if (!item) return;
 
+      if (isMonthLocked(item.date)) {
+        return alert('Este mês está fechado. Para editar, você deve reabrir o mês justificando o motivo.');
+      }
+
       if (item.type === 'falta' || item.type === 'atestado') {
         alert('Para ausências, remova o item e registre novamente.');
         return;
@@ -2289,7 +2457,15 @@
     }
 
     function deleteEntry(id) {
-      if (confirm('Deseja excluir este lançamento?')) {
+      const item = appState.entries.find(x => x.id === id);
+      if (!item) return;
+
+      if (isMonthLocked(item.date)) {
+        return alert('Este mês está fechado e não permite exclusões.');
+      }
+
+      if (confirm('Deseja excluir este lançamento? A ação será registrada na auditoria.')) {
+        logAudit('DELETE_ENTRY', item.date, item, null);
         appState.entries = appState.entries.filter(x => x.id !== id);
         saveLocal();
       }
@@ -2391,11 +2567,11 @@
     }
 
     /* =====================================================================
-       AUTENTICAÇÃO REAL COM SUPABASE & MULTI-PERFIL
+       SUPABASE & SISTEMA DE AUTENTICAÇÃO
        ===================================================================== */
     // ⚠️ SUBSTITUA PELAS SUAS CREDENCIAIS DO SUPABASE (Aba BHRE)
     const SB_URL = 'https://cqxgfqbgkjqersrnuffx.supabase.co';
-    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxeGdmcWJna2pxZXJzcm51ZmZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4Mjc2NTMsImV4cCI6MjEwOTQwMzY1M30.kIVQx4Jel8ZryZaTnc1jtTsbvPuGh_F9-RIwPIBl9bs';
+    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxeGdmcWJna2pxZXJzcm51ZmZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4Mjc2NTMsImV4cCI6MjEwOTQwMzY1M30.kIVQx4Jel8ZryZaTnc1jtTsbvPuGh_F9-RIwPIBl9bs';;
     let sbClient = null;
     let authMode = 'signup';
 
@@ -2404,9 +2580,9 @@
         if (typeof supabase !== 'undefined' && supabase && typeof supabase.createClient === 'function') {
           sbClient = supabase.createClient(SB_URL, SB_KEY);
 
-          if (!localStorage.getItem('realtime_auth_v9_cleared')) {
+          if (!localStorage.getItem('realtime_auth_v10_cleared')) {
             await sbClient.auth.signOut();
-            localStorage.setItem('realtime_auth_v9_cleared', 'true');
+            localStorage.setItem('realtime_auth_v10_cleared', 'true');
             onUserSignedOut();
             return;
           }
@@ -2496,6 +2672,9 @@
 
             if (cloudState.reports) {
               appState.reports = { ...cloudState.reports, ...appState.reports };
+            }
+            if (cloudState.closedMonths) {
+              appState.closedMonths = [...new Set([...(appState.closedMonths || []), ...cloudState.closedMonths])];
             }
           } catch (e) {
             console.error('Falha ao mesclar dados da nuvem:', e);
@@ -2610,7 +2789,7 @@
             
             if (data.user && !data.session) {
               msgBox.style.color = 'var(--pos)';
-              msgBox.textContent = 'Conta criada com sucesso! Verifique seu e-mail para confirmar o cadastro.';
+              msgBox.textContent = 'Conta criada! Confirme seu e-mail para ativar.';
             } else if (data.user) {
               onUserSignedIn(data.user);
             }

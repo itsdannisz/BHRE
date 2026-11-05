@@ -4,24 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="dark light">
-  <title>Real Estate São Paulo • RealTime</title>
+  <title>RealTime • Real Estate São Paulo</title>
   
-  <!-- Tipografia: Montserrat + Playfair Display (Logo) + Great Vibes (São Paulo Script) + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=JetBrains+Mono:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      /* CORES OFICIAIS REAL ESTATE SÃO PAULO */
-      --c-roxo: #220C27;
-      --c-laranja: #EC894D;
-      --c-laranja-hover: #d97334;
-      --c-champagne: #EFECE5;
-      --c-champagne-sub: #DDD6C6;
-      --c-bege: #C4B9A0;
-
-      /* MODO ESCURO GRAFITE / CARVÃO (ZERO ROXO NO FUNDO) */
+      /* MODO ESCURO GRAFITE / ZERO ROXO NO FUNDO */
       --bg-page: #090d16;
       --card-white: #111827;
       --card-sub: #182234;
@@ -35,6 +26,9 @@
       --text-muted: #94a3b8;
       --text-dim: #64748b;
       
+      --c-laranja: #EC894D;
+      --c-laranja-hover: #d97334;
+      
       --pos: #10b981;
       --pos-bg: rgba(16, 185, 129, 0.12);
       --neg: #ef4444;
@@ -43,8 +37,6 @@
       --warn-bg: rgba(245, 158, 11, 0.12);
       
       --font-main: 'Montserrat', system-ui, -apple-system, sans-serif;
-      --font-serif: 'Playfair Display', Georgia, serif;
-      --font-script: 'Great Vibes', 'Brush Script MT', cursive;
       --font-mono: 'JetBrains Mono', monospace;
       
       --radius-lg: 16px;
@@ -54,7 +46,7 @@
     }
 
     [data-theme="light"] {
-      /* MODO CLARO: CHAMPAGNE, ROXO INSTITUCIONAL E LARANJA */
+      /* MODO CLARO CHAMPAGNE NOBRE */
       --bg-page: #EFECE5;
       --card-white: #ffffff;
       --card-sub: #f5f2ea;
@@ -100,20 +92,7 @@
     .muted { color: var(--text-muted); }
     .icon { width: 18px; height: 18px; flex-shrink: 0; vertical-align: middle; }
 
-    /* =====================================================================
-       LOGO OFICIAL REAL ESTATE SÃO PAULO (SVG DINÂMICO)
-       ===================================================================== */
-    .company-logo-svg {
-      height: 38px;
-      width: auto;
-      color: var(--text-main);
-      display: block;
-      transition: color 0.2s ease;
-    }
-
-    /* =====================================================================
-       TELA DE LOGIN E CADASTRO REALTIME
-       ===================================================================== */
+    /* TELA DE LOGIN / CADASTRO */
     #authScreen {
       min-height: 100vh;
       display: flex;
@@ -126,7 +105,7 @@
 
     .auth-container {
       width: 100%;
-      max-width: 450px;
+      max-width: 440px;
       background: var(--card-white);
       border: 1px solid var(--border-color);
       border-top: 4px solid var(--c-laranja);
@@ -137,11 +116,9 @@
 
     .auth-brand-header {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       margin-bottom: 24px;
-      text-align: center;
     }
 
     .auth-tabs {
@@ -172,9 +149,7 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
 
-    /* =====================================================================
-       DASHBOARD PRINCIPAL
-       ===================================================================== */
+    /* DASHBOARD PRINCIPAL */
     #appScreen[hidden] { display: none !important; }
 
     header {
@@ -198,29 +173,63 @@
     .brand-wrap {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       text-decoration: none;
       color: inherit;
     }
-
-    .brand-divider {
-      width: 1px;
-      height: 28px;
-      background: var(--border-color);
+    
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: #090d16;
+      border: 1px solid var(--c-laranja);
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
     }
     
-    .app-system-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 6px;
-      background: var(--card-sub);
-      border: 1px solid var(--border-subtle);
+    .clock-face {
+      width: 22px;
+      height: 22px;
+      background: #ffffff;
+      border-radius: 50%;
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+    .clock-face::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 10px;
+      width: 2px;
+      height: 8px;
+      background: #090d16;
+      border-radius: 2px;
+      transform-origin: bottom center;
+    }
+    .clock-face::before {
+      content: '';
+      position: absolute;
+      top: 9px;
+      left: 10px;
+      width: 6px;
+      height: 2px;
+      background: var(--c-laranja);
+      border-radius: 2px;
+    }
+
+    .brand-titles b {
+      display: block;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      color: var(--text-main);
+    }
+    .brand-titles span {
+      display: block;
       font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
+      font-weight: 600;
       color: var(--c-laranja);
     }
 
@@ -277,8 +286,9 @@
       border-radius: 50%;
       background: var(--pos);
     }
+    .sync-dot.offline { background: var(--warn); }
+    .sync-dot.error { background: var(--neg); }
 
-    /* Container */
     .container {
       max-width: 1260px;
       width: 100%;
@@ -317,7 +327,7 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    /* HERO BANNER REAL ESTATE SÃO PAULO */
+    /* HERO BANNER */
     .hero-banner {
       background: var(--hero-bg);
       color: #ffffff;
@@ -408,7 +418,6 @@
       overflow: hidden;
     }
 
-    /* 3 Métricas Hero */
     .hero-metrics-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -436,7 +445,6 @@
       color: #ffffff;
     }
 
-    /* Dashboard Layout */
     .dashboard-grid {
       display: grid;
       grid-template-columns: 380px 1fr;
@@ -462,7 +470,7 @@
       align-items: center;
     }
 
-    /* Timeline PJ */
+    /* TIMELINE DE HOJE */
     .punches-timeline {
       display: flex;
       flex-direction: column;
@@ -512,7 +520,6 @@
       margin-top: 18px;
     }
 
-    /* Botão Principal Laranja */
     .btn-laranja {
       background: var(--c-laranja);
       color: #ffffff;
@@ -536,7 +543,6 @@
     }
     .btn-laranja:active { transform: translateY(1px); }
 
-    /* Botões Auxiliares */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -561,7 +567,7 @@
       margin-top: 12px;
     }
 
-    /* Mini Calendário */
+    /* MINI CALENDÁRIO */
     .mini-cal-header {
       display: flex;
       justify-content: space-between;
@@ -620,7 +626,6 @@
     }
     .cal-dot.holiday-dot { background: var(--c-laranja); }
 
-    /* Feriados */
     .holiday-list {
       display: flex;
       flex-direction: column;
@@ -647,7 +652,6 @@
       font-weight: 700;
     }
 
-    /* Barra de Busca */
     .table-actions-bar {
       display: flex;
       gap: 10px;
@@ -672,7 +676,6 @@
       pointer-events: none;
     }
 
-    /* Tabela */
     .table-container { width: 100%; overflow-x: auto; }
     table {
       width: 100%;
@@ -709,7 +712,7 @@
     .tag.neutral { background: var(--card-sub); color: var(--text-main); border: 1px solid var(--border-color); }
     .tag.falta { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
 
-    /* Relatórios View */
+    /* RELATÓRIOS */
     .report-layout {
       display: grid;
       grid-template-columns: 1.2fr 1fr;
@@ -736,7 +739,7 @@
       overflow-y: auto;
     }
 
-    /* Modais */
+    /* MODAIS */
     dialog {
       background: var(--card-white);
       color: var(--text-main);
@@ -800,7 +803,7 @@
     }
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* IMPRESSÃO A4 (EXTRATO PJ) */
+    /* IMPRESSÃO A4 */
     @media print {
       body {
         background: #ffffff !important;
@@ -850,7 +853,6 @@
       .metric-block:not(:last-child) { border-right: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 12px; }
       .container { padding: 16px; }
       .grid-3 { grid-template-columns: 1fr; }
-      .brand-divider, .app-system-tag { display: none; }
     }
   </style>
 </head>
@@ -862,22 +864,13 @@
   <section id="authScreen">
     <div class="auth-container">
       <div class="auth-brand-header">
-        <!-- Logo Oficial Real Estate São Paulo no Login -->
-        <svg class="company-logo-svg" style="height:44px;" viewBox="0 0 340 56" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <text x="2" y="34" font-family="'Playfair Display', serif" font-weight="700" font-size="32" letter-spacing="3">REAL</text>
-          <g transform="translate(116, 5)">
-            <circle cx="22" cy="22" r="20" stroke="currentColor" stroke-width="4.5" fill="none"/>
-            <rect x="13" y="15" width="10" height="21" fill="currentColor"/>
-            <rect x="18" y="10" width="10" height="26" fill="currentColor"/>
-            <line x1="20.5" y1="13" x2="20.5" y2="34" stroke="var(--card-white)" stroke-width="1.2"/>
-            <line x1="23" y1="13" x2="23" y2="34" stroke="var(--card-white)" stroke-width="1.2"/>
-            <line x1="25.5" y1="13" x2="25.5" y2="34" stroke="var(--card-white)" stroke-width="1.2"/>
-          </g>
-          <text x="168" y="34" font-family="'Playfair Display', serif" font-weight="700" font-size="32" letter-spacing="3">ESTATE</text>
-          <text x="206" y="52" font-family="var(--font-script)" font-style="italic" font-size="18" fill="var(--c-laranja)">São Paulo</text>
-        </svg>
-
-        <span style="font-size:12px; color:var(--text-muted); font-weight:600;">Gestão de Horas</span>
+        <div class="brand-icon">
+          <div class="clock-face"></div>
+        </div>
+        <div>
+          <b style="font-size:18px; letter-spacing:-0.4px;">RealTime</b>
+          <span style="display:block; font-size:12px; color:var(--c-laranja); font-weight:600;">Real Estate São Paulo</span>
+        </div>
       </div>
 
       <div class="auth-tabs">
@@ -886,7 +879,6 @@
       </div>
 
       <form id="formAuth">
-        <!-- Campos de Cadastro -->
         <div id="boxSignupFields">
           <div class="form-group">
             <label>Seu Nome Completo</label>
@@ -921,57 +913,41 @@
   </section>
 
   <!-- =====================================================================
-       APLICAÇÃO DO BANCO DE HORAS (PROTEGIDA POR LOGIN)
+       APLICAÇÃO DO BANCO DE HORAS (BLOQUEADA ATÉ FAZER LOGIN)
        ===================================================================== -->
   <div id="appScreen" hidden>
-    <!-- Topbar Header -->
     <header>
       <div class="header-inner">
         <div class="brand-wrap">
-          <!-- Logo Oficial Real Estate São Paulo Vetorizada -->
-          <svg class="company-logo-svg" viewBox="0 0 340 56" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <text x="2" y="34" font-family="'Playfair Display', serif" font-weight="700" font-size="32" letter-spacing="3">REAL</text>
-            <g transform="translate(116, 5)">
-              <circle cx="22" cy="22" r="20" stroke="currentColor" stroke-width="4.5" fill="none"/>
-              <rect x="13" y="15" width="10" height="21" fill="currentColor"/>
-              <rect x="18" y="10" width="10" height="26" fill="currentColor"/>
-              <line x1="20.5" y1="13" x2="20.5" y2="34" stroke="var(--card-white)" stroke-width="1.2"/>
-              <line x1="23" y1="13" x2="23" y2="34" stroke="var(--card-white)" stroke-width="1.2"/>
-              <line x1="25.5" y1="13" x2="25.5" y2="34" stroke="var(--card-white)" stroke-width="1.2"/>
-            </g>
-            <text x="168" y="34" font-family="'Playfair Display', serif" font-weight="700" font-size="32" letter-spacing="3">ESTATE</text>
-            <text x="206" y="52" font-family="var(--font-script)" font-style="italic" font-size="18" fill="var(--c-laranja)">São Paulo</text>
-          </svg>
-
-          <div class="brand-divider"></div>
-          <span class="app-system-tag">RealTime</span>
+          <div class="brand-icon">
+            <div class="clock-face"></div>
+          </div>
+          <div class="brand-titles">
+            <b>RealTime</b>
+            <span>Real Estate São Paulo</span>
+          </div>
         </div>
 
         <div class="header-actions">
-          <!-- Chip de Perfil -->
           <button class="profile-chip-btn" id="btnOpenProfile" title="Meu Perfil">
             <div class="avatar-mini" id="topAvatarMini">JN</div>
             <span id="topProfileName">João das Neves</span>
           </button>
 
-          <!-- Indicador de Nuvem / Sincronização -->
           <div class="sync-badge" id="syncStatusBadge">
             <span class="sync-dot" id="syncDot"></span>
             <span id="syncText">Sincronizado</span>
           </div>
 
-          <!-- Botão Sair Rápido no Topo -->
           <button class="btn" id="btnTopLogout" title="Sair da Conta e Trocar de Usuário" style="color:var(--neg);">
             Sair
           </button>
 
-          <!-- Botão Importar JSON em destaque -->
           <button class="btn" id="btnImportJSONQuick" title="Restaurar o mês trabalhado do seu JSON" style="border-color:var(--c-laranja); color:var(--c-laranja); font-weight:700;">
             📥 Importar Meu JSON
           </button>
           <input type="file" id="jsonQuickInput" accept=".json" style="display:none">
           
-          <!-- Alternar Tema Claro / Escuro -->
           <button class="btn" id="btnThemeToggle" title="Alternar tema claro/escuro">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
           </button>
@@ -984,7 +960,6 @@
     </header>
 
     <main class="container">
-      <!-- Abas & Ações Rápidas -->
       <div class="tabs-wrapper">
         <nav class="nav-tabs">
           <button class="active" data-view="v-banco">Hoje & Banco</button>
@@ -1009,7 +984,6 @@
 
       <!-- VIEW 1: BANCO DE HORAS & HOJE -->
       <section id="v-banco">
-        <!-- HERO BANNER REAL ESTATE SÃO PAULO -->
         <div class="hero-banner">
           <div class="hero-top-wrap">
             <div>
@@ -1046,9 +1020,7 @@
           </div>
         </div>
 
-        <!-- Dashboard Grid -->
         <div class="dashboard-grid">
-          <!-- Coluna Esquerda: Formato PJ + Calendário + Feriados -->
           <div>
             <div class="content-card">
               <div class="card-title">
@@ -1076,7 +1048,7 @@
               <div class="punch-actions-wrap">
                 <button class="btn-laranja" id="btnFinalizarDiaInstantaneo" title="Grava a saída agora, abate 1h de almoço e fecha o dia">
                   <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                  <span>⚡ Finalizar Dia Agora</span>
+                  <span>⚡ Finalizar Dia Agora (1-Toque)</span>
                 </button>
                 
                 <button class="btn" id="btnBaterPontoAgora" style="width: 100%;">
@@ -1086,7 +1058,6 @@
               </div>
             </div>
 
-            <!-- Mini Calendário -->
             <div class="content-card">
               <div class="mini-cal-header">
                 <button class="btn" style="padding: 4px 8px;" id="btnCalPrev">‹</button>
@@ -1096,7 +1067,6 @@
               <div class="cal-grid" id="calGridBox"></div>
             </div>
 
-            <!-- Feriados -->
             <div class="content-card">
               <div class="card-title">
                 <span>Feriados Nacionais</span>
@@ -1106,7 +1076,6 @@
             </div>
           </div>
 
-          <!-- Coluna Direita: Histórico Geral + Gráfico -->
           <div>
             <div class="content-card">
               <div class="card-title">
@@ -1652,9 +1621,6 @@
       setTimeout(() => t.classList.remove('show'), 3200);
     }
 
-    /* =====================================================================
-       IMPORTAÇÃO DE ARQUIVO JSON
-       ===================================================================== */
     function processImportedJSON(text) {
       try {
         const parsed = JSON.parse(text);
@@ -1695,9 +1661,6 @@
       }
     }
 
-    /* =====================================================================
-       FUNÇÃO 1-TOQUE: FINALIZAR DIA
-       ===================================================================== */
     function finalizarDiaInstantaneo() {
       const now = new Date();
       const timeNow = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
@@ -1727,9 +1690,6 @@
       showToast(`Expediente finalizado às ${saida}! Saldo: ${Core.fromMinutes(calc.saldo, true)}`);
     }
 
-    /* =====================================================================
-       PERFIL
-       ===================================================================== */
     function renderProfile() {
       const p = appState.profile;
       const topName = document.getElementById('topProfileName');
@@ -1773,9 +1733,6 @@
       return curHour < 12 ? 'Bom dia' : curHour < 18 ? 'Boa tarde' : 'Boa noite';
     }
 
-    /* =====================================================================
-       GRÁFICO MENSAL
-       ===================================================================== */
     function renderMonthlyChart() {
       const box = document.getElementById('chartMonthlyBox');
       if (!box) return;
@@ -1820,9 +1777,6 @@
       box.innerHTML = svg;
     }
 
-    /* =====================================================================
-       DASHBOARD
-       ===================================================================== */
     function renderDashboard() {
       const todayStr = new Date().toISOString().slice(0, 10);
       const [anoT, mesT, diaT] = todayStr.split('-');
@@ -1945,9 +1899,6 @@
       }
     }
 
-    /* =====================================================================
-       VINCULAÇÃO DE EVENTOS
-       ===================================================================== */
     function safeAddListener(id, event, fn) {
       const el = document.getElementById(id);
       if (el) el.addEventListener(event, fn);
@@ -2068,7 +2019,6 @@
         showToast('Perfil salvo!');
       });
 
-      // LOGOUT REAL
       const logoutHandler = async () => {
         if (confirm('Deseja realmente sair da sua conta?')) {
           if (sbClient) await sbClient.auth.signOut();
@@ -2423,9 +2373,8 @@
       const fields = REPORT_TEMPLATES[templateKey] || REPORT_TEMPLATES.geral;
       const currentData = (appState.reports[dataRelatorio] || {})[templateKey] || {};
 
-      let text = `*REAL ESTATE SÃO PAULO*\n`;
-      text += `*RELATÓRIO DIÁRIO — ${d}/${m}/${y}*\n`;
-      text += `_Modelo: ${sel && sel.selectedOptions.length ? sel.selectedOptions[0].text : ''}_\n\n`;
+      let text = `*RELATÓRIO DIÁRIO — ${d}/${m}/${y}*\n`;
+      text += `_Real Estate São Paulo • ${sel && sel.selectedOptions.length ? sel.selectedOptions[0].text : ''}_\n\n`;
 
       let hasContent = false;
       fields.forEach(f => {
@@ -2447,9 +2396,9 @@
     }
 
     /* =====================================================================
-       AUTENTICAÇÃO & SUPABASE MULTI-PERFIL
+       AUTENTICAÇÃO REAL COM SUPABASE & MULTI-PERFIL
        ===================================================================== */
-    // Substitua abaixo pelas suas chaves novas do Supabase:
+    // ⚠️ SUBSTITUA PELAS SUAS CREDENCIAIS DO SUPABASE (Aba BHRE)
     const SB_URL = 'https://tmclvnakdowmytrstvde.supabase.co';
     const SB_KEY = 'sb_publishable__TtDR8x-PIo41AA9YsKHww_lde9gicL';
     let sbClient = null;
@@ -2460,10 +2409,10 @@
         if (typeof supabase !== 'undefined' && supabase && typeof supabase.createClient === 'function') {
           sbClient = supabase.createClient(SB_URL, SB_KEY);
 
-          // LIMPEZA AUTOMÁTICA DE SESSÕES RESIDUAIS ANTIGAS DO NAVEGADOR
-          if (!localStorage.getItem('realtime_fresh_auth_v8')) {
-            try { await sbClient.auth.signOut(); } catch(e){}
-            localStorage.setItem('realtime_fresh_auth_v8', 'true');
+          // RESET DO LOGIN ANTIGO PRESO NA MEMÓRIA
+          if (!localStorage.getItem('realtime_auth_v8_cleared')) {
+            await sbClient.auth.signOut();
+            localStorage.setItem('realtime_auth_v8_cleared', 'true');
             onUserSignedOut();
             return;
           }
@@ -2620,7 +2569,7 @@
         const email = document.getElementById('authEmail').value.trim();
         if (!email) {
           msgBox.style.color = 'var(--warn)';
-          msgBox.textContent = 'Informe seu e-mail acima para receber o link de redefinição.';
+          msgBox.textContent = 'Informe seu e-mail para receber o link de redefinição.';
           return;
         }
         if (!sbClient) return alert('Serviço indisponível.');
@@ -2646,7 +2595,7 @@
         btnSubmit.textContent = 'Aguarde...';
 
         try {
-          if (!sbClient) throw new Error('Serviço de autenticação offline.');
+          if (!sbClient) throw new Error('Serviço de autenticação não carregado.');
 
           if (authMode === 'login') {
             const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
@@ -2667,21 +2616,14 @@
             
             if (data.user && !data.session) {
               msgBox.style.color = 'var(--pos)';
-              msgBox.textContent = 'Conta criada com sucesso! Verifique seu e-mail para confirmar.';
+              msgBox.textContent = 'Conta criada com sucesso! Verifique seu e-mail para confirmar o cadastro.';
             } else if (data.user) {
               onUserSignedIn(data.user);
             }
           }
         } catch (err) {
           msgBox.style.color = 'var(--neg)';
-          const m = err.message || '';
-          if (m.includes('Failed to fetch') || m.includes('NetworkError')) {
-            msgBox.textContent = 'Servidor inacessível: confira sua URL e chave do Supabase no código ou entre como Convidado.';
-          } else if (m.includes('Invalid login')) {
-            msgBox.textContent = 'E-mail ou senha incorretos.';
-          } else {
-            msgBox.textContent = m;
-          }
+          msgBox.textContent = err.message.includes('Invalid login') ? 'E-mail ou senha incorretos.' : err.message;
         } finally {
           btnSubmit.disabled = false;
           btnSubmit.textContent = authMode === 'login' ? 'Entrar no RealTime' : 'Cadastrar e Começar';
@@ -2712,5 +2654,3 @@
   </script>
 </body>
 </html>
-
-

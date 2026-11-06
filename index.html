@@ -13,7 +13,15 @@
   
   <style>
     :root {
-      /* PALETA DE CORES: MODO ESCURO GRAFITE / CARVÃO (ZERO ROXO NO FUNDO) */
+      /* CORES OFICIAIS REAL ESTATE SÃO PAULO */
+      --c-roxo: #220C27;
+      --c-laranja: #EC894D;
+      --c-laranja-hover: #d97334;
+      --c-champagne: #EFECE5;
+      --c-champagne-sub: #DDD6C6;
+      --c-bege: #C4B9A0;
+
+      /* MODO ESCURO GRAFITE / CARVÃO (ZERO ROXO NO FUNDO) */
       --bg-page: #090d16;
       --card-white: #111827;
       --card-sub: #182234;
@@ -26,9 +34,6 @@
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --text-dim: #64748b;
-      
-      --c-laranja: #EC894D;
-      --c-laranja-hover: #d97334;
       
       --pos: #10b981;
       --pos-bg: rgba(16, 185, 129, 0.12);
@@ -47,7 +52,7 @@
     }
 
     [data-theme="light"] {
-      /* MODO CLARO: CHAMPAGNE NOBRE E ROXO INSTITUCIONAL */
+      /* MODO CLARO COM CHAMPAGNE E ROXO INSTITUCIONAL */
       --bg-page: #EFECE5;
       --card-white: #ffffff;
       --card-sub: #f5f2ea;
@@ -153,7 +158,7 @@
     }
 
     /* =====================================================================
-       APLICAÇÃO DO BANCO DE HORAS
+       DASHBOARD PRINCIPAL
        ===================================================================== */
     #appScreen[hidden] { display: none !important; }
 
@@ -303,34 +308,14 @@
       flex: 1;
     }
 
-    .nav-tabs {
-      display: inline-flex;
-      background: var(--card-sub);
-      padding: 4px;
-      border-radius: 12px;
-      gap: 4px;
-      margin-bottom: 24px;
-      border: 1px solid var(--border-color);
-    }
-    .nav-tabs button {
-      border: 0;
-      background: transparent;
-      color: var(--text-muted);
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      padding: 8px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: inline-flex;
+    /* Barra de Ações Rápidas Superior */
+    .top-actions-bar {
+      display: flex;
+      justify-content: flex-end;
       align-items: center;
       gap: 8px;
-      transition: all 0.15s ease;
-    }
-    .nav-tabs button.active {
-      background: var(--card-white);
-      color: var(--c-laranja);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      flex-wrap: wrap;
     }
 
     /* HERO BANNER REAL ESTATE SÃO PAULO */
@@ -722,35 +707,9 @@
     }
     .tag.pos { background: var(--pos-bg); color: var(--pos); }
     .tag.neg { background: var(--neg-bg); color: var(--neg); }
+    .tag.warn { background: var(--warn-bg); color: var(--warn); }
     .tag.neutral { background: var(--card-sub); color: var(--text-main); border: 1px solid var(--border-color); }
     .tag.falta { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
-
-    /* Relatórios View */
-    .report-layout {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 24px;
-    }
-    .dropzone {
-      border: 2px dashed var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 24px;
-      text-align: center;
-      background: var(--card-sub);
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    .report-preview-box {
-      background: var(--card-sub);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 18px;
-      font-size: 13px;
-      line-height: 1.7;
-      white-space: pre-wrap;
-      max-height: 520px;
-      overflow-y: auto;
-    }
 
     /* Modais */
     dialog {
@@ -823,7 +782,7 @@
         color: #000000 !important;
         font-size: 11px !important;
       }
-      header, .tabs-wrapper, .dashboard-grid > div:first-child, .table-actions-bar, td:last-child, th:last-child, .nav-tabs, #v-relatorios, #toast, #authScreen {
+      header, .top-actions-bar, .dashboard-grid > div:first-child, .table-actions-bar, td:last-child, th:last-child, #toast, #authScreen {
         display: none !important;
       }
       .container { padding: 0 !important; max-width: 100% !important; }
@@ -859,7 +818,6 @@
 
     @media (max-width: 900px) {
       .dashboard-grid { grid-template-columns: 1fr; }
-      .report-layout { grid-template-columns: 1fr; }
     }
     @media (max-width: 600px) {
       .hero-metrics-grid { grid-template-columns: 1fr; gap: 12px; }
@@ -896,17 +854,17 @@
         <div id="boxSignupFields">
           <div class="form-group">
             <label>Seu Nome Completo</label>
-            <input type="text" id="authName" placeholder="Ex: João das Neves" required>
+            <input type="text" id="authName" placeholder="Ex: Danielle Silva de Araújo" required>
           </div>
           <div class="form-group">
             <label>Seu Cargo / Atividade</label>
-            <input type="text" id="authRole" placeholder="Ex: Consultor Imobiliário / Analista" required>
+            <input type="text" id="authRole" placeholder="Ex: Marketing" required>
           </div>
         </div>
 
         <div class="form-group">
           <label>E-mail Corporativo</label>
-          <input type="email" id="authEmail" required placeholder="seu.nome@realestatesp.com.br">
+          <input type="email" id="authEmail" required placeholder="marketing@realestatesp.com.br">
         </div>
 
         <div class="form-group">
@@ -927,7 +885,7 @@
   </section>
 
   <!-- =====================================================================
-       APLICAÇÃO DO BANCO DE HORAS
+       APLICAÇÃO DO BANCO DE HORAS (EXCLUSIVA APÓS O LOGIN)
        ===================================================================== -->
   <div id="appScreen" hidden>
     <!-- Topbar Header -->
@@ -946,8 +904,8 @@
         <div class="header-actions">
           <!-- Chip de Perfil -->
           <button class="profile-chip-btn" id="btnOpenProfile" title="Meu Perfil">
-            <div class="avatar-mini" id="topAvatarMini">JN</div>
-            <span id="topProfileName">João das Neves</span>
+            <div class="avatar-mini" id="topAvatarMini">DS</div>
+            <span id="topProfileName">Danielle Silva</span>
           </button>
 
           <!-- Indicador de Nuvem / Sincronização -->
@@ -961,8 +919,8 @@
             Sair
           </button>
 
-          <!-- Botão Importar JSON em destaque -->
-          <button class="btn" id="btnImportJSONQuick" title="Restaurar o mês trabalhado do seu JSON" style="border-color:var(--c-laranja); color:var(--c-laranja); font-weight:700;">
+          <!-- Botão Importar JSON -->
+          <button class="btn" id="btnImportJSONQuick" title="Restaurar seu arquivo JSON" style="border-color:var(--c-laranja); color:var(--c-laranja); font-weight:700;">
             📥 Importar Meu JSON
           </button>
           <input type="file" id="jsonQuickInput" accept=".json" style="display:none">
@@ -973,47 +931,40 @@
           </button>
 
           <button class="btn" id="btnSettings" title="Configurações">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
           </button>
         </div>
       </div>
     </header>
 
     <main class="container">
-      <!-- Abas & Ações Rápidas -->
-      <div class="tabs-wrapper">
-        <nav class="nav-tabs">
-          <button class="active" data-view="v-banco">Hoje & Banco</button>
-          <button data-view="v-relatorios">Relatórios Diários</button>
-        </nav>
-        
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <button class="btn" id="btnFinalizarDiaHero" style="background: var(--c-laranja); color: #fff; border-color: var(--c-laranja); font-weight: 700;">
-            ⚡ Finalizar Dia Agora
-          </button>
-          <button class="btn" id="btnImprimirEspelho">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-            Extrato de Horas (PJ)
-          </button>
-          <button class="btn" id="btnRegistrarFalta" style="border-color: rgba(239, 68, 68, 0.4); color: var(--neg);">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-            Registrar Ausência / Falta
-          </button>
-          <button class="btn" id="btnExportCSV">Exportar CSV</button>
-        </div>
+      <!-- Barra Superior de Ações -->
+      <div class="top-actions-bar">
+        <button class="btn" id="btnFinalizarDiaHero" style="background: var(--c-laranja); color: #fff; border-color: var(--c-laranja); font-weight: 700;">
+          ⚡ Finalizar Dia Agora
+        </button>
+        <button class="btn" id="btnImprimirEspelho">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Extrato de Horas (PJ)
+        </button>
+        <button class="btn" id="btnRegistrarFalta" style="border-color: rgba(239, 68, 68, 0.4); color: var(--neg);">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          Registrar Ausência / Falta
+        </button>
+        <button class="btn" id="btnExportCSV">Exportar CSV</button>
       </div>
 
-      <!-- VIEW 1: BANCO DE HORAS & HOJE -->
+      <!-- BANCO DE HORAS -->
       <section id="v-banco">
         <!-- HERO BANNER REAL ESTATE SÃO PAULO -->
         <div class="hero-banner">
           <div class="hero-top-wrap">
             <div>
               <div class="hero-greeting" id="heroGreetingDate">Sexta, 15 de Junho</div>
-              <div class="hero-username" id="heroUserGreeting">Boa tarde, João das Neves</div>
+              <div class="hero-username" id="heroUserGreeting">Boa tarde, Danielle Silva</div>
               
               <div class="hero-badges-row">
-                <span class="hero-role-company" id="heroRoleCompanyBadge">Prestação PJ • Real Estate São Paulo</span>
+                <span class="hero-role-company" id="heroRoleCompanyBadge">Marketing • Real Estate São Paulo</span>
                 <div class="live-status-badge" id="liveStatusContainer">
                   <span class="live-dot" id="liveStatusDot"></span>
                   <span id="liveStatusText">Expediente Não Iniciado</span>
@@ -1022,7 +973,7 @@
             </div>
 
             <div class="hero-avatar-box" id="heroAvatarClick" title="Editar Perfil">
-              <div class="avatar-large" id="heroAvatarLarge">JN</div>
+              <div class="avatar-large" id="heroAvatarLarge">DS</div>
             </div>
           </div>
 
@@ -1145,7 +1096,7 @@
 
               <div class="print-signatures" style="display: none;">
                 <div class="sig-line">
-                  <span id="printSigEmployee">João das Neves</span><br>
+                  <span id="printSigEmployee">Danielle Silva</span><br>
                   <small>Assinatura do Prestador (PJ)</small>
                 </div>
                 <div class="sig-line">
@@ -1153,50 +1104,6 @@
                   <small>Ciência da Contratante</small>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- VIEW 2: RELATÓRIOS DIÁRIOS -->
-      <section id="v-relatorios" style="display: none;">
-        <div class="report-layout">
-          <div>
-            <div class="content-card" style="margin-bottom: 20px;">
-              <div class="card-title">
-                <span>Modelo de Relatório</span>
-                <select id="reportTemplateSelect" style="width: 220px;">
-                  <option value="marketing">Marketing (com Anúncios)</option>
-                  <option value="captacao">Captação de Imóveis</option>
-                  <option value="atendimento">Atendimento & Vendas</option>
-                  <option value="geral">Geral (Entregas do Dia)</option>
-                </select>
-              </div>
-
-              <div class="dropzone" id="csvDropzone">
-                <input type="file" id="csvFileInput" accept=".csv" style="display: none;">
-                <svg class="icon" style="width: 28px; height: 28px; margin-bottom: 6px; color: var(--c-laranja);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-                <p style="font-weight: 700; font-size: 13px;">Importar CSV do Meta Ads</p>
-                <p class="muted" style="font-size: 11px;">Identifica campanhas, investimento e leads automaticamente.</p>
-              </div>
-            </div>
-
-            <div class="content-card">
-              <div class="card-title">
-                <span>Atividades Realizadas</span>
-                <input type="date" id="reportDate" style="width: 150px; padding: 4px 8px; font-size: 12px;">
-              </div>
-              <div id="dynamicReportFields"></div>
-            </div>
-          </div>
-
-          <div>
-            <div class="content-card" style="position: sticky; top: 80px;">
-              <div class="card-title">
-                <span>Prévia para WhatsApp</span>
-                <button class="btn" id="btnCopyReport">Copiar Texto</button>
-              </div>
-              <div class="report-preview-box" id="reportPreview">Preencha os campos para gerar o relatório...</div>
             </div>
           </div>
         </div>
@@ -1267,7 +1174,7 @@
 
       <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 18px;">
         <div class="avatar-large" id="modalProfileAvatar" style="width: 72px; height: 72px; font-size: 24px; cursor: pointer;" title="Clique para trocar a foto">
-          JN
+          DS
         </div>
         <button type="button" class="btn" style="margin-top: 8px; font-size: 11px;" id="btnTrocarFoto">Trocar Foto</button>
         <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;">
@@ -1275,18 +1182,18 @@
 
       <div class="form-group">
         <label>Nome Completo</label>
-        <input type="text" id="perfilNome" required placeholder="Ex: João das Neves">
+        <input type="text" id="perfilNome" required placeholder="Ex: Danielle Silva">
       </div>
 
       <div class="form-group">
         <label>E-mail</label>
-        <input type="email" id="perfilEmail" required placeholder="Ex: joao.neves@realestatesp.com.br" readonly>
+        <input type="email" id="perfilEmail" required placeholder="Ex: marketing@realestatesp.com.br" readonly>
       </div>
 
       <div class="grid-2">
         <div class="form-group">
           <label>Cargo / Função</label>
-          <input type="text" id="perfilCargo" placeholder="Ex: Consultor Imobiliário / Analista">
+          <input type="text" id="perfilCargo" placeholder="Ex: Marketing">
         </div>
         <div class="form-group">
           <label>Empresa</label>
@@ -1599,7 +1506,7 @@
     }
 
     /* =====================================================================
-       ESTADO E MULTI-USUÁRIO COM PERSISTÊNCIA REAL
+       ESTADO E MULTI-USUÁRIO
        ===================================================================== */
     let currentUserId = localStorage.getItem('realtime_current_uid') || 'guest';
 
@@ -1607,24 +1514,22 @@
       return `realtime_state_user_${currentUserId}`;
     }
 
-    // Configuração inicial com 09:00 às 16:00 (6h líquidas)
     let appState = {
       config: { entrada: '09:00', saida: '16:00', intervalo: 60, expected: 360 },
       profile: {
-        name: 'Colaborador',
+        name: 'Danielle Silva',
         email: '',
-        role: 'Consultor Imobiliário',
+        role: 'Marketing',
         company: 'Real Estate São Paulo',
         photo: ''
       },
       entries: [],
-      reports: {},
       theme: 'dark'
     };
 
     function recalculateExpected() {
       const span = Core.toMinutes(appState.config.saida) - Core.toMinutes(appState.config.entrada);
-      appState.config.expected = Math.max(0, span - (appState.config.intervalo || 60));
+      appState.config.expected = Math.max(0, span - (appState.config.intervalo !== undefined ? appState.config.intervalo : 60));
     }
 
     function recalculateAllEntries() {
@@ -1650,10 +1555,6 @@
           appState.entries = Array.isArray(rawEntries) 
             ? rawEntries.map(e => normalizeEntry(e, appState.config.expected)).filter(Boolean) 
             : [];
-          
-          if (parsed.reports || parsed.rs) {
-            appState.reports = parsed.reports || parsed.rs;
-          }
         }
       } catch (e) {
         console.error('Falha ao carregar estado local:', e);
@@ -1712,10 +1613,6 @@
             appState.entries.push(item);
           }
         });
-
-        if (parsed.reports || parsed.rs) {
-          appState.reports = { ...appState.reports, ...(parsed.reports || parsed.rs) };
-        }
 
         saveLocal();
         showToast(`Sucesso! ${normalized.length} lançamentos recuperados!`);
@@ -1864,7 +1761,6 @@
 
       renderProfile();
 
-      // Atualiza etiqueta de saldo do dia com base na meta diária configurada
       const expHours = Core.fromMinutes(appState.config.expected || 360);
       const metaLabel = document.getElementById('labelSaldoDiaMeta');
       if (metaLabel) metaLabel.textContent = `Saldo do Dia (vs ${expHours})`;
@@ -2070,7 +1966,6 @@
         if (modal) modal.showModal();
       });
 
-      // ABERTURA DE CONFIGURAÇÕES COM CARGA EXATA DOS DADOS
       safeAddListener('btnSettings', 'click', () => {
         document.getElementById('cfgEntrada').value = appState.config.entrada || '09:00';
         document.getElementById('cfgSaida').value = appState.config.saida || '16:00';
@@ -2245,7 +2140,7 @@
           date: data,
           type: isAbonada ? 'atestado' : 'falta',
           variation: varMin,
-          obs: `${tipo === 'atestado' ? '[Justificada] ' : '[Ausência] '} ${motivo}`
+          obs: `${tipo === 'atestado' ? '[Atestado] ' : '[Ausência] '} ${motivo}`
         });
 
         saveLocal();
@@ -2253,7 +2148,6 @@
         if (modal) modal.close();
       });
 
-      // SALVAR PREFERÊNCIAS + RECÁLCULO AUTOMÁTICO DE TODOS OS DIAS
       safeAddListener('btnSaveConfigs', 'click', () => {
         appState.config.entrada = document.getElementById('cfgEntrada').value;
         appState.config.saida = document.getElementById('cfgSaida').value;
@@ -2264,7 +2158,7 @@
         
         const modal = document.getElementById('modalSettings');
         if (modal) modal.close();
-        showToast('Jornada atualizada e todo o histórico recalculado com sucesso!');
+        showToast('Jornada atualizada e histórico recalculado com sucesso!');
       });
 
       safeAddListener('btnDownloadBackup', 'click', () => {
@@ -2287,39 +2181,6 @@
         reader.onload = (ev) => processImportedJSON(ev.target.result);
         reader.readAsText(file);
       });
-
-      document.querySelectorAll('.nav-tabs button').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          const viewId = btn.getAttribute('data-view');
-          const vBanco = document.getElementById('v-banco');
-          const vRel = document.getElementById('v-relatorios');
-          if (vBanco) vBanco.style.display = viewId === 'v-banco' ? 'block' : 'none';
-          if (vRel) vRel.style.display = viewId === 'v-relatorios' ? 'block' : 'none';
-        });
-      });
-
-      safeAddListener('reportTemplateSelect', 'change', renderReportFields);
-      safeAddListener('reportDate', 'change', renderReportFields);
-      safeAddListener('btnCopyReport', 'click', () => {
-        const text = document.getElementById('reportPreview').textContent;
-        navigator.clipboard.writeText(text).then(() => showToast('Copiado para o WhatsApp!'));
-      });
-
-      const dropzone = document.getElementById('csvDropzone');
-      const fileInput = document.getElementById('csvFileInput');
-      if (dropzone && fileInput) {
-        dropzone.onclick = () => fileInput.click();
-        fileInput.onchange = (e) => {
-          if (e.target.files.length) {
-            showToast('CSV importado!');
-            const sel = document.getElementById('reportTemplateSelect');
-            if (sel) sel.value = 'marketing';
-            renderReportFields();
-          }
-        };
-      }
     }
 
     function atualizarTextoCalculoMeta() {
@@ -2406,113 +2267,33 @@
     }
 
     /* =====================================================================
-       RELATÓRIOS DIÁRIOS
-       ===================================================================== */
-    const REPORT_TEMPLATES = {
-      marketing: [
-        { id: 'campanhas', label: 'Campanhas & Anúncios Ativos', type: 'text' },
-        { id: 'metricas', label: 'Métricas & Desempenho do Dia', type: 'textarea' },
-        { id: 'leads', label: 'Total de Leads Confirmados', type: 'text' },
-        { id: 'conteudos', label: 'Stories e Conteúdos Produzidos', type: 'textarea' },
-        { id: 'proximos', label: 'Planejamento para Amanhã', type: 'textarea' }
-      ],
-      captacao: [
-        { id: 'captacoes', label: 'Captações de Imóveis Realizadas', type: 'textarea' },
-        { id: 'contato_proprietarios', label: 'Contatos com Proprietários', type: 'text' },
-        { id: 'pendencias', label: 'Pendências de Documentos', type: 'textarea' }
-      ],
-      atendimento: [
-        { id: 'leads_atendidos', label: 'Novos Leads Atendidos', type: 'text' },
-        { id: 'visitas', label: 'Visitas Agendadas e Realizadas', type: 'textarea' },
-        { id: 'propostas', label: 'Propostas em Negociação', type: 'textarea' }
-      ],
-      geral: [
-        { id: 'atividades', label: 'Principais Entregas de Hoje', type: 'textarea' },
-        { id: 'amanha', label: 'Prioridades de Amanhã', type: 'textarea' }
-      ]
-    };
-
-    function renderReportFields() {
-      const sel = document.getElementById('reportTemplateSelect');
-      const templateKey = sel ? sel.value : 'marketing';
-      const fields = REPORT_TEMPLATES[templateKey] || REPORT_TEMPLATES.geral;
-      const box = document.getElementById('dynamicReportFields');
-      const rDate = document.getElementById('reportDate');
-      const dataRelatorio = rDate ? rDate.value : new Date().toISOString().slice(0, 10);
-      const currentData = (appState.reports[dataRelatorio] || {})[templateKey] || {};
-
-      if (!box) return;
-      box.innerHTML = '';
-      fields.forEach(f => {
-        const wrap = document.createElement('div');
-        wrap.className = 'form-group';
-        wrap.innerHTML = `<label>${f.label}</label>`;
-
-        const input = f.type === 'textarea' ? document.createElement('textarea') : document.createElement('input');
-        input.value = currentData[f.id] || '';
-        input.placeholder = `Preencha ${f.label.toLowerCase()}...`;
-        input.oninput = (e) => {
-          if (!appState.reports[dataRelatorio]) appState.reports[dataRelatorio] = {};
-          if (!appState.reports[dataRelatorio][templateKey]) appState.reports[dataRelatorio][templateKey] = {};
-          appState.reports[dataRelatorio][templateKey][f.id] = e.target.value;
-          saveLocal();
-          updateWhatsAppPreview();
-        };
-
-        wrap.appendChild(input);
-        box.appendChild(wrap);
-      });
-      updateWhatsAppPreview();
-    }
-
-    function updateWhatsAppPreview() {
-      const rDate = document.getElementById('reportDate');
-      const dataRelatorio = rDate ? rDate.value : new Date().toISOString().slice(0, 10);
-      const parts = dataRelatorio.split('-');
-      const d = parts[2] || '';
-      const m = parts[1] || '';
-      const y = parts[0] || '';
-      
-      const sel = document.getElementById('reportTemplateSelect');
-      const templateKey = sel ? sel.value : 'marketing';
-      const fields = REPORT_TEMPLATES[templateKey] || REPORT_TEMPLATES.geral;
-      const currentData = (appState.reports[dataRelatorio] || {})[templateKey] || {};
-
-      let text = `*RELATÓRIO DIÁRIO — ${d}/${m}/${y}*\n`;
-      text += `_Real Estate São Paulo • ${sel && sel.selectedOptions.length ? sel.selectedOptions[0].text : ''}_\n\n`;
-
-      let hasContent = false;
-      fields.forEach(f => {
-        const val = (currentData[f.id] || '').trim();
-        if (val) {
-          hasContent = true;
-          text += `*${f.label.toUpperCase()}*\n`;
-          val.split('\n').forEach(l => {
-            text += l.startsWith('-') || l.startsWith('•') ? `${l}\n` : `• ${l}\n`;
-          });
-          text += '\n';
-        }
-      });
-
-      const prev = document.getElementById('reportPreview');
-      if (prev) {
-        prev.textContent = hasContent ? text.trim() : 'Preencha os campos ao lado para gerar o relatório...';
-      }
-    }
-
-    /* =====================================================================
        AUTENTICAÇÃO & SUPABASE
        ===================================================================== */
-    // Substitua abaixo pelas suas credenciais ativas do projeto Supabase
-    const SB_URL = 'https://cqxgfqbgkjqersrnuffx.supabase.co'; // <--- INSIRA SUA URL DO SUPABASE
-     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxeGdmcWJna2pxZXJzcm51ZmZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4Mjc2NTMsImV4cCI6MjEwOTQwMzY1M30.kIVQx4Jel8ZryZaTnc1jtTsbvPuGh_F9-RIwPIBl9bs'; // <--- INSIRA SUA CHAVE ANON/PUBLIC DO SUPABASE
+    const SB_URL = 'https://cqxgfqbgkjqersrnuffx.supabase.co';
+    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxeGdmcWJna2pxZXJzcm51ZmZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4Mjc2NTMsImV4cCI6MjEwOTQwMzY1M30.kIVQx4Jel8ZryZaTnc1jtTsbvPuGh_F9-RIwPIBl9bs'; // Insira sua chave anon caso precise
     let sbClient = null;
     let authMode = 'signup';
 
     function initSupabase() {
       try {
-        if (typeof supabase !== 'undefined' && supabase && typeof supabase.createClient === 'function' && !SB_URL.includes('abcdefghijklmnop')) {
+        if (typeof supabase !== 'undefined' && supabase && typeof supabase.createClient === 'function') {
           sbClient = supabase.createClient(SB_URL, SB_KEY);
+
+          if (!localStorage.getItem('realtime_auth_v7_initialized')) {
+            sbClient.auth.signOut().then(() => {
+              localStorage.setItem('realtime_auth_v7_initialized', 'true');
+              onUserSignedOut();
+            });
+            return;
+          }
+
+          sbClient.auth.getSession().then(({ data: { session } }) => {
+            if (session && session.user) {
+              onUserSignedIn(session.user);
+            } else {
+              onUserSignedOut();
+            }
+          });
 
           sbClient.auth.onAuthStateChange((event, session) => {
             if (session && session.user) {
@@ -2522,7 +2303,6 @@
             }
           });
         } else {
-          // Se não configurou as chaves ainda, permite usar no modo local/convidado
           onUserSignedOut();
         }
       } catch (e) {
@@ -2584,7 +2364,6 @@
         if (cloudRow && cloudRow.state) {
           try {
             const cloudState = JSON.parse(cloudRow.state);
-            // Sincroniza configurações personalizadas da nuvem
             if (cloudState.config) {
               appState.config = { ...appState.config, ...cloudState.config };
               recalculateExpected();
@@ -2600,10 +2379,6 @@
                 appState.entries.push(ce);
               }
             });
-
-            if (cloudState.reports) {
-              appState.reports = { ...cloudState.reports, ...appState.reports };
-            }
           } catch (e) {
             console.error('Falha ao mesclar dados da nuvem:', e);
           }
@@ -2662,8 +2437,8 @@
         renderDashboard();
         renderMiniCalendar();
         renderMonthlyChart();
-        updateSyncStatus('offline', 'Modo Local');
-        showToast('Modo local ativo! Seus dados ficam salvos neste navegador.');
+        updateSyncStatus('offline', 'Modo Convidado');
+        showToast('Modo convidado ativo!');
       };
 
       document.getElementById('btnForgotPass').onclick = async () => {
@@ -2747,14 +2522,10 @@
         const currentTheme = localStorage.getItem('realtime_theme') || 'dark';
         document.documentElement.setAttribute('data-theme', currentTheme);
 
-        const repDate = document.getElementById('reportDate');
-        if (repDate) repDate.valueAsDate = new Date();
-
         loadLocal();
         setupEventListeners();
         setupAuthForm();
         renderHolidaysList();
-        renderReportFields();
         initSupabase();
       } catch (err) {
         console.error('Erro na inicialização:', err);

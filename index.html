@@ -4,36 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="dark light">
-  <title>RealTime • Real Estate São Paulo (PJ)</title>
+  <title>RealTime • Real Estate São Paulo</title>
   
-  <!-- Tipografia Oficial Montserrat + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      /* CORES OFICIAIS REAL ESTATE SÃO PAULO */
-      --c-roxo: #220C27;
-      --c-laranja: #EC894D;
-      --c-laranja-hover: #d97334;
-      --c-champagne: #EFECE5;
-      --c-champagne-sub: #DDD6C6;
-      --c-bege: #C4B9A0;
-
-      /* MODO ESCURO GRAFITE / CARVÃO (ZERO ROXO NO FUNDO) */
+      /* MODO ESCURO GRAFITE / ZERO ROXO NO FUNDO */
       --bg-page: #090d16;
       --card-white: #111827;
       --card-sub: #182234;
       --border-color: #233148;
       --border-subtle: #192437;
-      
       --hero-bg: #111827;
       --hero-border: #EC894D;
-      
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --text-dim: #64748b;
+      --bg-contrast: #111827;
+      
+      --c-laranja: #EC894D;
+      --c-laranja-hover: #d97334;
       
       --pos: #10b981;
       --pos-bg: rgba(16, 185, 129, 0.12);
@@ -42,9 +35,8 @@
       --warn: #f59e0b;
       --warn-bg: rgba(245, 158, 11, 0.12);
       
-      --font-main: 'Montserrat', system-ui, -apple-system, sans-serif;
+      --font-main: 'Montserrat', system-ui, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
-      
       --radius-lg: 16px;
       --radius-md: 12px;
       --radius-sm: 8px;
@@ -52,19 +44,18 @@
     }
 
     [data-theme="light"] {
-      /* MODO CLARO COM CHAMPAGNE E ROXO INSTITUCIONAL */
+      /* MODO CLARO CHAMPAGNE NOBRE */
       --bg-page: #EFECE5;
       --card-white: #ffffff;
       --card-sub: #f5f2ea;
       --border-color: #DDD6C6;
       --border-subtle: #e6e1d4;
-      
       --hero-bg: #220C27;
       --hero-border: #EC894D;
-      
       --text-main: #220C27;
       --text-muted: #645069;
       --text-dim: #8e7a93;
+      --bg-contrast: #ffffff;
       
       --pos: #059669;
       --pos-bg: #ecfdf5;
@@ -72,7 +63,6 @@
       --neg-bg: #fef2f2;
       --warn: #d97706;
       --warn-bg: #fffbeb;
-      
       --shadow-card: 0 2px 14px rgba(34, 12, 39, 0.06);
     }
 
@@ -88,7 +78,7 @@
       display: flex;
       flex-direction: column;
       -webkit-font-smoothing: antialiased;
-      transition: background-color 0.2s ease, color 0.2s ease;
+      transition: background-color 0.2s, color 0.2s;
     }
 
     .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
@@ -98,9 +88,40 @@
     .muted { color: var(--text-muted); }
     .icon { width: 18px; height: 18px; flex-shrink: 0; vertical-align: middle; }
 
-    /* =====================================================================
-       TELA DE LOGIN E CADASTRO
-       ===================================================================== */
+    /* LOGOTIPO REAL ESTATE SÃO PAULO */
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-img-logo {
+      height: 40px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+    .brand-logo-svg {
+      height: 36px;
+      width: auto;
+      color: var(--text-main);
+      display: block;
+    }
+    .brand-divider {
+      width: 1px;
+      height: 28px;
+      background: var(--border-color);
+    }
+    .brand-app-badge {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--c-laranja);
+    }
+
+    /* TELA DE LOGIN / CADASTRO */
     #authScreen {
       min-height: 100vh;
       display: flex;
@@ -113,7 +134,7 @@
 
     .auth-container {
       width: 100%;
-      max-width: 440px;
+      max-width: 460px;
       background: var(--card-white);
       border: 1px solid var(--border-color);
       border-top: 4px solid var(--c-laranja);
@@ -122,11 +143,13 @@
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     }
 
-    .auth-brand-header {
+    .auth-brand-center {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 14px;
+      text-align: center;
       margin-bottom: 24px;
+      gap: 10px;
     }
 
     .auth-tabs {
@@ -157,9 +180,7 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
 
-    /* =====================================================================
-       DASHBOARD PRINCIPAL
-       ===================================================================== */
+    /* DASHBOARD */
     #appScreen[hidden] { display: none !important; }
 
     header {
@@ -178,69 +199,6 @@
       justify-content: space-between;
       align-items: center;
       gap: 16px;
-    }
-    
-    .brand-wrap {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: inherit;
-    }
-    
-    .brand-icon {
-      width: 40px;
-      height: 40px;
-      background: #090d16;
-      border: 1px solid var(--c-laranja);
-      border-radius: 11px;
-      display: grid;
-      place-items: center;
-    }
-    
-    .clock-face {
-      width: 22px;
-      height: 22px;
-      background: #ffffff;
-      border-radius: 50%;
-      position: relative;
-      display: grid;
-      place-items: center;
-    }
-    .clock-face::after {
-      content: '';
-      position: absolute;
-      top: 3px;
-      left: 10px;
-      width: 2px;
-      height: 8px;
-      background: #090d16;
-      border-radius: 2px;
-      transform-origin: bottom center;
-    }
-    .clock-face::before {
-      content: '';
-      position: absolute;
-      top: 9px;
-      left: 10px;
-      width: 6px;
-      height: 2px;
-      background: var(--c-laranja);
-      border-radius: 2px;
-    }
-
-    .brand-titles b {
-      display: block;
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-      color: var(--text-main);
-    }
-    .brand-titles span {
-      display: block;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--c-laranja);
     }
 
     .header-actions {
@@ -299,7 +257,6 @@
     .sync-dot.offline { background: var(--warn); }
     .sync-dot.error { background: var(--neg); }
 
-    /* Layout Central */
     .container {
       max-width: 1260px;
       width: 100%;
@@ -308,17 +265,37 @@
       flex: 1;
     }
 
-    /* Barra de Ações Rápidas Superior */
-    .top-actions-bar {
-      display: flex;
-      justify-content: flex-end;
+    .nav-tabs {
+      display: inline-flex;
+      background: var(--card-sub);
+      padding: 4px;
+      border-radius: 12px;
+      gap: 4px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border-color);
+    }
+    .nav-tabs button {
+      border: 0;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
+      transition: all 0.15s ease;
+    }
+    .nav-tabs button.active {
+      background: var(--card-white);
+      color: var(--c-laranja);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    /* HERO BANNER REAL ESTATE SÃO PAULO */
+    /* HERO BANNER */
     .hero-banner {
       background: var(--hero-bg);
       color: #ffffff;
@@ -409,7 +386,6 @@
       overflow: hidden;
     }
 
-    /* 3 Métricas Hero */
     .hero-metrics-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -437,7 +413,6 @@
       color: #ffffff;
     }
 
-    /* Dashboard Layout */
     .dashboard-grid {
       display: grid;
       grid-template-columns: 380px 1fr;
@@ -463,7 +438,7 @@
       align-items: center;
     }
 
-    /* Timeline PJ */
+    /* TIMELINE */
     .punches-timeline {
       display: flex;
       flex-direction: column;
@@ -513,7 +488,6 @@
       margin-top: 18px;
     }
 
-    /* Botão Principal Laranja */
     .btn-laranja {
       background: var(--c-laranja);
       color: #ffffff;
@@ -537,7 +511,6 @@
     }
     .btn-laranja:active { transform: translateY(1px); }
 
-    /* Botões Auxiliares */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -562,7 +535,7 @@
       margin-top: 12px;
     }
 
-    /* Mini Calendário */
+    /* MINI CALENDÁRIO */
     .mini-cal-header {
       display: flex;
       justify-content: space-between;
@@ -621,7 +594,6 @@
     }
     .cal-dot.holiday-dot { background: var(--c-laranja); }
 
-    /* Feriados */
     .holiday-list {
       display: flex;
       flex-direction: column;
@@ -648,7 +620,6 @@
       font-weight: 700;
     }
 
-    /* Barra de Busca */
     .table-actions-bar {
       display: flex;
       gap: 10px;
@@ -673,7 +644,6 @@
       pointer-events: none;
     }
 
-    /* Tabela */
     .table-container { width: 100%; overflow-x: auto; }
     table {
       width: 100%;
@@ -707,11 +677,38 @@
     }
     .tag.pos { background: var(--pos-bg); color: var(--pos); }
     .tag.neg { background: var(--neg-bg); color: var(--neg); }
-    .tag.warn { background: var(--warn-bg); color: var(--warn); }
     .tag.neutral { background: var(--card-sub); color: var(--text-main); border: 1px solid var(--border-color); }
     .tag.falta { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .tag.locked { background: rgba(236, 137, 77, 0.15); color: var(--c-laranja); border: 1px solid rgba(236, 137, 77, 0.3); }
 
-    /* Modais */
+    /* RELATÓRIOS */
+    .report-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 24px;
+    }
+    .dropzone {
+      border: 2px dashed var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      text-align: center;
+      background: var(--card-sub);
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .report-preview-box {
+      background: var(--card-sub);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      font-size: 13px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      max-height: 520px;
+      overflow-y: auto;
+    }
+
+    /* MODAIS */
     dialog {
       background: var(--card-white);
       color: var(--text-main);
@@ -775,14 +772,14 @@
     }
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* ESTILO DE IMPRESSÃO (EXTRATO PJ) */
+    /* IMPRESSÃO A4 */
     @media print {
       body {
         background: #ffffff !important;
         color: #000000 !important;
         font-size: 11px !important;
       }
-      header, .top-actions-bar, .dashboard-grid > div:first-child, .table-actions-bar, td:last-child, th:last-child, #toast, #authScreen {
+      header, .tabs-wrapper, .dashboard-grid > div:first-child, .table-actions-bar, td:last-child, th:last-child, .nav-tabs, #v-relatorios, #toast, #authScreen {
         display: none !important;
       }
       .container { padding: 0 !important; max-width: 100% !important; }
@@ -818,6 +815,7 @@
 
     @media (max-width: 900px) {
       .dashboard-grid { grid-template-columns: 1fr; }
+      .report-layout { grid-template-columns: 1fr; }
     }
     @media (max-width: 600px) {
       .hero-metrics-grid { grid-template-columns: 1fr; gap: 12px; }
@@ -834,14 +832,25 @@
        ===================================================================== -->
   <section id="authScreen">
     <div class="auth-container">
-      <div class="auth-brand-header">
-        <div class="brand-icon">
-          <div class="clock-face"></div>
+      <div class="auth-brand-center">
+        <!-- Logo Real Estate São Paulo na Autenticação -->
+        <div class="brand-wrap" style="justify-content: center; margin-bottom: 8px;">
+          <img src="logo.png" alt="Real Estate São Paulo" class="brand-img-logo" onerror="this.style.display='none'; document.getElementById('authSvgLogo').style.display='block';">
+          <svg id="authSvgLogo" class="brand-logo-svg" viewBox="0 0 340 56" fill="currentColor">
+            <text x="0" y="34" font-family="'Playfair Display', Georgia, serif" font-weight="700" font-size="32" letter-spacing="3">REAL</text>
+            <g transform="translate(118, 2)">
+              <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="4.5" fill="none"/>
+              <path d="M16 14h10v22H16z" fill="currentColor"/>
+              <path d="M22 10h9v26h-9z" fill="currentColor"/>
+              <line x1="24.5" y1="14" x2="24.5" y2="33" stroke="var(--bg-contrast)" stroke-width="1.3"/>
+              <line x1="27" y1="14" x2="27" y2="33" stroke="var(--bg-contrast)" stroke-width="1.3"/>
+              <line x1="29.5" y1="14" x2="29.5" y2="33" stroke="var(--bg-contrast)" stroke-width="1.3"/>
+            </g>
+            <text x="178" y="34" font-family="'Playfair Display', Georgia, serif" font-weight="700" font-size="32" letter-spacing="3">ESTATE</text>
+            <text x="208" y="52" font-family="'Brush Script MT', 'Great Vibes', cursive, sans-serif" font-style="italic" font-size="18" letter-spacing="1">São Paulo</text>
+          </svg>
         </div>
-        <div>
-          <b style="font-size:18px; letter-spacing:-0.4px;">RealTime</b>
-          <span style="display:block; font-size:12px; color:var(--c-laranja); font-weight:600;">Real Estate São Paulo</span>
-        </div>
+        <b style="font-size:18px; letter-spacing:-0.4px;">RealTime</b>
       </div>
 
       <div class="auth-tabs">
@@ -850,21 +859,20 @@
       </div>
 
       <form id="formAuth">
-        <!-- Campos de Cadastro -->
         <div id="boxSignupFields">
           <div class="form-group">
             <label>Seu Nome Completo</label>
-            <input type="text" id="authName" placeholder="Ex: Danielle Silva de Araújo" required>
+            <input type="text" id="authName" placeholder="Ex: Danielle Silva" required>
           </div>
           <div class="form-group">
             <label>Seu Cargo / Atividade</label>
-            <input type="text" id="authRole" placeholder="Ex: Marketing" required>
+            <input type="text" id="authRole" placeholder="Ex: Marketing / Consultora" required>
           </div>
         </div>
 
         <div class="form-group">
           <label>E-mail Corporativo</label>
-          <input type="email" id="authEmail" required placeholder="marketing@realestatesp.com.br">
+          <input type="email" id="authEmail" required placeholder="seu.nome@realestatesp.com.br">
         </div>
 
         <div class="form-group">
@@ -885,86 +893,95 @@
   </section>
 
   <!-- =====================================================================
-       APLICAÇÃO DO BANCO DE HORAS (EXCLUSIVA APÓS O LOGIN)
+       APLICAÇÃO DO BANCO DE HORAS
        ===================================================================== -->
   <div id="appScreen" hidden>
-    <!-- Topbar Header -->
     <header>
       <div class="header-inner">
-        <div class="brand-wrap">
-          <div class="brand-icon">
-            <div class="clock-face"></div>
-          </div>
-          <div class="brand-titles">
-            <b>RealTime</b>
-            <span>Real Estate São Paulo</span>
-          </div>
-        </div>
+        <!-- Logo Oficial no Topbar -->
+        <a href="#" class="brand-wrap">
+          <img src="logo.png" alt="Real Estate São Paulo" class="brand-img-logo" onerror="this.style.display='none'; document.getElementById('headerSvgLogo').style.display='block';">
+          <svg id="headerSvgLogo" class="brand-logo-svg" viewBox="0 0 340 56" fill="currentColor">
+            <text x="0" y="34" font-family="'Playfair Display', Georgia, serif" font-weight="700" font-size="32" letter-spacing="3">REAL</text>
+            <g transform="translate(118, 2)">
+              <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="4.5" fill="none"/>
+              <path d="M16 14h10v22H16z" fill="currentColor"/>
+              <path d="M22 10h9v26h-9z" fill="currentColor"/>
+              <line x1="24.5" y1="14" x2="24.5" y2="33" stroke="var(--bg-contrast)" stroke-width="1.3"/>
+              <line x1="27" y1="14" x2="27" y2="33" stroke="var(--bg-contrast)" stroke-width="1.3"/>
+              <line x1="29.5" y1="14" x2="29.5" y2="33" stroke="var(--bg-contrast)" stroke-width="1.3"/>
+            </g>
+            <text x="178" y="34" font-family="'Playfair Display', Georgia, serif" font-weight="700" font-size="32" letter-spacing="3">ESTATE</text>
+            <text x="208" y="52" font-family="'Brush Script MT', 'Great Vibes', cursive, sans-serif" font-style="italic" font-size="18" letter-spacing="1">São Paulo</text>
+          </svg>
+          <div class="brand-divider"></div>
+          <span class="brand-app-badge">RealTime</span>
+        </a>
 
         <div class="header-actions">
-          <!-- Chip de Perfil -->
           <button class="profile-chip-btn" id="btnOpenProfile" title="Meu Perfil">
-            <div class="avatar-mini" id="topAvatarMini">DS</div>
-            <span id="topProfileName">Danielle Silva</span>
+            <div class="avatar-mini" id="topAvatarMini">U</div>
+            <span id="topProfileName">Colaborador</span>
           </button>
 
-          <!-- Indicador de Nuvem / Sincronização -->
           <div class="sync-badge" id="syncStatusBadge">
             <span class="sync-dot" id="syncDot"></span>
             <span id="syncText">Sincronizado</span>
           </div>
 
-          <!-- Botão Sair Rápido no Topo -->
           <button class="btn" id="btnTopLogout" title="Sair da Conta" style="color:var(--neg);">
             Sair
           </button>
 
-          <!-- Botão Importar JSON -->
-          <button class="btn" id="btnImportJSONQuick" title="Restaurar seu arquivo JSON" style="border-color:var(--c-laranja); color:var(--c-laranja); font-weight:700;">
+          <button class="btn" id="btnImportJSONQuick" title="Restaurar o mês trabalhado do seu JSON" style="border-color:var(--c-laranja); color:var(--c-laranja); font-weight:700;">
             📥 Importar Meu JSON
           </button>
           <input type="file" id="jsonQuickInput" accept=".json" style="display:none">
           
-          <!-- Alternar Tema Claro / Escuro -->
           <button class="btn" id="btnThemeToggle" title="Alternar tema claro/escuro">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
           </button>
 
           <button class="btn" id="btnSettings" title="Configurações">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
           </button>
         </div>
       </div>
     </header>
 
     <main class="container">
-      <!-- Barra Superior de Ações -->
-      <div class="top-actions-bar">
-        <button class="btn" id="btnFinalizarDiaHero" style="background: var(--c-laranja); color: #fff; border-color: var(--c-laranja); font-weight: 700;">
-          ⚡ Finalizar Dia Agora
-        </button>
-        <button class="btn" id="btnImprimirEspelho">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-          Extrato de Horas (PJ)
-        </button>
-        <button class="btn" id="btnRegistrarFalta" style="border-color: rgba(239, 68, 68, 0.4); color: var(--neg);">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-          Registrar Ausência / Falta
-        </button>
-        <button class="btn" id="btnExportCSV">Exportar CSV</button>
+      <div class="tabs-wrapper">
+        <nav class="nav-tabs">
+          <button class="active" data-view="v-banco">Hoje & Banco</button>
+          <button data-view="v-relatorios">Relatórios Diários</button>
+        </nav>
+        
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="btn" id="btnFinalizarDiaHero" style="background: var(--c-laranja); color: #fff; border-color: var(--c-laranja); font-weight: 700;">
+            ⚡ Finalizar Dia Agora
+          </button>
+          <button class="btn" id="btnImprimirEspelho">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Extrato de Horas (PJ)
+          </button>
+          <button class="btn" id="btnRegistrarFalta" style="border-color: rgba(239, 68, 68, 0.4); color: var(--neg);">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            Registrar Ausência / Falta
+          </button>
+          <button class="btn" id="btnExportCSV">Exportar CSV</button>
+        </div>
       </div>
 
-      <!-- BANCO DE HORAS -->
+      <!-- VIEW 1: BANCO DE HORAS & HOJE -->
       <section id="v-banco">
-        <!-- HERO BANNER REAL ESTATE SÃO PAULO -->
         <div class="hero-banner">
           <div class="hero-top-wrap">
             <div>
-              <div class="hero-greeting" id="heroGreetingDate">Sexta, 15 de Junho</div>
-              <div class="hero-username" id="heroUserGreeting">Boa tarde, Danielle Silva</div>
+              <div class="hero-greeting" id="heroGreetingDate">Hoje</div>
+              <div class="hero-username" id="heroUserGreeting">Olá, Colaborador</div>
               
               <div class="hero-badges-row">
-                <span class="hero-role-company" id="heroRoleCompanyBadge">Marketing • Real Estate São Paulo</span>
+                <span class="hero-role-company" id="heroRoleCompanyBadge">Prestação PJ • Real Estate São Paulo</span>
                 <div class="live-status-badge" id="liveStatusContainer">
                   <span class="live-dot" id="liveStatusDot"></span>
                   <span id="liveStatusText">Expediente Não Iniciado</span>
@@ -973,7 +990,7 @@
             </div>
 
             <div class="hero-avatar-box" id="heroAvatarClick" title="Editar Perfil">
-              <div class="avatar-large" id="heroAvatarLarge">DS</div>
+              <div class="avatar-large" id="heroAvatarLarge">U</div>
             </div>
           </div>
 
@@ -983,7 +1000,7 @@
               <div class="metric-value" id="statHorasHoje">00:00</div>
             </div>
             <div class="metric-block">
-              <div class="metric-label" id="labelSaldoDiaMeta">Saldo do Dia</div>
+              <div class="metric-label">Saldo do Dia (vs 8h)</div>
               <div class="metric-value" id="statSaldoHoje">+00:00</div>
             </div>
             <div class="metric-block">
@@ -993,9 +1010,7 @@
           </div>
         </div>
 
-        <!-- Dashboard Grid -->
         <div class="dashboard-grid">
-          <!-- Coluna Esquerda: Formato PJ + Calendário + Feriados -->
           <div>
             <div class="content-card">
               <div class="card-title">
@@ -1023,7 +1038,7 @@
               <div class="punch-actions-wrap">
                 <button class="btn-laranja" id="btnFinalizarDiaInstantaneo" title="Grava a saída agora, abate 1h de almoço e fecha o dia">
                   <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                  <span>⚡ Finalizar Dia Agora</span>
+                  <span>⚡ Finalizar Dia Agora (1-Toque)</span>
                 </button>
                 
                 <button class="btn" id="btnBaterPontoAgora" style="width: 100%;">
@@ -1037,7 +1052,7 @@
             <div class="content-card">
               <div class="mini-cal-header">
                 <button class="btn" style="padding: 4px 8px;" id="btnCalPrev">‹</button>
-                <span id="calMonthYearLabel">Novembro 2026</span>
+                <span id="calMonthYearLabel">Calendário</span>
                 <button class="btn" style="padding: 4px 8px;" id="btnCalNext">›</button>
               </div>
               <div class="cal-grid" id="calGridBox"></div>
@@ -1047,7 +1062,7 @@
             <div class="content-card">
               <div class="card-title">
                 <span>Feriados Nacionais</span>
-                <span class="tag neutral" id="holidayCountBadge">10 Feriados</span>
+                <span class="tag neutral" id="holidayCountBadge">Feriados</span>
               </div>
               <div class="holiday-list" id="holidayListBox"></div>
             </div>
@@ -1074,6 +1089,9 @@
                   <select id="filterMonth" style="width: auto; padding: 6px 10px; font-size: 12px;">
                     <option value="">Todo o Período</option>
                   </select>
+                  <button class="btn" id="btnToggleLockMonth" title="Bloquear alterações no mês selecionado">
+                    <span id="lockMonthIcon">🔒</span> <span id="lockMonthText">Fechar Mês</span>
+                  </button>
                   <button class="btn" id="btnUseHours" style="font-size: 11px;">Compensar Horas</button>
                 </div>
               </div>
@@ -1096,7 +1114,7 @@
 
               <div class="print-signatures" style="display: none;">
                 <div class="sig-line">
-                  <span id="printSigEmployee">Danielle Silva</span><br>
+                  <span id="printSigEmployee">Colaborador</span><br>
                   <small>Assinatura do Prestador (PJ)</small>
                 </div>
                 <div class="sig-line">
@@ -1108,17 +1126,60 @@
           </div>
         </div>
       </section>
+
+      <!-- VIEW 2: RELATÓRIOS DIÁRIOS -->
+      <section id="v-relatorios" style="display: none;">
+        <div class="report-layout">
+          <div>
+            <div class="content-card" style="margin-bottom: 20px;">
+              <div class="card-title">
+                <span>Modelo de Relatório</span>
+                <select id="reportTemplateSelect" style="width: 220px;">
+                  <option value="marketing">Marketing (com Anúncios)</option>
+                  <option value="captacao">Captação de Imóveis</option>
+                  <option value="atendimento">Atendimento & Vendas</option>
+                  <option value="geral">Geral (Entregas do Dia)</option>
+                </select>
+              </div>
+
+              <div class="dropzone" id="csvDropzone">
+                <input type="file" id="csvFileInput" accept=".csv" style="display: none;">
+                <svg class="icon" style="width: 28px; height: 28px; margin-bottom: 6px; color: var(--c-laranja);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <p style="font-weight: 700; font-size: 13px;">Importar CSV do Meta Ads</p>
+                <p class="muted" style="font-size: 11px;">Identifica campanhas, investimento e leads automaticamente.</p>
+              </div>
+            </div>
+
+            <div class="content-card">
+              <div class="card-title">
+                <span>Atividades Realizadas</span>
+                <input type="date" id="reportDate" style="width: 150px; padding: 4px 8px; font-size: 12px;">
+              </div>
+              <div id="dynamicReportFields"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="content-card" style="position: sticky; top: 80px;">
+              <div class="card-title">
+                <span>Prévia para WhatsApp</span>
+                <button class="btn" id="btnCopyReport">Copiar Texto</button>
+              </div>
+              <div class="report-preview-box" id="reportPreview">Preencha os campos para gerar o relatório...</div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 
-  <!-- MODAL: REGISTRAR AUSÊNCIA / FALTA -->
+  <!-- MODAIS -->
   <dialog id="modalFalta">
     <form id="formFalta">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
         <h3 style="font-size: 16px; font-weight: 800; color: var(--neg);">Registrar Ausência / Folga</h3>
         <button type="button" class="btn" data-close style="border: 0; padding: 4px 8px;">✕</button>
       </div>
-
       <div class="grid-2">
         <div class="form-group">
           <label>Data</label>
@@ -1127,36 +1188,31 @@
         <div class="form-group">
           <label>Tipo de Ausência</label>
           <select id="faltaTipo">
-            <option value="injustificada">Ausência a Compensar (Desconta Meta Diária)</option>
+            <option value="injustificada">Ausência a Compensar (Desconta 8h)</option>
             <option value="atestado">Ausência Abonada / Justificada (0h)</option>
           </select>
         </div>
       </div>
-
       <div class="form-group" style="margin-top: 6px;">
         <label style="display: flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer;">
           <input type="checkbox" id="faltaDiaTodo" checked style="width: auto;">
-          Ausência durante o dia todo (Meta Integral)
+          Ausência durante o dia todo (8h de meta)
         </label>
       </div>
-
       <div class="form-group" id="boxFaltaDuracao" style="display: none;">
         <label>Tempo de Ausência</label>
         <div style="display: flex; gap: 6px;">
-          <input type="number" id="faltaHoras" placeholder="Horas" min="0" max="24" value="6">
+          <input type="number" id="faltaHoras" placeholder="Horas" min="0" max="24" value="8">
           <input type="number" id="faltaMinutos" placeholder="Minutos" min="0" max="59" value="0">
         </div>
       </div>
-
       <div class="form-group">
         <label>Descrição / Motivo</label>
         <input type="text" id="faltaMotivo" placeholder="Ex: Compromisso pessoal ou folga combinada" required>
       </div>
-
       <div style="background: var(--card-sub); padding: 12px; border-radius: 8px; font-size: 13px; margin: 16px 0; border: 1px solid var(--border-color);" id="faltaCalculoPreview">
         Calculando impacto no saldo...
       </div>
-
       <div style="display: flex; justify-content: flex-end; gap: 8px;">
         <button type="button" class="btn" data-close>Cancelar</button>
         <button type="submit" class="btn-laranja" style="width: auto; margin-top: 0; background: var(--neg);">Registrar Ausência</button>
@@ -1164,43 +1220,37 @@
     </form>
   </dialog>
 
-  <!-- MODAL: PERFIL DO PRESTADOR -->
   <dialog id="modalPerfil">
     <form id="formPerfil">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
         <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main);">Perfil do Colaborador (PJ)</h3>
         <button type="button" class="btn" data-close style="border: 0; padding: 4px 8px;">✕</button>
       </div>
-
       <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 18px;">
         <div class="avatar-large" id="modalProfileAvatar" style="width: 72px; height: 72px; font-size: 24px; cursor: pointer;" title="Clique para trocar a foto">
-          DS
+          U
         </div>
         <button type="button" class="btn" style="margin-top: 8px; font-size: 11px;" id="btnTrocarFoto">Trocar Foto</button>
         <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;">
       </div>
-
       <div class="form-group">
         <label>Nome Completo</label>
         <input type="text" id="perfilNome" required placeholder="Ex: Danielle Silva">
       </div>
-
       <div class="form-group">
         <label>E-mail</label>
-        <input type="email" id="perfilEmail" required placeholder="Ex: marketing@realestatesp.com.br" readonly>
+        <input type="email" id="perfilEmail" required placeholder="Ex: danielle@realestatesp.com.br" readonly>
       </div>
-
       <div class="grid-2">
         <div class="form-group">
           <label>Cargo / Função</label>
-          <input type="text" id="perfilCargo" placeholder="Ex: Marketing">
+          <input type="text" id="perfilCargo" placeholder="Ex: Marketing / Consultora">
         </div>
         <div class="form-group">
           <label>Empresa</label>
           <input type="text" id="perfilEmpresa" value="Real Estate São Paulo" readonly>
         </div>
       </div>
-
       <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
         <button type="button" class="btn" id="btnLogoutSession" style="color:var(--neg); border-color:rgba(239, 68, 68, 0.4);">
           Sair da Conta
@@ -1213,25 +1263,21 @@
     </form>
   </dialog>
 
-  <!-- MODAL: REGISTRAR DIA (PJ) -->
   <dialog id="modalPonto">
     <form id="formPonto">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
         <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main);" id="modalPontoTitle">Lançamento de Horas (PJ)</h3>
         <button type="button" class="btn" data-close style="border: 0; padding: 4px 8px;">✕</button>
       </div>
-
       <input type="hidden" id="entryEditId">
-
       <div class="form-group">
         <label for="pontoData">Data do Trabalho</label>
         <input type="date" id="pontoData" required>
       </div>
-
       <div class="grid-3" style="margin-top: 6px;">
         <div class="form-group">
           <label>Entrada</label>
-          <input type="time" id="pontoEntrada" value="09:00" required>
+          <input type="time" id="pontoEntrada" value="08:00" required>
         </div>
         <div class="form-group">
           <label>Intervalo Almoço</label>
@@ -1239,26 +1285,22 @@
         </div>
         <div class="form-group">
           <label>Saída</label>
-          <input type="time" id="pontoSaida" value="16:00" required>
+          <input type="time" id="pontoSaida" value="17:00" required>
         </div>
       </div>
-
       <div class="form-group" style="margin-top: 6px;">
         <label style="display: flex; align-items: center; gap: 6px; font-weight: normal; cursor: pointer;">
           <input type="checkbox" id="pontoNextDay" style="width: auto;">
           Saída após a meia-noite (+1 dia)
         </label>
       </div>
-
       <div class="form-group">
         <label>Observação / Atividade do Dia</label>
         <input type="text" id="pontoObs" placeholder="Ex: Atendimento, plantão ou captação">
       </div>
-
       <div style="background: var(--card-sub); padding: 12px; border-radius: 8px; font-size: 13px; margin: 16px 0; border: 1px solid var(--border-color);" id="pontoCalculoPreview">
         Calculando líquido e saldo...
       </div>
-
       <div style="display: flex; justify-content: flex-end; gap: 8px;">
         <button type="button" class="btn" data-close>Cancelar</button>
         <button type="submit" class="btn-laranja" style="width: auto; margin-top: 0; padding: 8px 20px;">Salvar Lançamento</button>
@@ -1266,14 +1308,12 @@
     </form>
   </dialog>
 
-  <!-- MODAL: COMPENSAR HORAS -->
   <dialog id="modalUso">
     <form id="formUso">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
         <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main);">Compensar Horas do Banco</h3>
         <button type="button" class="btn" data-close style="border: 0;">✕</button>
       </div>
-
       <div class="grid-2">
         <div class="form-group">
           <label>Data</label>
@@ -1287,12 +1327,10 @@
           </div>
         </div>
       </div>
-
       <div class="form-group">
         <label>Motivo da Compensação</label>
         <input type="text" id="usoMotivo" placeholder="Ex: Folga acordada ou saída antecipada" required>
       </div>
-
       <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px;">
         <button type="button" class="btn" data-close>Cancelar</button>
         <button type="submit" class="btn-laranja" style="width: auto; margin-top: 0;">Confirmar</button>
@@ -1300,36 +1338,40 @@
     </form>
   </dialog>
 
-  <!-- MODAL: CONFIGURAÇÕES -->
   <dialog id="modalSettings">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
       <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main);">Configurações & Segurança</h3>
       <button type="button" class="btn" data-close style="border: 0;">✕</button>
     </div>
-
     <div class="form-group">
       <label>Horário Habitual de Entrada e Saída</label>
       <div class="grid-2">
-        <input type="time" id="cfgEntrada" value="09:00">
-        <input type="time" id="cfgSaida" value="16:00">
+        <input type="time" id="cfgEntrada" value="08:00">
+        <input type="time" id="cfgSaida" value="17:00">
       </div>
     </div>
-
     <div class="form-group">
       <label>Duração do Almoço (minutos deduzidos automaticamente)</label>
       <input type="number" id="cfgIntervalo" value="60" min="0" max="180">
-      <small class="muted" style="font-size:11px" id="cfgCalculoMetaTexto">Meta líquida calculada: 6h00 por dia</small>
+      <small class="muted" style="font-size:11px">Padrão: 60 minutos (1 hora)</small>
     </div>
-
-    <hr style="border:0; border-top:1px solid var(--border-subtle); margin: 18px 0;">
-
-    <h4 style="font-size:12px; font-weight:700; text-transform:uppercase; color:var(--text-muted); margin-bottom:10px;">Backup dos Dados</h4>
-    <div style="display: flex; gap: 8px; margin-bottom: 18px;">
+    <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 16px 0;">
+    <h4 style="font-size: 12px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase;" class="muted">Backup dos Dados</h4>
+    <div style="display: flex; gap: 8px;">
       <button class="btn" id="btnDownloadBackup" style="flex: 1;">Baixar Backup</button>
       <button class="btn" id="btnRestaurarArquivo" style="flex: 1;">Restaurar Arquivo</button>
       <input type="file" id="fileRestore" accept=".json" style="display: none;">
     </div>
-
+    <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 16px 0;">
+    <h4 style="font-size: 12px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase;" class="muted">Privacidade & Segurança (LGPD)</h4>
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <button class="btn" id="btnExportLGPD" style="width: 100%; justify-content: flex-start;">
+        📄 Exportar Dossiê de Dados (LGPD Art. 18)
+      </button>
+      <button class="btn" id="btnGlobalSignOut" style="width: 100%; justify-content: flex-start; color: var(--warn); border-color: rgba(245, 158, 11, 0.3);">
+        🌐 Desconectar de Todos os Aparelhos
+      </button>
+    </div>
     <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
       <button type="button" class="btn-laranja" id="btnSaveConfigs" style="width: auto; margin-top: 0;">Salvar Preferências</button>
     </div>
@@ -1363,10 +1405,7 @@
       BRAZIL_HOLIDAYS.forEach(h => {
         const item = document.createElement('div');
         item.className = 'holiday-item';
-        item.innerHTML = `
-          <span class="holiday-name">${h.name}</span>
-          <span class="holiday-date">${h.d}</span>
-        `;
+        item.innerHTML = `<span class="holiday-name">${h.name}</span><span class="holiday-date">${h.d}</span>`;
         box.appendChild(item);
       });
       const badge = document.getElementById('holidayCountBadge');
@@ -1402,8 +1441,7 @@
       const daysInMonth = new Date(year, month + 1, 0).getDate();
 
       for (let i = 0; i < firstDayIndex; i++) {
-        const emptyCell = document.createElement('div');
-        grid.appendChild(emptyCell);
+        grid.appendChild(document.createElement('div'));
       }
 
       const todayStr = new Date().toISOString().slice(0, 10);
@@ -1447,7 +1485,7 @@
       toMinutes(timeStr) {
         if (!timeStr || typeof timeStr !== 'string' || !timeStr.includes(':')) return 0;
         const [h, m] = timeStr.split(':').map(Number);
-        return ((h || 0) * 60) + (m || 0);
+        return Math.min(1440, Math.max(0, ((h || 0) * 60) + (m || 0)));
       },
 
       fromMinutes(mins, signed = false) {
@@ -1459,7 +1497,7 @@
         return `${sign}${h}:${m}`;
       },
 
-      calcPJ(entrada, saida, intervaloMin = 60, nextDay = false, expectedMinutes = 360) {
+      calcPJ(entrada, saida, intervaloMin = 60, nextDay = false, expectedMinutes = 480) {
         let mEntrada = Core.toMinutes(entrada);
         let mSaida = Core.toMinutes(saida);
         if (nextDay) mSaida += 1440;
@@ -1469,12 +1507,13 @@
         
         let totalLiquido = Math.max(0, totalBruto - intervaloMin);
         let saldo = totalLiquido - expectedMinutes;
+        saldo = Math.min(1440, Math.max(-1440, saldo));
 
         return { totalBruto, totalLiquido, saldo };
       }
     };
 
-    function normalizeEntry(e, expectedMins) {
+    function normalizeEntry(e) {
       if (!e) return null;
       const date = e.date || e.d || new Date().toISOString().slice(0, 10);
       
@@ -1483,88 +1522,72 @@
       else if (e.t === 'falta' || e.type === 'falta') type = 'falta';
       else if (e.t === 'atestado' || e.type === 'atestado') type = 'atestado';
 
-      const entrada = e.entrada || e.start || (e.punches ? e.punches.e1 : '09:00');
-      const saida = e.saida || e.s || (e.punches ? e.punches.s2 : '16:00');
+      const entrada = e.entrada || e.start || (e.punches ? e.punches.e1 : '08:00');
+      const saida = e.saida || e.s || (e.punches ? e.punches.s2 : '17:00');
       const intervalo = typeof e.intervalo === 'number' ? e.intervalo : (typeof e.break === 'number' ? e.break : 60);
       const nextDay = !!(e.nextDay || e.next);
-      const obs = e.obs || e.n || '';
-      const id = e.id || 'id_' + Math.random().toString(36).slice(2);
-
+      
       let variation = 0;
       if (type === 'trabalhado') {
-        const calc = Core.calcPJ(entrada, saida, intervalo, nextDay, expectedMins);
-        variation = calc.saldo;
-      } else if (type === 'uso') {
-        variation = typeof e.variation === 'number' ? e.variation : (typeof e.m === 'number' ? e.m : -expectedMins);
-      } else if (type === 'falta') {
-        variation = typeof e.variation === 'number' ? e.variation : -expectedMins;
-      } else if (type === 'atestado') {
-        variation = 0;
+        variation = Core.calcPJ(entrada, saida, intervalo, nextDay, 480).saldo;
+      } else {
+        variation = typeof e.variation === 'number' ? Math.max(-1440, Math.min(0, e.variation)) : 0;
       }
-      
-      return { id, date, variation, type, entrada, saida, intervalo, obs, nextDay };
+
+      const obs = (e.obs || e.n || '').slice(0, 255);
+      const id = e.id || 'id_' + Math.random().toString(36).slice(2);
+      const createdAt = e.createdAt || new Date().toISOString();
+      const updatedAt = e.updatedAt || createdAt;
+      const version = (e.version || 1);
+
+      return { id, date, variation, type, entrada, saida, intervalo, obs, nextDay, createdAt, updatedAt, version };
     }
 
     /* =====================================================================
-       ESTADO E MULTI-USUÁRIO
+       ESTADO E MULTI-USUÁRIO COM AUDITORIA
        ===================================================================== */
-    let currentUserId = localStorage.getItem('realtime_current_uid') || 'guest';
+    let currentUserId = 'guest';
 
     function getStorageKey() {
       return `realtime_state_user_${currentUserId}`;
     }
 
     let appState = {
-      config: { entrada: '09:00', saida: '16:00', intervalo: 60, expected: 360 },
+      config: { entrada: '08:00', saida: '17:00', intervalo: 60, expected: 480 },
       profile: {
-        name: 'Danielle Silva',
+        name: 'Colaborador',
         email: '',
-        role: 'Marketing',
+        role: 'Consultor Imobiliário',
         company: 'Real Estate São Paulo',
         photo: ''
       },
       entries: [],
+      reports: {},
+      closedMonths: [],
       theme: 'dark'
     };
 
-    function recalculateExpected() {
-      const span = Core.toMinutes(appState.config.saida) - Core.toMinutes(appState.config.entrada);
-      appState.config.expected = Math.max(0, span - (appState.config.intervalo !== undefined ? appState.config.intervalo : 60));
-    }
-
-    function recalculateAllEntries() {
-      recalculateExpected();
-      const exp = appState.config.expected;
-      appState.entries = appState.entries.map(e => normalizeEntry(e, exp)).filter(Boolean);
-    }
-
     function loadLocal() {
       try {
-        const raw = localStorage.getItem(getStorageKey()) || localStorage.getItem('realtime_realestate_v6');
+        const raw = localStorage.getItem(getStorageKey());
         if (raw) {
           const parsed = JSON.parse(raw);
-          if (parsed.config) {
-            appState.config = { ...appState.config, ...parsed.config };
-          }
-          if (parsed.profile) {
-            appState.profile = { ...appState.profile, ...parsed.profile };
-          }
-          recalculateExpected();
-
           const rawEntries = parsed.entries || parsed.e || [];
-          appState.entries = Array.isArray(rawEntries) 
-            ? rawEntries.map(e => normalizeEntry(e, appState.config.expected)).filter(Boolean) 
-            : [];
+          appState = { ...appState, ...parsed };
+          appState.entries = Array.isArray(rawEntries) ? rawEntries.map(normalizeEntry).filter(Boolean) : [];
+          appState.closedMonths = Array.isArray(parsed.closedMonths) ? parsed.closedMonths : [];
+          if (parsed.rs) appState.reports = parsed.rs;
         }
       } catch (e) {
         console.error('Falha ao carregar estado local:', e);
+        appState.entries = [];
       }
     }
 
     function saveLocal() {
       try {
-        localStorage.setItem('realtime_current_uid', currentUserId);
         localStorage.setItem(getStorageKey(), JSON.stringify(appState));
+        showToast('Dados salvos');
         renderDashboard();
         renderMiniCalendar();
         renderMonthlyChart();
@@ -1583,27 +1606,36 @@
     }
 
     /* =====================================================================
-       IMPORTAÇÃO DE ARQUIVO JSON
+       CAIXA-PRETA DE AUDITORIA
        ===================================================================== */
+    async function logAudit(action, entryDate, oldData, newData) {
+      if (!sbClient || currentUserId === 'guest') return;
+      try {
+        await sbClient.from('bh_audit_logs').insert({
+          user_id: currentUserId,
+          action,
+          entry_date: entryDate,
+          old_data: oldData ? JSON.stringify(oldData) : null,
+          new_data: newData ? JSON.stringify(newData) : null,
+          created_at: new Date().toISOString()
+        });
+      } catch (err) {
+        console.warn('Auditoria indisponível:', err);
+      }
+    }
+
     function processImportedJSON(text) {
       try {
         const parsed = JSON.parse(text);
-        if (parsed.config) {
-          appState.config = { ...appState.config, ...parsed.config };
-        }
-        recalculateExpected();
-
         let importedEntries = [];
+        
         if (Array.isArray(parsed)) importedEntries = parsed;
         else if (Array.isArray(parsed.entries)) importedEntries = parsed.entries;
         else if (Array.isArray(parsed.e)) importedEntries = parsed.e;
 
-        if (importedEntries.length === 0) {
-          throw new Error('Nenhum registro de horas encontrado no arquivo.');
-        }
+        if (importedEntries.length === 0) throw new Error('Nenhum registro encontrado.');
 
-        const normalized = importedEntries.map(e => normalizeEntry(e, appState.config.expected)).filter(Boolean);
-        
+        const normalized = importedEntries.map(normalizeEntry).filter(Boolean);
         const existingIds = new Set(appState.entries.map(e => e.id));
         normalized.forEach(item => {
           if (!existingIds.has(item.id)) {
@@ -1614,6 +1646,11 @@
           }
         });
 
+        if (parsed.reports || parsed.rs) {
+          appState.reports = { ...appState.reports, ...(parsed.reports || parsed.rs) };
+        }
+
+        logAudit('IMPORT_JSON', new Date().toISOString().slice(0, 10), null, { count: normalized.length });
         saveLocal();
         showToast(`Sucesso! ${normalized.length} lançamentos recuperados!`);
       } catch (err) {
@@ -1621,24 +1658,30 @@
       }
     }
 
-    /* =====================================================================
-       FUNÇÃO 1-TOQUE: FINALIZAR DIA
-       ===================================================================== */
+    function isMonthLocked(dateStr) {
+      if (!dateStr) return false;
+      const mKey = dateStr.slice(0, 7);
+      return (appState.closedMonths || []).includes(mKey);
+    }
+
     function finalizarDiaInstantaneo() {
       const now = new Date();
       const timeNow = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
       const todayStr = now.toISOString().slice(0, 10);
       
-      let entry = appState.entries.find(e => e.date === todayStr);
-      let entrada = entry ? entry.entrada : (appState.config.entrada || '09:00');
+      if (isMonthLocked(todayStr)) {
+        return alert('Este mês está fechado e bloqueado contra alterações.');
+      }
+
+      let oldEntry = appState.entries.find(e => e.date === todayStr);
+      let entrada = oldEntry ? oldEntry.entrada : (appState.config.entrada || '08:00');
       let saida = timeNow;
-      let intervalo = appState.config.intervalo !== undefined ? appState.config.intervalo : 60;
+      let intervalo = appState.config.intervalo || 60;
 
-      const calc = Core.calcPJ(entrada, saida, intervalo, false, appState.config.expected || 360);
+      const calc = Core.calcPJ(entrada, saida, intervalo, false, appState.config.expected || 480);
 
-      appState.entries = appState.entries.filter(e => e.date !== todayStr);
-      appState.entries.push({
-        id: entry ? entry.id : 'id_' + Date.now(),
+      const newEntry = {
+        id: oldEntry ? oldEntry.id : 'id_' + Date.now(),
         date: todayStr,
         type: 'trabalhado',
         entrada,
@@ -1646,16 +1689,20 @@
         intervalo,
         nextDay: false,
         variation: calc.saldo,
-        obs: 'Finalizado via 1-Toque (PJ)'
-      });
+        obs: 'Finalizado via 1-Toque (PJ)',
+        createdAt: oldEntry ? oldEntry.createdAt : new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        version: oldEntry ? (oldEntry.version + 1) : 1
+      };
 
+      appState.entries = appState.entries.filter(e => e.date !== todayStr);
+      appState.entries.push(newEntry);
+
+      logAudit('FINALIZAR_DIA_1TOQUE', todayStr, oldEntry, newEntry);
       saveLocal();
       showToast(`Expediente finalizado às ${saida}! Saldo: ${Core.fromMinutes(calc.saldo, true)}`);
     }
 
-    /* =====================================================================
-       PERFIL
-       ===================================================================== */
     function renderProfile() {
       const p = appState.profile;
       const topName = document.getElementById('topProfileName');
@@ -1699,9 +1746,6 @@
       return curHour < 12 ? 'Bom dia' : curHour < 18 ? 'Boa tarde' : 'Boa noite';
     }
 
-    /* =====================================================================
-       GRÁFICO MENSAL
-       ===================================================================== */
     function renderMonthlyChart() {
       const box = document.getElementById('chartMonthlyBox');
       if (!box) return;
@@ -1746,9 +1790,6 @@
       box.innerHTML = svg;
     }
 
-    /* =====================================================================
-       DASHBOARD
-       ===================================================================== */
     function renderDashboard() {
       const todayStr = new Date().toISOString().slice(0, 10);
       const [anoT, mesT, diaT] = todayStr.split('-');
@@ -1761,10 +1802,6 @@
 
       renderProfile();
 
-      const expHours = Core.fromMinutes(appState.config.expected || 360);
-      const metaLabel = document.getElementById('labelSaldoDiaMeta');
-      if (metaLabel) metaLabel.textContent = `Saldo do Dia (vs ${expHours})`;
-
       const todayEntry = appState.entries.find(e => e.date === todayStr);
       const liveDot = document.getElementById('liveStatusDot');
       const liveText = document.getElementById('liveStatusText');
@@ -1772,9 +1809,9 @@
       if (todayEntry && todayEntry.type === 'trabalhado') {
         document.getElementById('timeEntradaDisplay').textContent = todayEntry.entrada || '--:--';
         document.getElementById('timeSaidaDisplay').textContent = todayEntry.saida || '--:--';
-        document.getElementById('intervalDurationDisplay').textContent = Core.fromMinutes(todayEntry.intervalo !== undefined ? todayEntry.intervalo : 60);
+        document.getElementById('intervalDurationDisplay').textContent = Core.fromMinutes(todayEntry.intervalo || 60);
 
-        const calc = Core.calcPJ(todayEntry.entrada, todayEntry.saida, todayEntry.intervalo, todayEntry.nextDay, appState.config.expected || 360);
+        const calc = Core.calcPJ(todayEntry.entrada, todayEntry.saida, todayEntry.intervalo, todayEntry.nextDay, appState.config.expected);
         document.getElementById('statHorasHoje').textContent = Core.fromMinutes(calc.totalLiquido);
         document.getElementById('statSaldoHoje').textContent = Core.fromMinutes(todayEntry.variation, true);
         document.getElementById('statSaldoHoje').className = `metric-value ${todayEntry.variation >= 0 ? 'pos' : 'neg'}`;
@@ -1789,7 +1826,7 @@
       } else {
         document.getElementById('timeEntradaDisplay').textContent = '--:--';
         document.getElementById('timeSaidaDisplay').textContent = '--:--';
-        document.getElementById('intervalDurationDisplay').textContent = Core.fromMinutes(appState.config.intervalo || 60);
+        document.getElementById('intervalDurationDisplay').textContent = '01:00';
         document.getElementById('statHorasHoje').textContent = '00:00';
         document.getElementById('statSaldoHoje').textContent = '+00:00';
         if (liveText) liveText.textContent = 'Expediente Não Iniciado';
@@ -1815,10 +1852,20 @@
           const parts = m.split('-');
           const opt = document.createElement('option');
           opt.value = m;
-          opt.textContent = `${parts[1]}/${parts[0]}`;
+          const isLocked = (appState.closedMonths || []).includes(m);
+          opt.textContent = `${parts[1]}/${parts[0]} ${isLocked ? '🔒' : ''}`;
           if (m === curSel) opt.selected = true;
           selMonth.appendChild(opt);
         });
+      }
+
+      const curSelectedMonth = filterMonth || todayStr.slice(0, 7);
+      const isCurMonthLocked = (appState.closedMonths || []).includes(curSelectedMonth);
+      const lockIcon = document.getElementById('lockMonthIcon');
+      const lockText = document.getElementById('lockMonthText');
+      if (lockIcon && lockText) {
+        lockIcon.textContent = isCurMonthLocked ? '🔓' : '🔒';
+        lockText.textContent = isCurMonthLocked ? 'Reabrir Mês' : 'Fechar Mês';
       }
 
       const filtered = appState.entries.filter(e => {
@@ -1843,12 +1890,15 @@
         if (entry.type === 'falta') { tipoBadge = 'Ausência'; tipoClass = 'falta'; }
         if (entry.type === 'atestado') { tipoBadge = 'Abonada'; tipoClass = 'neutral'; }
 
+        const entryLocked = isMonthLocked(entry.date);
+
         tr.innerHTML = `
           <td><strong>${d}/${m}/${y}</strong></td>
           <td>
             ${entry.type === 'trabalhado' 
-              ? `<span class="mono">${entry.entrada} → ${entry.saida}</span> <span class="muted" style="font-size:11px">(-${Core.fromMinutes(entry.intervalo !== undefined ? entry.intervalo : 60)} almoço)</span>`
+              ? `<span class="mono">${entry.entrada} → ${entry.saida}</span> <span class="muted" style="font-size:11px">(-${Core.fromMinutes(entry.intervalo || 60)} almoço)</span>`
               : (entry.type === 'uso' ? `Folga / Desconto: ${Core.fromMinutes(Math.abs(entry.variation))}` : 'Ausência Registrada')}
+            ${entryLocked ? '<span class="tag locked" title="Mês fechado">🔒 Trancado</span>' : ''}
             ${entry.obs ? `<div class="muted" style="font-size:11px; margin-top:2px;">${entry.obs}</div>` : ''}
           </td>
           <td>
@@ -1861,8 +1911,8 @@
             <strong>${Core.fromMinutes(totalSaldo)}</strong>
           </td>
           <td style="text-align: center;">
-            <button class="btn" style="padding: 4px 8px;" onclick="editEntry('${entry.id}')">Editar</button>
-            <button class="btn" style="padding: 4px 8px; color: var(--neg);" onclick="deleteEntry('${entry.id}')">✕</button>
+            <button class="btn" style="padding: 4px 8px;" onclick="editEntry('${entry.id}')" ${entryLocked ? 'disabled title="Mês fechado"' : ''}>Editar</button>
+            <button class="btn" style="padding: 4px 8px; color: var(--neg);" onclick="deleteEntry('${entry.id}')" ${entryLocked ? 'disabled title="Mês fechado"' : ''}>✕</button>
           </td>
         `;
         tbody.appendChild(tr);
@@ -1875,9 +1925,6 @@
       }
     }
 
-    /* =====================================================================
-       VINCULAÇÃO DE EVENTOS
-       ===================================================================== */
     function safeAddListener(id, event, fn) {
       const el = document.getElementById(id);
       if (el) el.addEventListener(event, fn);
@@ -1909,8 +1956,9 @@
 
       safeAddListener('btnBaterPontoAgora', 'click', () => {
         const todayStr = new Date().toISOString().slice(0, 10);
-        let entry = appState.entries.find(e => e.date === todayStr);
+        if (isMonthLocked(todayStr)) return alert('O mês atual está trancado contra alterações.');
 
+        let entry = appState.entries.find(e => e.date === todayStr);
         const now = new Date();
         const timeNow = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
@@ -1920,16 +1968,16 @@
 
         if (entry) {
           document.getElementById('entryEditId').value = entry.id;
-          document.getElementById('pontoEntrada').value = entry.entrada || appState.config.entrada || '09:00';
+          document.getElementById('pontoEntrada').value = entry.entrada || appState.config.entrada || '08:00';
           document.getElementById('pontoSaida').value = entry.saida || timeNow;
-          document.getElementById('pontoIntervalo').value = entry.intervalo !== undefined ? entry.intervalo : 60;
+          document.getElementById('pontoIntervalo').value = entry.intervalo || 60;
           document.getElementById('pontoNextDay').checked = !!entry.nextDay;
           document.getElementById('pontoObs').value = entry.obs || '';
         } else {
           document.getElementById('entryEditId').value = '';
-          document.getElementById('pontoEntrada').value = appState.config.entrada || '09:00';
+          document.getElementById('pontoEntrada').value = appState.config.entrada || '08:00';
           document.getElementById('pontoSaida').value = timeNow;
-          document.getElementById('pontoIntervalo').value = appState.config.intervalo !== undefined ? appState.config.intervalo : 60;
+          document.getElementById('pontoIntervalo').value = appState.config.intervalo || 60;
           document.getElementById('pontoNextDay').checked = false;
         }
 
@@ -1967,17 +2015,9 @@
       });
 
       safeAddListener('btnSettings', 'click', () => {
-        document.getElementById('cfgEntrada').value = appState.config.entrada || '09:00';
-        document.getElementById('cfgSaida').value = appState.config.saida || '16:00';
-        document.getElementById('cfgIntervalo').value = appState.config.intervalo !== undefined ? appState.config.intervalo : 60;
-        atualizarTextoCalculoMeta();
         const modal = document.getElementById('modalSettings');
         if (modal) modal.showModal();
       });
-
-      safeAddListener('cfgEntrada', 'input', atualizarTextoCalculoMeta);
-      safeAddListener('cfgSaida', 'input', atualizarTextoCalculoMeta);
-      safeAddListener('cfgIntervalo', 'input', atualizarTextoCalculoMeta);
 
       safeAddListener('btnTrocarFoto', 'click', () => {
         const inp = document.getElementById('profilePhotoInput');
@@ -1999,11 +2039,61 @@
         e.preventDefault();
         appState.profile.name = document.getElementById('perfilNome').value;
         appState.profile.role = document.getElementById('perfilCargo').value;
+        logAudit('UPDATE_PROFILE', new Date().toISOString().slice(0, 10), null, appState.profile);
         saveLocal();
         renderProfile();
         const modal = document.getElementById('modalPerfil');
         if (modal) modal.close();
         showToast('Perfil salvo!');
+      });
+
+      safeAddListener('btnToggleLockMonth', 'click', () => {
+        const fMonth = document.getElementById('filterMonth').value || new Date().toISOString().slice(0, 7);
+        appState.closedMonths = appState.closedMonths || [];
+        const isLocked = appState.closedMonths.includes(fMonth);
+
+        if (isLocked) {
+          const reason = prompt('Informe a justificativa para reabrir este mês faturado:');
+          if (!reason) return alert('A justificativa é obrigatória para reabrir o mês.');
+          appState.closedMonths = appState.closedMonths.filter(m => m !== fMonth);
+          logAudit('REOPEN_MONTH', `${fMonth}-01`, null, { month: fMonth, reason });
+          showToast(`Mês ${fMonth} reaberto.`);
+        } else {
+          if (!confirm(`Deseja fechar e trancar o mês ${fMonth}? As edições serão bloqueadas por segurança.`)) return;
+          appState.closedMonths.push(fMonth);
+          logAudit('CLOSE_MONTH', `${fMonth}-01`, null, { month: fMonth });
+          showToast(`Mês ${fMonth} fechado com sucesso!`);
+        }
+        saveLocal();
+      });
+
+      safeAddListener('btnExportLGPD', 'click', () => {
+        const dossier = {
+          dossierType: 'LGPD Art. 18 - Portabilidade de Dados',
+          exportDate: new Date().toISOString(),
+          employee: appState.profile,
+          configuration: appState.config,
+          historyEntries: appState.entries,
+          dailyReports: appState.reports
+        };
+        const blob = new Blob([JSON.stringify(dossier, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `dossie_lgpd_${(appState.profile.name || 'usuario').replace(/\s+/g, '_')}.json`;
+        a.click();
+        logAudit('EXPORT_LGPD', new Date().toISOString().slice(0, 10), null, { status: 'exported' });
+        showToast('Dossiê exportado!');
+      });
+
+      safeAddListener('btnGlobalSignOut', 'click', async () => {
+        if (!confirm('Deseja desconectar sua conta de TODOS os celulares e computadores?')) return;
+        if (sbClient) {
+          try { await sbClient.auth.signOut({ scope: 'global' }); } catch {}
+        }
+        onUserSignedOut();
+        showToast('Desconectado!');
+        const modal = document.getElementById('modalSettings');
+        if (modal) modal.close();
       });
 
       const logoutHandler = async () => {
@@ -2027,7 +2117,6 @@
       });
 
       safeAddListener('btnImprimirEspelho', 'click', () => window.print());
-
       safeAddListener('searchTableInput', 'input', renderDashboard);
       safeAddListener('filterMonth', 'change', renderDashboard);
 
@@ -2066,18 +2155,20 @@
 
       safeAddListener('formPonto', 'submit', (e) => {
         e.preventDefault();
-        const id = document.getElementById('entryEditId').value || 'id_' + Date.now();
         const data = document.getElementById('pontoData').value;
+        if (isMonthLocked(data)) return alert('Este mês está fechado e não aceita lançamentos.');
+
+        const id = document.getElementById('entryEditId').value || 'id_' + Date.now();
         const entrada = document.getElementById('pontoEntrada').value;
         const saida = document.getElementById('pontoSaida').value;
         const intervalo = Number(document.getElementById('pontoIntervalo').value) || 0;
         const nextDay = document.getElementById('pontoNextDay').checked;
         const obs = document.getElementById('pontoObs').value;
 
-        const calc = Core.calcPJ(entrada, saida, intervalo, nextDay, appState.config.expected || 360);
+        const calc = Core.calcPJ(entrada, saida, intervalo, nextDay, appState.config.expected || 480);
+        const oldEntry = appState.entries.find(x => x.id === id);
 
-        appState.entries = appState.entries.filter(x => x.id !== id);
-        appState.entries.push({
+        const newEntry = {
           id,
           date: data,
           type: 'trabalhado',
@@ -2086,9 +2177,16 @@
           intervalo,
           nextDay,
           variation: calc.saldo,
-          obs
-        });
+          obs,
+          createdAt: oldEntry ? oldEntry.createdAt : new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          version: oldEntry ? (oldEntry.version + 1) : 1
+        };
 
+        appState.entries = appState.entries.filter(x => x.id !== id);
+        appState.entries.push(newEntry);
+
+        logAudit(oldEntry ? 'UPDATE_PONTO' : 'INSERT_PONTO', data, oldEntry, newEntry);
         saveLocal();
         const modal = document.getElementById('modalPonto');
         if (modal) modal.close();
@@ -2097,20 +2195,27 @@
       safeAddListener('formUso', 'submit', (e) => {
         e.preventDefault();
         const data = document.getElementById('usoData').value;
+        if (isMonthLocked(data)) return alert('Este mês está fechado e não aceita lançamentos.');
+
         const horas = Number(document.getElementById('usoHoras').value) || 0;
         const minutos = Number(document.getElementById('usoMinutos').value) || 0;
         const totalMins = (horas * 60) + minutos;
 
         if (totalMins <= 0) return alert('Informe um tempo válido.');
 
-        appState.entries.push({
+        const newEntry = {
           id: 'uso_' + Date.now(),
           date: data,
           type: 'uso',
           variation: -totalMins,
-          obs: document.getElementById('usoMotivo').value
-        });
+          obs: document.getElementById('usoMotivo').value,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          version: 1
+        };
 
+        appState.entries.push(newEntry);
+        logAudit('INSERT_COMPENSACAO', data, null, newEntry);
         saveLocal();
         const modal = document.getElementById('modalUso');
         if (modal) modal.close();
@@ -2119,30 +2224,30 @@
       safeAddListener('formFalta', 'submit', (e) => {
         e.preventDefault();
         const data = document.getElementById('faltaData').value;
+        if (isMonthLocked(data)) return alert('Este mês está fechado e não aceita lançamentos.');
+
         const tipo = document.getElementById('faltaTipo').value;
         const diaTodo = document.getElementById('faltaDiaTodo').checked;
         const motivo = document.getElementById('faltaMotivo').value;
 
         let mins = 0;
-        if (diaTodo) {
-          mins = appState.config.expected || 360;
-        } else {
-          const h = Number(document.getElementById('faltaHoras').value) || 0;
-          const m = Number(document.getElementById('faltaMinutos').value) || 0;
-          mins = (h * 60) + m;
-        }
+        if (diaTodo) mins = appState.config.expected || 480;
+        else mins = ((Number(document.getElementById('faltaHoras').value) || 0) * 60) + (Number(document.getElementById('faltaMinutos').value) || 0);
 
         const isAbonada = tipo === 'atestado';
-        const varMin = isAbonada ? 0 : -mins;
-
-        appState.entries.push({
+        const newEntry = {
           id: 'falta_' + Date.now(),
           date: data,
           type: isAbonada ? 'atestado' : 'falta',
-          variation: varMin,
-          obs: `${tipo === 'atestado' ? '[Atestado] ' : '[Ausência] '} ${motivo}`
-        });
+          variation: isAbonada ? 0 : -mins,
+          obs: `${tipo === 'atestado' ? '[Justificada] ' : '[Ausência] '} ${motivo}`,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          version: 1
+        };
 
+        appState.entries.push(newEntry);
+        logAudit('INSERT_AUSENCIA', data, null, newEntry);
         saveLocal();
         const modal = document.getElementById('modalFalta');
         if (modal) modal.close();
@@ -2153,12 +2258,12 @@
         appState.config.saida = document.getElementById('cfgSaida').value;
         appState.config.intervalo = Number(document.getElementById('cfgIntervalo').value);
         
-        recalculateAllEntries();
+        const span = Core.toMinutes(appState.config.saida) - Core.toMinutes(appState.config.entrada);
+        appState.config.expected = span - appState.config.intervalo;
+
         saveLocal();
-        
         const modal = document.getElementById('modalSettings');
         if (modal) modal.close();
-        showToast('Jornada atualizada e histórico recalculado com sucesso!');
       });
 
       safeAddListener('btnDownloadBackup', 'click', () => {
@@ -2181,17 +2286,38 @@
         reader.onload = (ev) => processImportedJSON(ev.target.result);
         reader.readAsText(file);
       });
-    }
 
-    function atualizarTextoCalculoMeta() {
-      const ent = document.getElementById('cfgEntrada').value;
-      const sai = document.getElementById('cfgSaida').value;
-      const int = Number(document.getElementById('cfgIntervalo').value) || 0;
-      const span = Core.toMinutes(sai) - Core.toMinutes(ent);
-      const liq = Math.max(0, span - int);
-      const txt = document.getElementById('cfgCalculoMetaTexto');
-      if (txt) {
-        txt.textContent = `Meta líquida calculada: ${Core.fromMinutes(liq)} por dia (saídas após ${sai} contarão como saldo positivo)`;
+      document.querySelectorAll('.nav-tabs button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const viewId = btn.getAttribute('data-view');
+          const vBanco = document.getElementById('v-banco');
+          const vRel = document.getElementById('v-relatorios');
+          if (vBanco) vBanco.style.display = viewId === 'v-banco' ? 'block' : 'none';
+          if (vRel) vRel.style.display = viewId === 'v-relatorios' ? 'block' : 'none';
+        });
+      });
+
+      safeAddListener('reportTemplateSelect', 'change', renderReportFields);
+      safeAddListener('reportDate', 'change', renderReportFields);
+      safeAddListener('btnCopyReport', 'click', () => {
+        const text = document.getElementById('reportPreview').textContent;
+        navigator.clipboard.writeText(text).then(() => showToast('Copiado para o WhatsApp!'));
+      });
+
+      const dropzone = document.getElementById('csvDropzone');
+      const fileInput = document.getElementById('csvFileInput');
+      if (dropzone && fileInput) {
+        dropzone.onclick = () => fileInput.click();
+        fileInput.onchange = (e) => {
+          if (e.target.files.length) {
+            showToast('CSV importado!');
+            const sel = document.getElementById('reportTemplateSelect');
+            if (sel) sel.value = 'marketing';
+            renderReportFields();
+          }
+        };
       }
     }
 
@@ -2201,7 +2327,7 @@
       const intervalo = Number(document.getElementById('pontoIntervalo').value) || 0;
       const nextDay = document.getElementById('pontoNextDay').checked;
 
-      const calc = Core.calcPJ(entrada, saida, intervalo, nextDay, appState.config.expected || 360);
+      const calc = Core.calcPJ(entrada, saida, intervalo, nextDay, appState.config.expected || 480);
       const prev = document.getElementById('pontoCalculoPreview');
       if (prev) {
         prev.innerHTML = `Líquido trabalhado: <strong>${Core.fromMinutes(calc.totalLiquido)}</strong> (com ${intervalo} min de almoço)<br>Variação no saldo: <strong class="${calc.saldo >= 0 ? 'pos' : 'neg'}">${Core.fromMinutes(calc.saldo, true)}</strong>`;
@@ -2220,13 +2346,8 @@
       const diaTodo = document.getElementById('faltaDiaTodo').checked;
       let mins = 0;
 
-      if (diaTodo) {
-        mins = appState.config.expected || 360;
-      } else {
-        const h = Number(document.getElementById('faltaHoras').value) || 0;
-        const m = Number(document.getElementById('faltaMinutos').value) || 0;
-        mins = (h * 60) + m;
-      }
+      if (diaTodo) mins = appState.config.expected || 480;
+      else mins = ((Number(document.getElementById('faltaHoras').value) || 0) * 60) + (Number(document.getElementById('faltaMinutos').value) || 0);
 
       const previewBox = document.getElementById('faltaCalculoPreview');
       if (!previewBox) return;
@@ -2241,6 +2362,10 @@
       const item = appState.entries.find(x => x.id === id);
       if (!item) return;
 
+      if (isMonthLocked(item.date)) {
+        return alert('Este mês está fechado. Para editar, reabra o mês com uma justificativa.');
+      }
+
       if (item.type === 'falta' || item.type === 'atestado') {
         alert('Para ausências, remova o item e registre novamente.');
         return;
@@ -2248,9 +2373,9 @@
 
       document.getElementById('entryEditId').value = item.id;
       document.getElementById('pontoData').value = item.date;
-      document.getElementById('pontoEntrada').value = item.entrada || '09:00';
-      document.getElementById('pontoSaida').value = item.saida || '16:00';
-      document.getElementById('pontoIntervalo').value = item.intervalo !== undefined ? item.intervalo : 60;
+      document.getElementById('pontoEntrada').value = item.entrada || '08:00';
+      document.getElementById('pontoSaida').value = item.saida || '17:00';
+      document.getElementById('pontoIntervalo').value = item.intervalo || 60;
       document.getElementById('pontoNextDay').checked = !!item.nextDay;
       document.getElementById('pontoObs').value = item.obs || '';
 
@@ -2260,40 +2385,142 @@
     }
 
     function deleteEntry(id) {
-      if (confirm('Deseja excluir este lançamento?')) {
+      const item = appState.entries.find(x => x.id === id);
+      if (!item) return;
+
+      if (isMonthLocked(item.date)) {
+        return alert('Este mês está fechado e não permite exclusões.');
+      }
+
+      if (confirm('Deseja excluir este lançamento? A ação será registrada na auditoria.')) {
+        logAudit('DELETE_ENTRY', item.date, item, null);
         appState.entries = appState.entries.filter(x => x.id !== id);
         saveLocal();
       }
     }
 
     /* =====================================================================
-       AUTENTICAÇÃO & SUPABASE
+       RELATÓRIOS DIÁRIOS
        ===================================================================== */
+    const REPORT_TEMPLATES = {
+      marketing: [
+        { id: 'campanhas', label: 'Campanhas & Anúncios Ativos', type: 'text' },
+        { id: 'metricas', label: 'Métricas & Desempenho do Dia', type: 'textarea' },
+        { id: 'leads', label: 'Total de Leads Confirmados', type: 'text' },
+        { id: 'conteudos', label: 'Stories e Conteúdos Produzidos', type: 'textarea' },
+        { id: 'proximos', label: 'Planejamento para Amanhã', type: 'textarea' }
+      ],
+      captacao: [
+        { id: 'captacoes', label: 'Captações de Imóveis Realizadas', type: 'textarea' },
+        { id: 'contato_proprietarios', label: 'Contatos com Proprietários', type: 'text' },
+        { id: 'pendencias', label: 'Pendências de Documentos', type: 'textarea' }
+      ],
+      atendimento: [
+        { id: 'leads_atendidos', label: 'Novos Leads Atendidos', type: 'text' },
+        { id: 'visitas', label: 'Visitas Agendadas e Realizadas', type: 'textarea' },
+        { id: 'propostas', label: 'Propostas em Negociação', type: 'textarea' }
+      ],
+      geral: [
+        { id: 'atividades', label: 'Principais Entregas de Hoje', type: 'textarea' },
+        { id: 'amanha', label: 'Prioridades de Amanhã', type: 'textarea' }
+      ]
+    };
+
+    function renderReportFields() {
+      const sel = document.getElementById('reportTemplateSelect');
+      const templateKey = sel ? sel.value : 'marketing';
+      const fields = REPORT_TEMPLATES[templateKey] || REPORT_TEMPLATES.geral;
+      const box = document.getElementById('dynamicReportFields');
+      const rDate = document.getElementById('reportDate');
+      const dataRelatorio = rDate ? rDate.value : new Date().toISOString().slice(0, 10);
+      const currentData = (appState.reports[dataRelatorio] || {})[templateKey] || {};
+
+      if (!box) return;
+      box.innerHTML = '';
+      fields.forEach(f => {
+        const wrap = document.createElement('div');
+        wrap.className = 'form-group';
+        wrap.innerHTML = `<label>${f.label}</label>`;
+
+        const input = f.type === 'textarea' ? document.createElement('textarea') : document.createElement('input');
+        input.value = currentData[f.id] || '';
+        input.placeholder = `Preencha ${f.label.toLowerCase()}...`;
+        input.oninput = (e) => {
+          if (!appState.reports[dataRelatorio]) appState.reports[dataRelatorio] = {};
+          if (!appState.reports[dataRelatorio][templateKey]) appState.reports[dataRelatorio][templateKey] = {};
+          appState.reports[dataRelatorio][templateKey][f.id] = e.target.value;
+          saveLocal();
+          updateWhatsAppPreview();
+        };
+
+        wrap.appendChild(input);
+        box.appendChild(wrap);
+      });
+      updateWhatsAppPreview();
+    }
+
+    function updateWhatsAppPreview() {
+      const rDate = document.getElementById('reportDate');
+      const dataRelatorio = rDate ? rDate.value : new Date().toISOString().slice(0, 10);
+      const parts = dataRelatorio.split('-');
+      const d = parts[2] || '';
+      const m = parts[1] || '';
+      const y = parts[0] || '';
+      
+      const sel = document.getElementById('reportTemplateSelect');
+      const templateKey = sel ? sel.value : 'marketing';
+      const fields = REPORT_TEMPLATES[templateKey] || REPORT_TEMPLATES.geral;
+      const currentData = (appState.reports[dataRelatorio] || {})[templateKey] || {};
+
+      let text = `*RELATÓRIO DIÁRIO — ${d}/${m}/${y}*\n`;
+      text += `_Real Estate São Paulo • ${sel && sel.selectedOptions.length ? sel.selectedOptions[0].text : ''}_\n\n`;
+
+      let hasContent = false;
+      fields.forEach(f => {
+        const val = (currentData[f.id] || '').trim();
+        if (val) {
+          hasContent = true;
+          text += `*${f.label.toUpperCase()}*\n`;
+          val.split('\n').forEach(l => {
+            text += l.startsWith('-') || l.startsWith('•') ? `${l}\n` : `• ${l}\n`;
+          });
+          text += '\n';
+        }
+      });
+
+      const prev = document.getElementById('reportPreview');
+      if (prev) {
+        prev.textContent = hasContent ? text.trim() : 'Preencha os campos ao lado para gerar o relatório...';
+      }
+    }
+
+    /* =====================================================================
+       SUPABASE & SISTEMA DE AUTENTICAÇÃO
+       ===================================================================== */
+    // ⚠️ SUBSTITUA PELAS SUAS CREDENCIAIS DO SUPABASE (Aba BHRE)
     const SB_URL = 'https://cqxgfqbgkjqersrnuffx.supabase.co';
-    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxeGdmcWJna2pxZXJzcm51ZmZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4Mjc2NTMsImV4cCI6MjEwOTQwMzY1M30.kIVQx4Jel8ZryZaTnc1jtTsbvPuGh_F9-RIwPIBl9bs'; // Insira sua chave anon caso precise
+    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxeGdmcWJna2pxZXJzcm51ZmZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4Mjc2NTMsImV4cCI6MjEwOTQwMzY1M30.kIVQx4Jel8ZryZaTnc1jtTsbvPuGh_F9-RIwPIBl9bs';
     let sbClient = null;
     let authMode = 'signup';
 
-    function initSupabase() {
+    async function initSupabase() {
       try {
         if (typeof supabase !== 'undefined' && supabase && typeof supabase.createClient === 'function') {
           sbClient = supabase.createClient(SB_URL, SB_KEY);
 
-          if (!localStorage.getItem('realtime_auth_v7_initialized')) {
-            sbClient.auth.signOut().then(() => {
-              localStorage.setItem('realtime_auth_v7_initialized', 'true');
-              onUserSignedOut();
-            });
+          if (!localStorage.getItem('realtime_auth_v11_cleared')) {
+            await sbClient.auth.signOut();
+            localStorage.setItem('realtime_auth_v11_cleared', 'true');
+            onUserSignedOut();
             return;
           }
 
-          sbClient.auth.getSession().then(({ data: { session } }) => {
-            if (session && session.user) {
-              onUserSignedIn(session.user);
-            } else {
-              onUserSignedOut();
-            }
-          });
+          const { data: { session } } = await sbClient.auth.getSession();
+          if (session && session.user) {
+            onUserSignedIn(session.user);
+          } else {
+            onUserSignedOut();
+          }
 
           sbClient.auth.onAuthStateChange((event, session) => {
             if (session && session.user) {
@@ -2313,7 +2540,6 @@
 
     function onUserSignedIn(user) {
       currentUserId = user.id;
-      localStorage.setItem('realtime_current_uid', currentUserId);
       document.getElementById('authScreen').hidden = true;
       document.getElementById('appScreen').hidden = false;
 
@@ -2332,10 +2558,9 @@
 
     function onUserSignedOut() {
       currentUserId = 'guest';
-      localStorage.removeItem('realtime_current_uid');
       document.getElementById('appScreen').hidden = true;
       document.getElementById('authScreen').hidden = false;
-      updateSyncStatus('offline', 'Modo Local');
+      updateSyncStatus('offline', 'Desconectado');
     }
 
     function updateSyncStatus(status, text) {
@@ -2364,14 +2589,7 @@
         if (cloudRow && cloudRow.state) {
           try {
             const cloudState = JSON.parse(cloudRow.state);
-            if (cloudState.config) {
-              appState.config = { ...appState.config, ...cloudState.config };
-              recalculateExpected();
-            }
-
-            const cloudEntries = Array.isArray(cloudState.entries) 
-              ? cloudState.entries.map(e => normalizeEntry(e, appState.config.expected)).filter(Boolean) 
-              : [];
+            const cloudEntries = Array.isArray(cloudState.entries) ? cloudState.entries.map(normalizeEntry).filter(Boolean) : [];
             
             const localIds = new Set(appState.entries.map(e => e.id));
             cloudEntries.forEach(ce => {
@@ -2379,6 +2597,13 @@
                 appState.entries.push(ce);
               }
             });
+
+            if (cloudState.reports) {
+              appState.reports = { ...cloudState.reports, ...appState.reports };
+            }
+            if (cloudState.closedMonths) {
+              appState.closedMonths = [...new Set([...(appState.closedMonths || []), ...cloudState.closedMonths])];
+            }
           } catch (e) {
             console.error('Falha ao mesclar dados da nuvem:', e);
           }
@@ -2448,7 +2673,7 @@
           msgBox.textContent = 'Informe seu e-mail acima para receber o link de redefinição.';
           return;
         }
-        if (!sbClient) return alert('Configuração do Supabase pendente.');
+        if (!sbClient) return alert('Serviço indisponível.');
         const { error } = await sbClient.auth.resetPasswordForEmail(email);
         if (error) {
           msgBox.style.color = 'var(--neg)';
@@ -2471,7 +2696,7 @@
         btnSubmit.textContent = 'Aguarde...';
 
         try {
-          if (!sbClient) throw new Error('Configure a URL e a Chave do Supabase no código.');
+          if (!sbClient) throw new Error('Serviço de autenticação não carregado.');
 
           if (authMode === 'login') {
             const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
@@ -2492,21 +2717,14 @@
             
             if (data.user && !data.session) {
               msgBox.style.color = 'var(--pos)';
-              msgBox.textContent = 'Conta criada com sucesso! Verifique seu e-mail para confirmar o cadastro.';
+              msgBox.textContent = 'Conta criada! Confirme seu e-mail para ativar.';
             } else if (data.user) {
               onUserSignedIn(data.user);
             }
           }
         } catch (err) {
           msgBox.style.color = 'var(--neg)';
-          const msg = err.message || '';
-          if (msg.includes('Failed to fetch')) {
-            msgBox.textContent = 'Erro de conexão: confira se a URL do Supabase está correta e não pausada.';
-          } else if (msg.includes('Invalid login')) {
-            msgBox.textContent = 'E-mail ou senha incorretos.';
-          } else {
-            msgBox.textContent = msg;
-          }
+          msgBox.textContent = err.message.includes('Invalid login') ? 'E-mail ou senha incorretos.' : err.message;
         } finally {
           btnSubmit.disabled = false;
           btnSubmit.textContent = authMode === 'login' ? 'Entrar no RealTime' : 'Cadastrar e Começar';
@@ -2522,10 +2740,13 @@
         const currentTheme = localStorage.getItem('realtime_theme') || 'dark';
         document.documentElement.setAttribute('data-theme', currentTheme);
 
-        loadLocal();
+        const repDate = document.getElementById('reportDate');
+        if (repDate) repDate.valueAsDate = new Date();
+
         setupEventListeners();
         setupAuthForm();
         renderHolidaysList();
+        renderReportFields();
         initSupabase();
       } catch (err) {
         console.error('Erro na inicialização:', err);

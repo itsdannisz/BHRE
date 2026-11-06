@@ -688,7 +688,6 @@
       <div class="tabs-wrapper" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:24px;">
         <nav class="nav-tabs">
           <button class="active" data-view="v-banco">Hoje & Banco</button>
-          <button data-view="v-relatorios">Relatórios Diários</button>
         </nav>
         
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
@@ -838,50 +837,7 @@
         </div>
       </section>
 
-      <!-- VIEW 2: RELATÓRIOS DIÁRIOS -->
-      <section id="v-relatorios" style="display: none;">
-        <div class="report-layout">
-          <div>
-            <div class="content-card" style="margin-bottom: 20px;">
-              <div class="card-title">
-                <span>Modelo de Relatório</span>
-                <select id="reportTemplateSelect" style="width: 220px;">
-                  <option value="marketing">Marketing (com Anúncios)</option>
-                  <option value="captacao">Captação de Imóveis</option>
-                  <option value="atendimento">Atendimento & Vendas</option>
-                  <option value="geral">Geral (Entregas do Dia)</option>
-                </select>
-              </div>
 
-              <div class="dropzone" id="csvDropzone">
-                <input type="file" id="csvFileInput" accept=".csv" style="display: none;">
-                <p style="font-weight: 700; font-size: 13px;">Importar CSV do Meta Ads</p>
-                <p class="muted" style="font-size: 11px;">Identifica campanhas, investimento e leads automaticamente.</p>
-              </div>
-            </div>
-
-            <div class="content-card">
-              <div class="card-title">
-                <span>Atividades Realizadas</span>
-                <input type="date" id="reportDate" style="width: 150px; padding: 4px 8px; font-size: 12px;">
-              </div>
-              <div id="dynamicReportFields"></div>
-            </div>
-          </div>
-
-          <div>
-            <div class="content-card" style="position: sticky; top: 80px;">
-              <div class="card-title">
-                <span>Prévia para WhatsApp</span>
-                <button class="btn" id="btnCopyReport">Copiar Texto</button>
-              </div>
-              <div class="report-preview-box" id="reportPreview">Preencha os campos para gerar o relatório...</div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-  </div>
 
   <!-- MODAIS -->
   <dialog id="modalFalta">
@@ -2026,28 +1982,7 @@
         });
       });
 
-      safeAddListener('reportTemplateSelect', 'change', renderReportFields);
-      safeAddListener('reportDate', 'change', renderReportFields);
-      safeAddListener('btnCopyReport', 'click', () => {
-        const text = document.getElementById('reportPreview').textContent;
-        navigator.clipboard.writeText(text).then(() => showToast('Copiado para o WhatsApp!'));
-      });
-
-      const dropzone = document.getElementById('csvDropzone');
-      const fileInput = document.getElementById('csvFileInput');
-      if (dropzone && fileInput) {
-        dropzone.onclick = () => fileInput.click();
-        fileInput.onchange = (e) => {
-          if (e.target.files.length) {
-            showToast('CSV importado!');
-            const sel = document.getElementById('reportTemplateSelect');
-            if (sel) sel.value = 'marketing';
-            renderReportFields();
-          }
-        };
-      }
-    }
-
+      
     function atualizarCalculoModal() {
       const entrada = document.getElementById('pontoEntrada').value;
       const saida = document.getElementById('pontoSaida').value;
@@ -2121,99 +2056,6 @@
         logAudit('DELETE_ENTRY', item.date, item, null);
         appState.entries = appState.entries.filter(x => x.id !== id);
         saveLocal();
-      }
-    }
-
-    /* RELATÓRIOS DIÁRIOS */
-    const REPORT_TEMPLATES = {
-      marketing: [
-        { id: 'campanhas', label: 'Campanhas & Anúncios Ativos', type: 'text' },
-        { id: 'metricas', label: 'Métricas & Desempenho do Dia', type: 'textarea' },
-        { id: 'leads', label: 'Total de Leads Confirmados', type: 'text' },
-        { id: 'conteudos', label: 'Stories e Conteúdos Produzidos', type: 'textarea' },
-        { id: 'proximos', label: 'Planejamento para Amanhã', type: 'textarea' }
-      ],
-      captacao: [
-        { id: 'captacoes', label: 'Captações de Imóveis Realizadas', type: 'textarea' },
-        { id: 'contato_proprietarios', label: 'Contatos com Proprietários', type: 'text' },
-        { id: 'pendencias', label: 'Pendências de Documentos', type: 'textarea' }
-      ],
-      atendimento: [
-        { id: 'leads_atendidos', label: 'Novos Leads Atendidos', type: 'text' },
-        { id: 'visitas', label: 'Visitas Agendadas e Realizadas', type: 'textarea' },
-        { id: 'propostas', label: 'Propostas em Negociação', type: 'textarea' }
-      ],
-      geral: [
-        { id: 'atividades', label: 'Principais Entregas de Hoje', type: 'textarea' },
-        { id: 'amanha', label: 'Prioridades de Amanhã', type: 'textarea' }
-      ]
-    };
-
-    function renderReportFields() {
-      const sel = document.getElementById('reportTemplateSelect');
-      const templateKey = sel ? sel.value : 'marketing';
-      const fields = REPORT_TEMPLATES[templateKey] || REPORT_TEMPLATES.geral;
-      const box = document.getElementById('dynamicReportFields');
-      const rDate = document.getElementById('reportDate');
-      const dataRelatorio = rDate ? rDate.value : new Date().toISOString().slice(0, 10);
-      const currentData = (appState.reports[dataRelatorio] || {})[templateKey] || {};
-
-      if (!box) return;
-      box.innerHTML = '';
-      fields.forEach(f => {
-        const wrap = document.createElement('div');
-        wrap.className = 'form-group';
-        wrap.innerHTML = `<label>${f.label}</label>`;
-
-        const input = f.type === 'textarea' ? document.createElement('textarea') : document.createElement('input');
-        input.value = currentData[f.id] || '';
-        input.placeholder = `Preencha ${f.label.toLowerCase()}...`;
-        input.oninput = (e) => {
-          if (!appState.reports[dataRelatorio]) appState.reports[dataRelatorio] = {};
-          if (!appState.reports[dataRelatorio][templateKey]) appState.reports[dataRelatorio][templateKey] = {};
-          appState.reports[dataRelatorio][templateKey][f.id] = e.target.value;
-          saveLocal();
-          updateWhatsAppPreview();
-        };
-
-        wrap.appendChild(input);
-        box.appendChild(wrap);
-      });
-      updateWhatsAppPreview();
-    }
-
-    function updateWhatsAppPreview() {
-      const rDate = document.getElementById('reportDate');
-      const dataRelatorio = rDate ? rDate.value : new Date().toISOString().slice(0, 10);
-      const parts = dataRelatorio.split('-');
-      const d = parts[2] || '';
-      const m = parts[1] || '';
-      const y = parts[0] || '';
-      
-      const sel = document.getElementById('reportTemplateSelect');
-      const templateKey = sel ? sel.value : 'marketing';
-      const fields = REPORT_TEMPLATES[templateKey] || REPORT_TEMPLATES.geral;
-      const currentData = (appState.reports[dataRelatorio] || {})[templateKey] || {};
-
-      let text = `*RELATÓRIO DIÁRIO — ${d}/${m}/${y}*\n`;
-      text += `_Real Estate São Paulo • ${sel && sel.selectedOptions.length ? sel.selectedOptions[0].text : ''}_\n\n`;
-
-      let hasContent = false;
-      fields.forEach(f => {
-        const val = (currentData[f.id] || '').trim();
-        if (val) {
-          hasContent = true;
-          text += `*${f.label.toUpperCase()}*\n`;
-          val.split('\n').forEach(l => {
-            text += l.startsWith('-') || l.startsWith('•') ? `${l}\n` : `• ${l}\n`;
-          });
-          text += '\n';
-        }
-      });
-
-      const prev = document.getElementById('reportPreview');
-      if (prev) {
-        prev.textContent = hasContent ? text.trim() : 'Preencha os campos ao lado para gerar o relatório...';
       }
     }
 

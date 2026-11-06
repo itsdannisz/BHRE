@@ -12,7 +12,7 @@
   
   <style>
     :root {
-      /* PALETA DE CORES: MODO ESCURO GRAFITE / ZERO ROXO NO FUNDO */
+      /* MODO ESCURO GRAFITE / ZERO ROXO NO FUNDO */
       --bg-page: #090d16;
       --card-white: #111827;
       --card-sub: #182234;
@@ -39,6 +39,7 @@
       
       --font-main: 'Montserrat', system-ui, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
+      
       --radius-lg: 16px;
       --radius-md: 12px;
       --radius-sm: 8px;
@@ -52,22 +53,27 @@
       --card-sub: #f5f2ea;
       --border-color: #DDD6C6;
       --border-subtle: #e6e1d4;
+      
       --hero-bg: #220C27;
       --hero-border: #EC894D;
+      
       --text-main: #220C27;
       --text-muted: #645069;
       --text-dim: #8e7a93;
       --bg-contrast: #ffffff;
+      
       --pos: #059669;
       --pos-bg: #ecfdf5;
       --neg: #dc2626;
       --neg-bg: #fef2f2;
       --warn: #d97706;
       --warn-bg: #fffbeb;
+      
       --shadow-card: 0 2px 14px rgba(34, 12, 39, 0.06);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    
     body {
       background-color: var(--bg-page);
       color: var(--text-main);
@@ -78,7 +84,7 @@
       display: flex;
       flex-direction: column;
       -webkit-font-smoothing: antialiased;
-      transition: background-color 0.2s, color 0.2s;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
     .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
@@ -88,7 +94,7 @@
     .muted { color: var(--text-muted); }
     .icon { width: 18px; height: 18px; flex-shrink: 0; vertical-align: middle; }
 
-    /* LOGOTIPO REAL ESTATE SÃO PAULO */
+    /* LOGO OFICIAL */
     .brand-wrap {
       display: flex;
       align-items: center;
@@ -526,7 +532,9 @@
     @media (max-width: 900px) {
       .dashboard-grid { grid-template-columns: 1fr; }
     }
-    @media (max-width: 600px) {
+    @media (max-width: 640px) {
+      .header-inner, .header-actions { flex-wrap: wrap; }
+      input, select, textarea { font-size: 16px !important; } /* Previne zoom involuntário no iOS */
       .hero-metrics-grid { grid-template-columns: 1fr; gap: 10px; }
       .metric-block:not(:last-child) { border-right: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 10px; }
       .container { padding: 14px; }
@@ -563,7 +571,6 @@
       </div>
 
       <form id="formAuth">
-        <!-- Campos de Cadastro (Ocultos no modo Entrar) -->
         <div id="boxSignupFields" style="display:none;">
           <div class="form-group">
             <label>Seu Nome Completo</label>
@@ -641,14 +648,14 @@
           </button>
 
           <button class="btn" id="btnSettings" title="Configurações">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
           </button>
         </div>
       </div>
     </header>
 
     <main class="container">
-      <div class="tabs-wrapper" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:24px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:24px;">
         <div style="font-weight:700; font-size:16px; color:var(--text-main);">
           Meu Banco de Horas
         </div>
@@ -722,8 +729,15 @@
               </div>
 
               <div class="punch-actions-wrap" style="display:flex; flex-direction:column; gap:8px; margin-top:16px;">
-                <button class="btn-laranja" id="btnFinalizarDiaInstantaneo">⚡ Finalizar Dia Agora</button>
-                <button class="btn" id="btnBaterPontoAgora" style="width:100%;">Lançamento / Ajuste Manual</button>
+                <button class="btn" id="btnIniciarExpediente" style="border-color:var(--pos); color:var(--pos); font-weight:700;">
+                  ▶️ Iniciar Expediente Agora
+                </button>
+                <button class="btn-laranja" id="btnFinalizarDiaInstantaneo">
+                  ⚡ Finalizar Dia Agora 
+                </button>
+                <button class="btn" id="btnBaterPontoAgora" style="width:100%;">
+                  Lançamento / Ajuste Manual
+                </button>
               </div>
             </div>
 
@@ -738,7 +752,7 @@
 
             <div class="content-card">
               <div class="card-title">
-                <span>Feriados Nacionais</span>
+                <span>Feriados Nacionais e de SP</span>
                 <span class="tag neutral" id="holidayCountBadge">Feriados</span>
               </div>
               <div class="holiday-list" id="holidayListBox"></div>
@@ -802,7 +816,7 @@
     </main>
   </div>
 
-  <!-- MODAIS -->
+  <!-- MODAL: REGISTRAR AUSÊNCIA / FALTA -->
   <dialog id="modalFalta">
     <form id="formFalta">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
@@ -839,7 +853,7 @@
         <label>Descrição / Motivo</label>
         <input type="text" id="faltaMotivo" placeholder="Ex: Compromisso pessoal ou atestado" required>
       </div>
-      <div style="background: var(--card-sub); padding: 12px; border-radius: 8px; font-size: 13px; margin: 16px 0; border: 1px solid var(--border-color);" id="faltaCalculoPreview">
+      <div style="background: var(--card-sub); padding: 12px; border-radius: 8px; font-size: 13px; margin: 16px 0;" id="faltaCalculoPreview">
         Calculando impacto no saldo...
       </div>
       <div style="display: flex; justify-content: flex-end; gap: 8px;">
@@ -849,6 +863,25 @@
     </form>
   </dialog>
 
+  <!-- MODAL: REDEFINIÇÃO DE SENHA (PASSWORD RECOVERY) -->
+  <dialog id="modalNewPassword">
+    <form id="formNewPassword">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-size:16px; font-weight:800; color:var(--c-laranja);">Criar Nova Senha</h3>
+        <button type="button" class="btn" data-close style="border:0; padding:4px 8px;">✕</button>
+      </div>
+      <p class="muted" style="font-size:12px; margin-bottom:14px;">Digite sua nova senha de acesso abaixo:</p>
+      <div class="form-group">
+        <label>Nova Senha</label>
+        <input type="password" id="newPasswordInput" required minlength="6" placeholder="Mínimo 6 caracteres">
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+        <button type="submit" class="btn-laranja" style="width:auto;">Salvar Nova Senha</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- MODAL: PERFIL -->
   <dialog id="modalPerfil">
     <form id="formPerfil">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
@@ -888,6 +921,7 @@
     </form>
   </dialog>
 
+  <!-- MODAL: REGISTRAR DIA MANUAL -->
   <dialog id="modalPonto">
     <form id="formPonto">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
@@ -933,6 +967,7 @@
     </form>
   </dialog>
 
+  <!-- MODAL: COMPENSAR HORAS -->
   <dialog id="modalUso">
     <form id="formUso">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
@@ -963,6 +998,7 @@
     </form>
   </dialog>
 
+  <!-- MODAL: CONFIGURAÇÕES -->
   <dialog id="modalSettings">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
       <h3 style="font-size: 16px; font-weight: 800; color: var(--text-main);">Configurações & Carga Horária</h3>
@@ -1001,6 +1037,17 @@
       <input type="file" id="fileRestore" accept=".json" style="display: none;">
     </div>
 
+    <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 16px 0;">
+    <h4 style="font-size: 12px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase;" class="muted">Privacidade & Segurança (LGPD)</h4>
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <button class="btn" id="btnExportLGPD" style="width: 100%; justify-content: flex-start;">
+        📄 Exportar Dossiê de Dados (LGPD Art. 18)
+      </button>
+      <button class="btn" id="btnGlobalSignOut" style="width: 100%; justify-content: flex-start; color: var(--warn); border-color: rgba(245, 158, 11, 0.3);">
+        🌐 Desconectar de Todos os Aparelhos
+      </button>
+    </div>
+
     <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
       <button type="button" class="btn-laranja" id="btnSaveConfigs" style="width: auto;">Salvar Preferências</button>
     </div>
@@ -1012,11 +1059,35 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 
   <script>
-    /* FERIADOS NACIONAIS */
+    /* =====================================================================
+       UTILITÁRIOS: DATA LOCAL BRASIL (UTC-3) E SANITIZAÇÃO XSS
+       ===================================================================== */
+    function todayLocal(d = new Date()) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function esc(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    /* =====================================================================
+       FERIADOS NACIONAIS E LOCAIS DE SÃO PAULO
+       ===================================================================== */
     const BRAZIL_HOLIDAYS = [
       { d: '01/01', name: 'Confraternização Universal' },
+      { d: '25/01', name: 'Aniversário de São Paulo' },
       { d: '21/04', name: 'Tiradentes' },
       { d: '01/05', name: 'Dia Mundial do Trabalho' },
+      { d: '09/07', name: 'Revolução Constitucionalista (SP)' },
       { d: '07/09', name: 'Independência do Brasil' },
       { d: '12/10', name: 'Nossa Senhora Aparecida' },
       { d: '02/11', name: 'Finados' },
@@ -1024,6 +1095,20 @@
       { d: '20/11', name: 'Dia da Consciência Negra' },
       { d: '25/12', name: 'Natal' }
     ];
+
+    function isHolidayOrWeekend(dateStr) {
+      if (!dateStr) return false;
+      const [y, m, d] = dateStr.split('-').map(Number);
+      const wd = new Date(y, m - 1, d).getDay();
+      const dmKey = `${String(d).padStart(2, '0')}/${String(m).padStart(2, '0')}`;
+      const isHol = BRAZIL_HOLIDAYS.some(h => h.d === dmKey);
+      return (wd === 0 || wd === 6 || isHol);
+    }
+
+    function expectedFor(dateStr) {
+      const base = (appState.config && typeof appState.config.expected === 'number') ? appState.config.expected : 480;
+      return isHolidayOrWeekend(dateStr) ? 0 : base;
+    }
 
     function renderHolidaysList() {
       const box = document.getElementById('holidayListBox');
@@ -1039,7 +1124,9 @@
       if (badge) badge.textContent = `${BRAZIL_HOLIDAYS.length} Feriados`;
     }
 
-    /* MINI CALENDÁRIO */
+    /* =====================================================================
+       MINI CALENDÁRIO
+       ===================================================================== */
     let calCurrentDate = new Date();
 
     function renderMiniCalendar() {
@@ -1068,7 +1155,7 @@
         grid.appendChild(document.createElement('div'));
       }
 
-      const todayStr = new Date().toISOString().slice(0, 10);
+      const todayStr = todayLocal();
 
       for (let day = 1; day <= daysInMonth; day++) {
         const cell = document.createElement('div');
@@ -1095,14 +1182,16 @@
           const fMonth = document.getElementById('filterMonth');
           if (fMonth) fMonth.value = `${year}-${monthFmt}`;
           renderDashboard();
-          showToast(`Filtrado para ${dayFmt}/${monthFmt}/${year}`);
+          showToast(`Filtrado para ${meses[month]} de ${year}`);
         };
 
         grid.appendChild(cell);
       }
     }
 
-    /* MOTOR CORE */
+    /* =====================================================================
+       MOTOR CORE DE CÁLCULO
+       ===================================================================== */
     const Core = {
       toMinutes(timeStr) {
         if (!timeStr || typeof timeStr !== 'string' || !timeStr.includes(':')) return 0;
@@ -1137,7 +1226,7 @@
 
     function normalizeEntry(e) {
       if (!e) return null;
-      const date = e.date || e.d || new Date().toISOString().slice(0, 10);
+      const date = e.date || e.d || todayLocal();
       let type = 'trabalhado';
       if (e.t === 'uso' || e.type === 'uso') type = 'uso';
       else if (e.t === 'falta' || e.type === 'falta') type = 'falta';
@@ -1154,12 +1243,12 @@
       } else if (typeof e.m === 'number') {
         variation = e.m;
       } else if (type === 'trabalhado') {
-        const exp = (appState.config && appState.config.expected) || 480;
+        const exp = expectedFor(date);
         variation = Core.calcPJ(entrada, saida, intervalo, nextDay, exp).saldo;
       }
 
       const obs = (e.obs || e.n || '').slice(0, 255);
-      const id = e.id || 'id_' + Math.random().toString(36).slice(2);
+      const id = e.id || `leg_${date}_${type}_${entrada}_${saida}_${variation}`;
       const createdAt = e.createdAt || new Date().toISOString();
       const updatedAt = e.updatedAt || createdAt;
       const version = (e.version || 1);
@@ -1167,33 +1256,29 @@
       return { id, date, variation, type, entrada, saida, intervalo, obs, nextDay, createdAt, updatedAt, version };
     }
 
-    /* ESTADO & PERSISTÊNCIA */
+    /* =====================================================================
+       ESTADO E MULTI-USUÁRIO BLINDADO (SEM VAZAMENTOS)
+       ===================================================================== */
     let currentUserId = 'guest';
 
     function getStorageKey() {
       return `realtime_state_user_${currentUserId}`;
     }
 
-    let appState = {
-      config: { 
-        modalidade: 'pj8',
-        entrada: '08:00', 
-        saida: '17:00', 
-        intervalo: 60, 
-        expected: 480 
-      },
-      profile: {
-        name: 'Colaborador',
-        email: '',
-        role: 'Consultor Imobiliário',
-        company: 'Real Estate São Paulo',
-        photo: ''
-      },
-      entries: [],
-      reports: {},
-      closedMonths: [],
-      theme: 'dark'
-    };
+    function freshState() {
+      return {
+        config: { modalidade: 'pj8', entrada: '08:00', saida: '17:00', intervalo: 60, expected: 480 },
+        profile: { name: 'Colaborador', email: '', role: 'Consultor Imobiliário', company: 'Real Estate São Paulo', photo: '' },
+        entries: [],
+        closedMonths: [],
+        deleted: {},
+        cfgAt: '',
+        closedAt: '',
+        theme: localStorage.getItem('realtime_theme') || 'dark'
+      };
+    }
+
+    let appState = freshState();
 
     function loadLocal() {
       try {
@@ -1204,6 +1289,9 @@
           if (parsed.config) appState.config = { ...appState.config, ...parsed.config };
           if (parsed.profile) appState.profile = { ...appState.profile, ...parsed.profile };
           appState.closedMonths = Array.isArray(parsed.closedMonths) ? parsed.closedMonths : [];
+          appState.deleted = parsed.deleted || {};
+          appState.cfgAt = parsed.cfgAt || '';
+          appState.closedAt = parsed.closedAt || '';
           appState.entries = Array.isArray(rawEntries) ? rawEntries.map(normalizeEntry).filter(Boolean) : [];
         }
       } catch (e) {
@@ -1233,7 +1321,9 @@
       setTimeout(() => t.classList.remove('show'), 3000);
     }
 
-    /* AUDITORIA */
+    /* =====================================================================
+       CAIXA-PRETA DE AUDITORIA & MERGE INTELIGENTE
+       ===================================================================== */
     async function logAudit(action, entryDate, oldData, newData) {
       if (!sbClient || currentUserId === 'guest') return;
       try {
@@ -1246,6 +1336,26 @@
           created_at: new Date().toISOString()
         });
       } catch (err) {}
+    }
+
+    function mergeCloudState(cs) {
+      const dead = { ...(cs.deleted || {}), ...(appState.deleted || {}) };
+      appState.deleted = dead;
+      const map = new Map(appState.entries.map(e => [e.id, e]));
+      (cs.entries || []).map(normalizeEntry).filter(Boolean).forEach(ce => {
+        const le = map.get(ce.id);
+        if (!le || (ce.updatedAt || '') > (le.updatedAt || '')) map.set(ce.id, ce);
+      });
+      appState.entries = [...map.values()].filter(e => !dead[e.id]);
+
+      if ((cs.cfgAt || '') > (appState.cfgAt || '') && cs.config) {
+        appState.config = { ...appState.config, ...cs.config };
+        appState.cfgAt = cs.cfgAt;
+      }
+      if ((cs.closedAt || '') > (appState.closedAt || '') && cs.closedMonths) {
+        appState.closedMonths = cs.closedMonths;
+        appState.closedAt = cs.closedAt;
+      }
     }
 
     function processImportedJSON(text) {
@@ -1281,18 +1391,64 @@
       return (appState.closedMonths || []).includes(dateStr.slice(0, 7));
     }
 
+    /* =====================================================================
+       INICIAR EXPEDIENTE & FINALIZAR DIA
+       ===================================================================== */
+    function iniciarExpedienteAgora() {
+      const now = new Date();
+      const timeNow = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      const todayStr = todayLocal();
+
+      if (isMonthLocked(todayStr)) return alert('Este mês está fechado contra alterações.');
+
+      let entry = appState.entries.find(e => e.date === todayStr && e.type === 'trabalhado');
+      if (entry) {
+        if (!confirm(`A entrada de hoje já está registrada às ${entry.entrada}. Deseja alterar para ${timeNow}?`)) return;
+        entry.entrada = timeNow;
+        entry.updatedAt = new Date().toISOString();
+        entry.version = (entry.version || 1) + 1;
+      } else {
+        const exp = expectedFor(todayStr);
+        const calc = Core.calcPJ(timeNow, appState.config.saida || '17:00', appState.config.intervalo || 60, false, exp);
+        entry = {
+          id: 'id_' + Date.now(),
+          date: todayStr,
+          type: 'trabalhado',
+          entrada: timeNow,
+          saida: '',
+          intervalo: appState.config.intervalo || 60,
+          nextDay: false,
+          variation: calc.saldo,
+          obs: 'Expediente iniciado agora',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          version: 1
+        };
+        appState.entries.push(entry);
+      }
+
+      logAudit('INICIAR_EXPEDIENTE', todayStr, null, entry);
+      saveLocal();
+      showToast(`Entrada registrada com sucesso às ${timeNow}!`);
+    }
+
     function finalizarDiaInstantaneo() {
       const now = new Date();
       const timeNow = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-      const todayStr = now.toISOString().slice(0, 10);
+      const todayStr = todayLocal();
       
       if (isMonthLocked(todayStr)) return alert('Este mês está fechado contra alterações.');
 
-      let oldEntry = appState.entries.find(e => e.date === todayStr);
+      let oldEntry = appState.entries.find(e => e.date === todayStr && e.type === 'trabalhado');
+
+      if (oldEntry && oldEntry.saida) {
+        if (!confirm(`O expediente de hoje já foi encerrado às ${oldEntry.saida}. Deseja atualizar a saída para ${timeNow}?`)) return;
+      }
+
       let entrada = oldEntry ? oldEntry.entrada : (appState.config.entrada || '08:00');
       let saida = timeNow;
       let intervalo = typeof appState.config.intervalo === 'number' ? appState.config.intervalo : 60;
-      let expected = typeof appState.config.expected === 'number' ? appState.config.expected : 480;
+      let expected = expectedFor(todayStr);
 
       const calc = Core.calcPJ(entrada, saida, intervalo, false, expected);
 
@@ -1311,7 +1467,7 @@
         version: oldEntry ? (oldEntry.version + 1) : 1
       };
 
-      appState.entries = appState.entries.filter(e => e.date !== todayStr);
+      appState.entries = appState.entries.filter(e => !(e.date === todayStr && e.type === 'trabalhado'));
       appState.entries.push(newEntry);
 
       logAudit('FINALIZAR_DIA_1TOQUE', todayStr, oldEntry, newEntry);
@@ -1406,8 +1562,11 @@
       box.innerHTML = svg;
     }
 
+    /* =====================================================================
+       RENDERIZAÇÃO DA TABELA (SALDO ACUMULADO CALCULADO DE FORMA CORRETA)
+       ===================================================================== */
     function renderDashboard() {
-      const todayStr = new Date().toISOString().slice(0, 10);
+      const todayStr = todayLocal();
       const [anoT, mesT, diaT] = todayStr.split('-');
       const diasSemanaExt = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
       const mesesExt = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
@@ -1418,28 +1577,29 @@
 
       renderProfile();
 
-      const expectedH = Core.fromMinutes(appState.config.expected || 480);
+      const expectedH = Core.fromMinutes(expectedFor(todayStr));
       const labelSaldoHoje = document.getElementById('statSaldoHojeLabel');
       if (labelSaldoHoje) labelSaldoHoje.textContent = `Saldo do Dia (vs ${expectedH})`;
 
-      const todayEntry = appState.entries.find(e => e.date === todayStr);
+      const todayEntry = appState.entries.find(e => e.date === todayStr && e.type === 'trabalhado');
       const liveDot = document.getElementById('liveStatusDot');
       const liveText = document.getElementById('liveStatusText');
 
-      if (todayEntry && todayEntry.type === 'trabalhado') {
+      if (todayEntry) {
         document.getElementById('timeEntradaDisplay').textContent = todayEntry.entrada || '--:--';
         document.getElementById('timeSaidaDisplay').textContent = todayEntry.saida || '--:--';
         document.getElementById('intervalDurationDisplay').textContent = Core.fromMinutes(todayEntry.intervalo || 60);
 
-        const calc = Core.calcPJ(todayEntry.entrada, todayEntry.saida, todayEntry.intervalo, todayEntry.nextDay, appState.config.expected || 480);
-        document.getElementById('statHorasHoje').textContent = Core.fromMinutes(calc.totalLiquido);
-        document.getElementById('statSaldoHoje').textContent = Core.fromMinutes(todayEntry.variation, true);
-        document.getElementById('statSaldoHoje').className = `metric-value ${todayEntry.variation >= 0 ? 'pos' : 'neg'}`;
-
         if (todayEntry.saida) {
+          const calc = Core.calcPJ(todayEntry.entrada, todayEntry.saida, todayEntry.intervalo, todayEntry.nextDay, expectedFor(todayStr));
+          document.getElementById('statHorasHoje').textContent = Core.fromMinutes(calc.totalLiquido);
+          document.getElementById('statSaldoHoje').textContent = Core.fromMinutes(todayEntry.variation, true);
+          document.getElementById('statSaldoHoje').className = `metric-value ${todayEntry.variation >= 0 ? 'pos' : 'neg'}`;
           liveText.textContent = 'Expediente Finalizado';
           liveDot.className = 'live-dot idle';
         } else {
+          document.getElementById('statHorasHoje').textContent = '--:--';
+          document.getElementById('statSaldoHoje').textContent = '+00:00';
           liveText.textContent = 'Em Atividade';
           liveDot.className = 'live-dot';
         }
@@ -1453,12 +1613,19 @@
         if (liveDot) liveDot.className = 'live-dot idle';
       }
 
-      let totalSaldo = 0;
+      // CORREÇÃO CRÍTICA DO SALDO ACUMULADO: SOMA CRONOLÓGICA (DO PASSADO PARA O PRESENTE)
+      const asc = [...appState.entries].sort((a, b) => a.date.localeCompare(b.date) || (a.createdAt || '').localeCompare(b.createdAt || ''));
+      let acc = 0;
+      const runMap = {};
+      asc.forEach(e => {
+        acc += e.variation;
+        runMap[e.id] = acc;
+      });
+      const grandTotal = acc;
+
       const filterMonth = document.getElementById('filterMonth').value;
       const searchEl = document.getElementById('searchTableInput');
       const searchQuery = searchEl ? searchEl.value.toLowerCase().trim() : '';
-      
-      appState.entries.sort((a, b) => new Date(b.date) - new Date(a.date));
 
       const tbody = document.getElementById('entriesTableBody');
       if (tbody) tbody.innerHTML = '';
@@ -1488,15 +1655,15 @@
         lockText.textContent = isCurMonthLocked ? 'Reabrir Mês' : 'Fechar Mês';
       }
 
+      // Ordena decrescente apenas para exibição da tabela
       const filtered = appState.entries.filter(e => {
         if (!e || !e.date) return false;
         const matchMonth = !filterMonth || e.date.startsWith(filterMonth);
         const matchSearch = !searchQuery || (e.obs && e.obs.toLowerCase().includes(searchQuery));
         return matchMonth && matchSearch;
-      });
+      }).sort((a, b) => b.date.localeCompare(a.date) || (b.createdAt || '').localeCompare(a.createdAt || ''));
 
       filtered.forEach((entry) => {
-        totalSaldo += entry.variation;
         if (!tbody) return;
         const tr = document.createElement('tr');
         const parts = entry.date.split('-');
@@ -1511,19 +1678,20 @@
         if (entry.type === 'atestado') { tipoBadge = 'Abonada'; tipoClass = 'neutral'; }
 
         const entryLocked = isMonthLocked(entry.date);
+        const accumulated = runMap[entry.id] !== undefined ? runMap[entry.id] : 0;
 
         tr.innerHTML = `
           <td><strong>${d}/${m}/${y}</strong></td>
           <td>
             ${entry.type === 'trabalhado' 
-              ? `<span class="mono">${entry.entrada} → ${entry.saida}</span> <span class="muted" style="font-size:11px">(-${Core.fromMinutes(entry.intervalo || 60)} int)</span>`
+              ? `<span class="mono">${entry.entrada} → ${entry.saida || '...'}</span> <span class="muted" style="font-size:11px">(-${Core.fromMinutes(entry.intervalo || 60)} int)</span>`
               : (entry.type === 'uso' ? `Folga / Desconto: ${Core.fromMinutes(Math.abs(entry.variation))}` : 'Ausência Registrada')}
             ${entryLocked ? '<span class="tag locked">🔒 Trancado</span>' : ''}
-            ${entry.obs ? `<div class="muted" style="font-size:11px; margin-top:2px;">${entry.obs}</div>` : ''}
+            ${entry.obs ? `<div class="muted" style="font-size:11px; margin-top:2px;">${esc(entry.obs)}</div>` : ''}
           </td>
           <td><span class="tag ${tipoClass}">${tipoBadge}</span></td>
           <td style="text-align: right;" class="mono ${entry.variation >= 0 ? 'pos' : 'neg'}"><strong>${Core.fromMinutes(entry.variation, true)}</strong></td>
-          <td style="text-align: right;" class="mono"><strong>${Core.fromMinutes(totalSaldo)}</strong></td>
+          <td style="text-align: right;" class="mono"><strong>${Core.fromMinutes(accumulated)}</strong></td>
           <td style="text-align: center;">
             <button class="btn" style="padding:4px 8px;" onclick="editEntry('${entry.id}')" ${entryLocked ? 'disabled' : ''}>Editar</button>
             <button class="btn" style="padding:4px 8px; color:var(--neg);" onclick="deleteEntry('${entry.id}')" ${entryLocked ? 'disabled' : ''}>✕</button>
@@ -1534,8 +1702,8 @@
 
       const statBalanceEl = document.getElementById('statBalance');
       if (statBalanceEl) {
-        statBalanceEl.textContent = Core.fromMinutes(totalSaldo);
-        statBalanceEl.className = `metric-value ${totalSaldo >= 0 ? 'pos' : 'neg'}`;
+        statBalanceEl.textContent = Core.fromMinutes(grandTotal);
+        statBalanceEl.className = `metric-value ${grandTotal >= 0 ? 'pos' : 'neg'}`;
       }
     }
 
@@ -1565,14 +1733,15 @@
         reader.readAsText(file);
       });
 
+      safeAddListener('btnIniciarExpediente', 'click', iniciarExpedienteAgora);
       safeAddListener('btnFinalizarDiaInstantaneo', 'click', finalizarDiaInstantaneo);
       safeAddListener('btnFinalizarDiaHero', 'click', finalizarDiaInstantaneo);
 
       safeAddListener('btnBaterPontoAgora', 'click', () => {
-        const todayStr = new Date().toISOString().slice(0, 10);
+        const todayStr = todayLocal();
         if (isMonthLocked(todayStr)) return alert('O mês atual está trancado contra alterações.');
 
-        let entry = appState.entries.find(e => e.date === todayStr);
+        let entry = appState.entries.find(e => e.date === todayStr && e.type === 'trabalhado');
         const now = new Date();
         const timeNow = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
@@ -1603,7 +1772,7 @@
       safeAddListener('btnUseHours', 'click', () => {
         const form = document.getElementById('formUso');
         if (form) form.reset();
-        document.getElementById('usoData').valueAsDate = new Date();
+        document.getElementById('usoData').value = todayLocal();
         const modal = document.getElementById('modalUso');
         if (modal) modal.showModal();
       });
@@ -1611,7 +1780,7 @@
       safeAddListener('btnRegistrarFalta', 'click', () => {
         const form = document.getElementById('formFalta');
         if (form) form.reset();
-        document.getElementById('faltaData').valueAsDate = new Date();
+        document.getElementById('faltaData').value = todayLocal();
         document.getElementById('faltaDiaTodo').checked = true;
         toggleFaltaDiaTodo();
         const modal = document.getElementById('modalFalta');
@@ -1667,6 +1836,7 @@
         }
       });
 
+      // COMPRESSÃO DE FOTO COM CANVAS (MÁXIMO 256PX JPEG)
       safeAddListener('btnTrocarFoto', 'click', () => {
         const inp = document.getElementById('profilePhotoInput');
         if (inp) inp.click();
@@ -1675,10 +1845,29 @@
       safeAddListener('profilePhotoInput', 'change', (e) => {
         const file = e.target.files[0];
         if (!file) return;
+
         const reader = new FileReader();
         reader.onload = (ev) => {
-          appState.profile.photo = ev.target.result;
-          renderProfile();
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const maxSize = 256;
+            let w = img.width, h = img.height;
+            if (w > h && w > maxSize) {
+              h = Math.round((h * maxSize) / w);
+              w = maxSize;
+            } else if (h > maxSize) {
+              w = Math.round((w * maxSize) / h);
+              h = maxSize;
+            }
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            appState.profile.photo = canvas.toDataURL('image/jpeg', 0.85);
+            renderProfile();
+          };
+          img.src = ev.target.result;
         };
         reader.readAsDataURL(file);
       });
@@ -1687,7 +1876,7 @@
         e.preventDefault();
         appState.profile.name = document.getElementById('perfilNome').value;
         appState.profile.role = document.getElementById('perfilCargo').value;
-        logAudit('UPDATE_PROFILE', new Date().toISOString().slice(0, 10), null, appState.profile);
+        logAudit('UPDATE_PROFILE', todayLocal(), null, appState.profile);
         saveLocal();
         renderProfile();
         const modal = document.getElementById('modalPerfil');
@@ -1695,8 +1884,9 @@
         showToast('Perfil salvo!');
       });
 
+      // TRAVA DE COMPETÊNCIA / FECHAMENTO DE MÊS
       safeAddListener('btnToggleLockMonth', 'click', () => {
-        const fMonth = document.getElementById('filterMonth').value || new Date().toISOString().slice(0, 7);
+        const fMonth = document.getElementById('filterMonth').value || todayLocal().slice(0, 7);
         appState.closedMonths = appState.closedMonths || [];
         const isLocked = appState.closedMonths.includes(fMonth);
 
@@ -1704,15 +1894,45 @@
           const reason = prompt('Informe a justificativa para reabrir este mês:');
           if (!reason) return alert('A justificativa é obrigatória.');
           appState.closedMonths = appState.closedMonths.filter(m => m !== fMonth);
+          appState.closedAt = new Date().toISOString();
           logAudit('REOPEN_MONTH', `${fMonth}-01`, null, { month: fMonth, reason });
           showToast(`Mês ${fMonth} reaberto.`);
         } else {
-          if (!confirm(`Deseja fechar o mês ${fMonth}? As edições serão trancadas.`)) return;
+          if (!confirm(`Deseja fechar o mês ${fMonth}? As edições serão trancadas contra alterações acidentais.`)) return;
           appState.closedMonths.push(fMonth);
+          appState.closedAt = new Date().toISOString();
           logAudit('CLOSE_MONTH', `${fMonth}-01`, null, { month: fMonth });
           showToast(`Mês ${fMonth} fechado com sucesso!`);
         }
         saveLocal();
+      });
+
+      // EXPORTAÇÃO DOSSIÊ LGPD
+      safeAddListener('btnExportLGPD', 'click', () => {
+        const dossier = {
+          dossierType: 'LGPD Art. 18 - Portabilidade',
+          exportDate: new Date().toISOString(),
+          employee: appState.profile,
+          configuration: appState.config,
+          historyEntries: appState.entries
+        };
+        const blob = new Blob([JSON.stringify(dossier, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `dossie_lgpd_${(appState.profile.name || 'usuario').replace(/\s+/g, '_')}.json`;
+        a.click();
+        showToast('Dossiê exportado!');
+      });
+
+      // LOGOUT GLOBAL
+      safeAddListener('btnGlobalSignOut', 'click', async () => {
+        if (!confirm('Deseja desconectar de TODOS os aparelhos?')) return;
+        if (sbClient) {
+          try { await sbClient.auth.signOut({ scope: 'global' }); } catch {}
+        }
+        onUserSignedOut();
+        const modal = document.getElementById('modalSettings');
+        if (modal) modal.close();
       });
 
       const logoutHandler = async () => {
@@ -1727,11 +1947,13 @@
       safeAddListener('btnLogoutSession', 'click', logoutHandler);
       safeAddListener('btnTopLogout', 'click', logoutHandler);
 
+      // TEMA PERSISTIDO CORRETAMENTE
       safeAddListener('btnThemeToggle', 'click', () => {
         const cur = document.documentElement.getAttribute('data-theme') || 'dark';
         const next = cur === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', next);
         appState.theme = next;
+        localStorage.setItem('realtime_theme', next);
         saveLocal();
       });
 
@@ -1759,19 +1981,22 @@
         renderMiniCalendar();
       });
 
+      // CSV COMPATÍVEL COM EXCEL BRASILEIRO (; e BOM \ufeff)
       safeAddListener('btnExportCSV', 'click', () => {
-        let csv = 'Data,Entrada,Saida,Intervalo(Min),Tipo,Variacao(Minutos),Variacao(Formatada),Observacao\n';
+        let csv = '\ufeffData;Entrada;Saida;Intervalo(Min);Tipo;Variacao(Minutos);Variacao(Formatada);Observacao\n';
         appState.entries.forEach(e => {
           const parts = e.date.split('-');
-          csv += `"${parts[2]}/${parts[1]}/${parts[0]}","${e.entrada || ''}","${e.saida || ''}","${e.intervalo || 60}","${e.type}","${e.variation}","${Core.fromMinutes(e.variation, true)}","${e.obs || ''}"\n`;
+          const safeObs = (e.obs || '').replace(/"/g, '""');
+          csv += `"${parts[2]}/${parts[1]}/${parts[0]}";"${e.entrada || ''}";"${e.saida || ''}";"${e.intervalo || 60}";"${e.type}";"${e.variation}";"${Core.fromMinutes(e.variation, true)}";"${safeObs}"\n`;
         });
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `extrato_horas_${new Date().toISOString().slice(0, 10)}.csv`;
+        link.download = `extrato_horas_${todayLocal()}.csv`;
         link.click();
       });
 
+      // LANÇAMENTO MANUAL DE PONTO
       safeAddListener('formPonto', 'submit', (e) => {
         e.preventDefault();
         const data = document.getElementById('pontoData').value;
@@ -1784,7 +2009,7 @@
         const nextDay = document.getElementById('pontoNextDay').checked;
         const obs = document.getElementById('pontoObs').value;
 
-        const exp = (appState.config && appState.config.expected) || 480;
+        const exp = expectedFor(data);
         const calc = Core.calcPJ(entrada, saida, intervalo, nextDay, exp);
         const oldEntry = appState.entries.find(x => x.id === id);
 
@@ -1805,6 +2030,7 @@
         if (modal) modal.close();
       });
 
+      // COMPENSAÇÃO DE HORAS
       safeAddListener('formUso', 'submit', (e) => {
         e.preventDefault();
         const data = document.getElementById('usoData').value;
@@ -1828,6 +2054,7 @@
         if (modal) modal.close();
       });
 
+      // LANÇAMENTO DE FALTA
       safeAddListener('formFalta', 'submit', (e) => {
         e.preventDefault();
         const data = document.getElementById('faltaData').value;
@@ -1837,7 +2064,7 @@
         const diaTodo = document.getElementById('faltaDiaTodo').checked;
         const motivo = document.getElementById('faltaMotivo').value;
 
-        const exp = (appState.config && appState.config.expected) || 480;
+        const exp = expectedFor(data);
         let mins = 0;
         if (diaTodo) mins = exp;
         else mins = ((Number(document.getElementById('faltaHoras').value) || 0) * 60) + (Number(document.getElementById('faltaMinutos').value) || 0);
@@ -1857,6 +2084,7 @@
         if (modal) modal.close();
       });
 
+      // CONFIGURAÇÕES DE JORNADA
       safeAddListener('btnSaveConfigs', 'click', () => {
         const modalidade = document.getElementById('cfgModalidade').value;
         const entrada = document.getElementById('cfgEntrada').value;
@@ -1872,6 +2100,7 @@
         else if (modalidade === 'pj8') expected = 480;
 
         appState.config = { modalidade, entrada, saida, intervalo, expected };
+        appState.cfgAt = new Date().toISOString();
 
         saveLocal();
         const modal = document.getElementById('modalSettings');
@@ -1883,7 +2112,7 @@
         const blob = new Blob([JSON.stringify(appState, null, 2)], { type: 'application/json' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = `backup_realtime_${new Date().toISOString().slice(0, 10)}.json`;
+        a.download = `backup_realtime_${todayLocal()}.json`;
         a.click();
       });
 
@@ -1899,14 +2128,32 @@
         reader.onload = (ev) => processImportedJSON(ev.target.result);
         reader.readAsText(file);
       });
+
+      // FORMULÁRIO DE NOVA SENHA (PASSWORD RECOVERY)
+      safeAddListener('formNewPassword', 'submit', async (e) => {
+        e.preventDefault();
+        const pass = document.getElementById('newPasswordInput').value;
+        if (!pass || pass.length < 6) return alert('A senha deve ter no mínimo 6 caracteres.');
+        try {
+          if (!sbClient) throw new Error('Supabase indisponível.');
+          const { error } = await sbClient.auth.updateUser({ password: pass });
+          if (error) throw error;
+          showToast('Senha atualizada com sucesso!');
+          const modal = document.getElementById('modalNewPassword');
+          if (modal) modal.close();
+        } catch (err) {
+          alert('Erro ao atualizar senha: ' + err.message);
+        }
+      });
     }
 
     function atualizarCalculoModal() {
+      const data = document.getElementById('pontoData').value || todayLocal();
       const entrada = document.getElementById('pontoEntrada').value;
       const saida = document.getElementById('pontoSaida').value;
       const intervalo = Number(document.getElementById('pontoIntervalo').value) || 0;
       const nextDay = document.getElementById('pontoNextDay').checked;
-      const exp = (appState.config && appState.config.expected) || 480;
+      const exp = expectedFor(data);
 
       const calc = Core.calcPJ(entrada, saida, intervalo, nextDay, exp);
       const prev = document.getElementById('pontoCalculoPreview');
@@ -1923,9 +2170,10 @@
     }
 
     function atualizarCalculoFalta() {
+      const data = document.getElementById('faltaData').value || todayLocal();
       const tipo = document.getElementById('faltaTipo').value;
       const diaTodo = document.getElementById('faltaDiaTodo').checked;
-      const exp = (appState.config && appState.config.expected) || 480;
+      const exp = expectedFor(data);
       let mins = 0;
 
       if (diaTodo) mins = exp;
@@ -1944,7 +2192,9 @@
       const item = appState.entries.find(x => x.id === id);
       if (!item) return;
 
-      if (isMonthLocked(item.date)) return alert('Este mês está fechado.');
+      if (isMonthLocked(item.date)) {
+        return alert('Este mês está fechado. Para editar, reabra o mês com uma justificativa.');
+      }
 
       if (item.type === 'falta' || item.type === 'atestado') {
         alert('Para ausências, remova o item e registre novamente.');
@@ -1968,37 +2218,48 @@
       const item = appState.entries.find(x => x.id === id);
       if (!item) return;
 
-      if (isMonthLocked(item.date)) return alert('Este mês está fechado.');
+      if (isMonthLocked(item.date)) {
+        return alert('Este mês está fechado e não permite exclusões.');
+      }
 
-      if (confirm('Deseja excluir este lançamento?')) {
+      if (confirm('Deseja excluir este lançamento? A ação será registrada na auditoria.')) {
         logAudit('DELETE_ENTRY', item.date, item, null);
+        
+        // GRAVAÇÃO DE TOMBSTONE DE EXCLUSÃO (IMPEDE RESSUSCITAR NA NUVEM)
+        appState.deleted = appState.deleted || {};
+        appState.deleted[id] = new Date().toISOString();
+        
         appState.entries = appState.entries.filter(x => x.id !== id);
         saveLocal();
       }
     }
 
-    /* AUTENTICAÇÃO SUPABASE */
+    /* =====================================================================
+       SUPABASE & SISTEMA DE AUTENTICAÇÃO SEGURO
+       ===================================================================== */
     // ⚠️ SUBSTITUA PELAS SUAS CREDENCIAIS DO SUPABASE (Aba BHRE)
     const SB_URL = 'https://cqxgfqbgkjqersrnuffx.supabase.co';
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxeGdmcWJna2pxZXJzcm51ZmZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4Mjc2NTMsImV4cCI6MjEwOTQwMzY1M30.kIVQx4Jel8ZryZaTnc1jtTsbvPuGh_F9-RIwPIBl9bs';
     let sbClient = null;
-    let authMode = 'login'; // Abre em "Entrar" por padrão
+    let authMode = 'login';
 
     async function initSupabase() {
       try {
         if (typeof supabase !== 'undefined' && supabase && typeof supabase.createClient === 'function') {
           sbClient = supabase.createClient(SB_URL, SB_KEY);
 
-          const { data: { session } } = await sbClient.auth.getSession();
-          if (session && session.user) {
-            onUserSignedIn(session.user);
-          } else {
-            onUserSignedOut();
-          }
-
           sbClient.auth.onAuthStateChange((event, session) => {
-            if (session && session.user) onUserSignedIn(session.user);
-            else onUserSignedOut();
+            if (event === 'PASSWORD_RECOVERY') {
+              const modalPass = document.getElementById('modalNewPassword');
+              if (modalPass) modalPass.showModal();
+              return;
+            }
+
+            if (session && session.user) {
+              onUserSignedIn(session.user);
+            } else {
+              onUserSignedOut();
+            }
           });
         } else {
           onUserSignedOut();
@@ -2009,7 +2270,12 @@
     }
 
     function onUserSignedIn(user) {
+      // PREVINE EXECUTAR DUAS VEZES SE JÁ ESTIVER LOGADO
+      if (currentUserId === user.id && !document.getElementById('appScreen').hidden) return;
+
       currentUserId = user.id;
+      appState = freshState(); // Limpa memória para evitar vazamento
+
       document.getElementById('authScreen').hidden = true;
       document.getElementById('appScreen').hidden = false;
 
@@ -2028,6 +2294,8 @@
 
     function onUserSignedOut() {
       currentUserId = 'guest';
+      appState = freshState(); // Limpa estado em memória
+
       document.getElementById('appScreen').hidden = true;
       document.getElementById('authScreen').hidden = false;
       updateSyncStatus('offline', 'Desconectado');
@@ -2059,18 +2327,7 @@
         if (cloudRow && cloudRow.state) {
           try {
             const cloudState = JSON.parse(cloudRow.state);
-            const cloudEntries = Array.isArray(cloudState.entries) ? cloudState.entries.map(normalizeEntry).filter(Boolean) : [];
-            
-            if (cloudState.config) {
-              appState.config = { ...appState.config, ...cloudState.config };
-            }
-
-            const localIds = new Set(appState.entries.map(e => e.id));
-            cloudEntries.forEach(ce => {
-              if (!localIds.has(ce.id)) appState.entries.push(ce);
-            });
-
-            if (cloudState.closedMonths) appState.closedMonths = [...new Set([...(appState.closedMonths || []), ...cloudState.closedMonths])];
+            mergeCloudState(cloudState);
           } catch (e) {}
         }
 
@@ -2080,7 +2337,15 @@
           updated_at: new Date().toISOString()
         });
 
-        updateSyncStatus(upsertErr ? 'error' : 'online', upsertErr ? 'Erro ao salvar' : 'Nuvem OK');
+        if (!upsertErr) {
+          updateSyncStatus('online', 'Nuvem OK');
+        } else {
+          updateSyncStatus('error', 'Erro ao salvar');
+        }
+
+        renderDashboard();
+        renderMiniCalendar();
+        renderMonthlyChart();
       } catch (err) {
         updateSyncStatus('error', 'Sem Conexão');
       }
@@ -2113,6 +2378,7 @@
 
       document.getElementById('btnContinueOffline').onclick = () => {
         currentUserId = 'guest';
+        appState = freshState();
         document.getElementById('authScreen').hidden = true;
         document.getElementById('appScreen').hidden = false;
         loadLocal();
@@ -2127,13 +2393,15 @@
         const email = document.getElementById('authEmail').value.trim();
         if (!email) {
           msgBox.style.color = 'var(--warn)';
-          msgBox.textContent = 'Informe seu e-mail para redefinir.';
+          msgBox.textContent = 'Informe seu e-mail para receber o link de redefinição.';
           return;
         }
         if (!sbClient) return alert('Serviço indisponível.');
-        const { error } = await sbClient.auth.resetPasswordForEmail(email);
+        const { error } = await sbClient.auth.resetPasswordForEmail(email, {
+          redirectTo: window.location.origin
+        });
         msgBox.style.color = error ? 'var(--neg)' : 'var(--pos)';
-        msgBox.textContent = error ? error.message : 'Link de redefinição enviado!';
+        msgBox.textContent = error ? error.message : 'Link de redefinição enviado para seu e-mail!';
       };
 
       document.getElementById('formAuth').onsubmit = async (e) => {
@@ -2165,7 +2433,10 @@
             const { data, error } = await sbClient.auth.signUp({
               email,
               password,
-              options: { data: { name, role: role || 'Prestador PJ' } }
+              options: {
+                data: { name, role: role || 'Prestador PJ' },
+                emailRedirectTo: window.location.origin
+              }
             });
             if (error) throw error;
             
@@ -2193,7 +2464,9 @@
       };
     }
 
-    /* INICIALIZAÇÃO */
+    /* =====================================================================
+       INICIALIZAÇÃO DO SISTEMA
+       ===================================================================== */
     document.addEventListener('DOMContentLoaded', () => {
       try {
         const curTheme = localStorage.getItem('realtime_theme') || 'dark';

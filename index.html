@@ -12,26 +12,23 @@
   
   <style>
     :root {
-      /* PALETA DE CORES OFICIAL REAL ESTATE SP */
-      --c-roxo: #220C27;
-      --c-laranja: #EC894D;
-      --c-laranja-hover: #d97334;
-      --c-champagne: #EFECE5;
-      --c-champagne-sub: #DDD6C6;
-      --c-bege: #C4B9A0;
-
-      /* MODO ESCURO GRAFITE / ZERO ROXO NO FUNDO */
+      /* PALETA DE CORES: MODO ESCURO GRAFITE / ZERO ROXO NO FUNDO */
       --bg-page: #090d16;
       --card-white: #111827;
       --card-sub: #182234;
       --border-color: #233148;
       --border-subtle: #192437;
+      
       --hero-bg: #111827;
       --hero-border: #EC894D;
+      
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --text-dim: #64748b;
       --bg-contrast: #111827;
+      
+      --c-laranja: #EC894D;
+      --c-laranja-hover: #d97334;
       
       --pos: #10b981;
       --pos-bg: rgba(16, 185, 129, 0.12);
@@ -131,7 +128,7 @@
 
     .auth-container {
       width: 100%;
-      max-width: 460px;
+      max-width: 440px;
       background: var(--card-white);
       border: 1px solid var(--border-color);
       border-top: 4px solid var(--c-laranja);
@@ -248,35 +245,6 @@
       margin: 0 auto;
       padding: 24px;
       flex: 1;
-    }
-
-    .nav-tabs {
-      display: inline-flex;
-      background: var(--card-sub);
-      padding: 4px;
-      border-radius: 12px;
-      gap: 4px;
-      margin-bottom: 24px;
-      border: 1px solid var(--border-color);
-    }
-    .nav-tabs button {
-      border: 0;
-      background: transparent;
-      color: var(--text-muted);
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      padding: 8px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .nav-tabs button.active {
-      background: var(--card-white);
-      color: var(--c-laranja);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     /* HERO BANNER */
@@ -489,11 +457,6 @@
     .tag.falta { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
     .tag.locked { background: rgba(236, 137, 77, 0.15); color: var(--c-laranja); border: 1px solid rgba(236, 137, 77, 0.3); }
 
-    /* RELATÓRIOS */
-    .report-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; }
-    .dropzone { border: 2px dashed var(--border-color); border-radius: var(--radius-md); padding: 22px; text-align: center; background: var(--card-sub); cursor: pointer; margin-top: 10px; }
-    .report-preview-box { background: var(--card-sub); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; font-size: 13px; line-height: 1.7; white-space: pre-wrap; max-height: 500px; overflow-y: auto; }
-
     /* MODAIS */
     dialog {
       background: var(--card-white);
@@ -547,7 +510,7 @@
     /* IMPRESSÃO A4 */
     @media print {
       body { background: #fff !important; color: #000 !important; font-size: 11px !important; }
-      header, .tabs-wrapper, .dashboard-grid > div:first-child, .table-actions-bar, td:last-child, th:last-child, .nav-tabs, #v-relatorios, #toast, #authScreen { display: none !important; }
+      header, .tabs-wrapper, .dashboard-grid > div:first-child, .table-actions-bar, td:last-child, th:last-child, #toast, #authScreen { display: none !important; }
       .container { padding: 0 !important; max-width: 100% !important; }
       .dashboard-grid { display: block !important; }
       .hero-banner { background: none !important; color: #000 !important; border: 1px solid #000 !important; box-shadow: none !important; padding: 14px !important; margin-bottom: 14px !important; }
@@ -562,7 +525,6 @@
 
     @media (max-width: 900px) {
       .dashboard-grid { grid-template-columns: 1fr; }
-      .report-layout { grid-template-columns: 1fr; }
     }
     @media (max-width: 600px) {
       .hero-metrics-grid { grid-template-columns: 1fr; gap: 10px; }
@@ -596,24 +558,25 @@
       </div>
 
       <div class="auth-tabs">
-        <button type="button" class="active" id="tabAuthSignup">Criar Conta</button>
-        <button type="button" id="tabAuthLogin">Entrar</button>
+        <button type="button" class="active" id="tabAuthLogin">Entrar</button>
+        <button type="button" id="tabAuthSignup">Criar Conta</button>
       </div>
 
       <form id="formAuth">
-        <div id="boxSignupFields">
+        <!-- Campos de Cadastro (Ocultos no modo Entrar) -->
+        <div id="boxSignupFields" style="display:none;">
           <div class="form-group">
             <label>Seu Nome Completo</label>
-            <input type="text" id="authName" placeholder="Ex: Danielle Silva" required>
+            <input type="text" id="authName" placeholder="Ex: Danielle Silva">
           </div>
           <div class="form-group">
             <label>Seu Cargo / Atividade</label>
-            <input type="text" id="authRole" placeholder="Ex: Marketing / Consultora" required>
+            <input type="text" id="authRole" placeholder="Ex: Marketing / Consultora">
           </div>
         </div>
 
         <div class="form-group">
-          <label>E-mail Corporativo</label>
+          <label>E-mail</label>
           <input type="email" id="authEmail" required placeholder="seu.nome@realestatesp.com.br">
         </div>
 
@@ -624,7 +587,7 @@
 
         <p id="authMsgBox" style="font-size:12px; margin-bottom:14px; min-height:18px;"></p>
 
-        <button type="submit" class="btn-laranja" id="btnSubmitAuth">Cadastrar e Começar</button>
+        <button type="submit" class="btn-laranja" id="btnSubmitAuth">Entrar no RealTime</button>
       </form>
 
       <div style="display:flex; justify-content:space-between; align-items:center; margin-top:18px; border-top:1px solid var(--border-subtle); padding-top:14px;">
@@ -686,9 +649,9 @@
 
     <main class="container">
       <div class="tabs-wrapper" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:24px;">
-        <nav class="nav-tabs">
-          <button class="active" data-view="v-banco">Hoje & Banco</button>
-        </nav>
+        <div style="font-weight:700; font-size:16px; color:var(--text-main);">
+          Meu Banco de Horas
+        </div>
         
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
           <button class="btn" id="btnFinalizarDiaHero" style="background:var(--c-laranja); color:#fff; border-color:var(--c-laranja); font-weight:700;">
@@ -702,7 +665,7 @@
         </div>
       </div>
 
-      <!-- VIEW 1: BANCO DE HORAS -->
+      <!-- BANCO DE HORAS -->
       <section id="v-banco">
         <div class="hero-banner">
           <div class="hero-top-wrap">
@@ -758,8 +721,8 @@
                 </div>
               </div>
 
-              <div class="punch-actions-wrap">
-                <button class="btn-laranja" id="btnFinalizarDiaInstantaneo">⚡ Finalizar Dia Agora</button>
+              <div class="punch-actions-wrap" style="display:flex; flex-direction:column; gap:8px; margin-top:16px;">
+                <button class="btn-laranja" id="btnFinalizarDiaInstantaneo">⚡ Finalizar Dia Agora (1-Toque)</button>
                 <button class="btn" id="btnBaterPontoAgora" style="width:100%;">Lançamento / Ajuste Manual</button>
               </div>
             </div>
@@ -836,8 +799,8 @@
           </div>
         </div>
       </section>
-
-
+    </main>
+  </div>
 
   <!-- MODAIS -->
   <dialog id="modalFalta">
@@ -876,7 +839,7 @@
         <label>Descrição / Motivo</label>
         <input type="text" id="faltaMotivo" placeholder="Ex: Compromisso pessoal ou atestado" required>
       </div>
-      <div style="background: var(--card-sub); padding: 12px; border-radius: 8px; font-size: 13px; margin: 16px 0;" id="faltaCalculoPreview">
+      <div style="background: var(--card-sub); padding: 12px; border-radius: 8px; font-size: 13px; margin: 16px 0; border: 1px solid var(--border-color);" id="faltaCalculoPreview">
         Calculando impacto no saldo...
       </div>
       <div style="display: flex; justify-content: flex-end; gap: 8px;">
@@ -1241,8 +1204,6 @@
           if (parsed.config) appState.config = { ...appState.config, ...parsed.config };
           if (parsed.profile) appState.profile = { ...appState.profile, ...parsed.profile };
           appState.closedMonths = Array.isArray(parsed.closedMonths) ? parsed.closedMonths : [];
-          if (parsed.reports) appState.reports = parsed.reports;
-          if (parsed.rs) appState.reports = { ...appState.reports, ...parsed.rs };
           appState.entries = Array.isArray(rawEntries) ? rawEntries.map(normalizeEntry).filter(Boolean) : [];
         }
       } catch (e) {
@@ -1307,10 +1268,6 @@
             appState.entries.push(item);
           }
         });
-
-        if (parsed.reports || parsed.rs) {
-          appState.reports = { ...appState.reports, ...(parsed.reports || parsed.rs) };
-        }
 
         saveLocal();
         showToast(`Sucesso! ${normalized.length} lançamentos recuperados!`);
@@ -1758,33 +1715,6 @@
         saveLocal();
       });
 
-      safeAddListener('btnExportLGPD', 'click', () => {
-        const dossier = {
-          dossierType: 'LGPD Art. 18 - Portabilidade',
-          exportDate: new Date().toISOString(),
-          employee: appState.profile,
-          configuration: appState.config,
-          historyEntries: appState.entries,
-          dailyReports: appState.reports
-        };
-        const blob = new Blob([JSON.stringify(dossier, null, 2)], { type: 'application/json' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `dossie_lgpd_${(appState.profile.name || 'usuario').replace(/\s+/g, '_')}.json`;
-        a.click();
-        showToast('Dossiê exportado!');
-      });
-
-      safeAddListener('btnGlobalSignOut', 'click', async () => {
-        if (!confirm('Deseja desconectar de TODOS os aparelhos?')) return;
-        if (sbClient) {
-          try { await sbClient.auth.signOut({ scope: 'global' }); } catch {}
-        }
-        onUserSignedOut();
-        const modal = document.getElementById('modalSettings');
-        if (modal) modal.close();
-      });
-
       const logoutHandler = async () => {
         if (confirm('Deseja realmente sair da sua conta?')) {
           if (sbClient) await sbClient.auth.signOut();
@@ -1969,20 +1899,8 @@
         reader.onload = (ev) => processImportedJSON(ev.target.result);
         reader.readAsText(file);
       });
+    }
 
-      document.querySelectorAll('.nav-tabs button').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          const viewId = btn.getAttribute('data-view');
-          const vBanco = document.getElementById('v-banco');
-          const vRel = document.getElementById('v-relatorios');
-          if (vBanco) vBanco.style.display = viewId === 'v-banco' ? 'block' : 'none';
-          if (vRel) vRel.style.display = viewId === 'v-relatorios' ? 'block' : 'none';
-        });
-      });
-
-      
     function atualizarCalculoModal() {
       const entrada = document.getElementById('pontoEntrada').value;
       const saida = document.getElementById('pontoSaida').value;
@@ -2064,19 +1982,12 @@
     const SB_URL = 'https://cqxgfqbgkjqersrnuffx.supabase.co';
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxeGdmcWJna2pxZXJzcm51ZmZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4Mjc2NTMsImV4cCI6MjEwOTQwMzY1M30.kIVQx4Jel8ZryZaTnc1jtTsbvPuGh_F9-RIwPIBl9bs';
     let sbClient = null;
-    let authMode = 'signup';
+    let authMode = 'login'; // Abre em "Entrar" por padrão
 
     async function initSupabase() {
       try {
         if (typeof supabase !== 'undefined' && supabase && typeof supabase.createClient === 'function') {
           sbClient = supabase.createClient(SB_URL, SB_KEY);
-
-          if (!localStorage.getItem('realtime_auth_v13_cleared')) {
-            await sbClient.auth.signOut();
-            localStorage.setItem('realtime_auth_v13_cleared', 'true');
-            onUserSignedOut();
-            return;
-          }
 
           const { data: { session } } = await sbClient.auth.getSession();
           if (session && session.user) {
@@ -2159,7 +2070,6 @@
               if (!localIds.has(ce.id)) appState.entries.push(ce);
             });
 
-            if (cloudState.reports) appState.reports = { ...cloudState.reports, ...appState.reports };
             if (cloudState.closedMonths) appState.closedMonths = [...new Set([...(appState.closedMonths || []), ...cloudState.closedMonths])];
           } catch (e) {}
         }
@@ -2189,8 +2099,6 @@
         tabSignup.className = '';
         btnSubmit.textContent = 'Entrar no RealTime';
         boxSignup.style.display = 'none';
-        document.getElementById('authName').required = false;
-        document.getElementById('authRole').required = false;
         msgBox.textContent = '';
       };
 
@@ -2200,8 +2108,6 @@
         tabLogin.className = '';
         btnSubmit.textContent = 'Cadastrar e Começar';
         boxSignup.style.display = 'block';
-        document.getElementById('authName').required = true;
-        document.getElementById('authRole').required = true;
         msgBox.textContent = '';
       };
 
@@ -2221,7 +2127,7 @@
         const email = document.getElementById('authEmail').value.trim();
         if (!email) {
           msgBox.style.color = 'var(--warn)';
-          msgBox.textContent = 'Informe seu e-mail para receber o link de redefinição.';
+          msgBox.textContent = 'Informe seu e-mail para redefinir.';
           return;
         }
         if (!sbClient) return alert('Serviço indisponível.');
@@ -2249,15 +2155,17 @@
             if (error) throw error;
             onUserSignedIn(data.user);
           } else {
+            if (!name) {
+              msgBox.style.color = 'var(--neg)';
+              msgBox.textContent = 'Por favor, preencha seu nome.';
+              btnSubmit.disabled = false;
+              btnSubmit.textContent = 'Cadastrar e Começar';
+              return;
+            }
             const { data, error } = await sbClient.auth.signUp({
               email,
               password,
-              options: {
-                data: {
-                  name: name || 'Colaborador',
-                  role: role || 'Consultor Imobiliário'
-                }
-              }
+              options: { data: { name, role: role || 'Prestador PJ' } }
             });
             if (error) throw error;
             
@@ -2270,7 +2178,14 @@
           }
         } catch (err) {
           msgBox.style.color = 'var(--neg)';
-          msgBox.textContent = err.message.includes('Invalid login') ? 'E-mail ou senha incorretos.' : err.message;
+          const msg = err.message || '';
+          if (msg.includes('Invalid login')) {
+            msgBox.textContent = 'E-mail ou senha incorretos.';
+          } else if (msg.includes('already registered')) {
+            msgBox.textContent = 'Este e-mail já possui conta. Clique na aba "Entrar".';
+          } else {
+            msgBox.textContent = msg;
+          }
         } finally {
           btnSubmit.disabled = false;
           btnSubmit.textContent = authMode === 'login' ? 'Entrar no RealTime' : 'Cadastrar e Começar';
@@ -2281,16 +2196,12 @@
     /* INICIALIZAÇÃO */
     document.addEventListener('DOMContentLoaded', () => {
       try {
-        const currentTheme = localStorage.getItem('realtime_theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', currentTheme);
-
-        const repDate = document.getElementById('reportDate');
-        if (repDate) repDate.valueAsDate = new Date();
+        const curTheme = localStorage.getItem('realtime_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', curTheme);
 
         setupEventListeners();
         setupAuthForm();
         renderHolidaysList();
-        renderReportFields();
         initSupabase();
       } catch (err) {
         console.error('Erro na inicialização:', err);

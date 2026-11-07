@@ -752,7 +752,7 @@
 
             <div class="content-card">
               <div class="card-title">
-                <span>Feriados Nacionais e de SP</span>
+                <span>Feriados e Folgas</span>
                 <span class="tag neutral" id="holidayCountBadge">Feriados</span>
               </div>
               <div class="holiday-list" id="holidayListBox"></div>
@@ -1030,6 +1030,16 @@
     </div>
 
     <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 16px 0;">
+    <h4 style="font-size: 12px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase;" class="muted">Feriados e Folgas Extras</h4>
+    <small class="muted" style="font-size:11px; display:block; margin-bottom:8px;">Ponto facultativo, recesso, ponte de feriado... Nesses dias a jornada esperada passa a ser 0h.</small>
+    <div class="grid-2" style="margin-bottom:8px;">
+      <input type="date" id="cfgHolDate">
+      <input type="text" id="cfgHolName" maxlength="60" placeholder="Ex: Carnaval (ponto facultativo)">
+    </div>
+    <button type="button" class="btn" id="btnAddHoliday" style="width:100%; margin-bottom:8px;">+ Adicionar feriado / folga</button>
+    <div class="holiday-list" id="cfgHolidayList"></div>
+
+    <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 16px 0;">
     <h4 style="font-size: 12px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase;" class="muted">Backup dos Dados</h4>
     <div style="display: flex; gap: 8px;">
       <button class="btn" id="btnDownloadBackup" style="flex: 1;">Baixar Backup</button>
@@ -1102,13 +1112,57 @@
       { d: '25/12', name: 'Natal' }
     ];
 
+    // Páscoa (algoritmo gregoriano anônimo) -> { m: 1-12, d: 1-31 }
+    function easterDate(year) {
+      const a = year % 19, b = Math.floor(year / 100), c = year % 100;
+      const d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25);
+      const g = Math.floor((b - f + 1) / 3);
+      const h = (19 * a + b - d - g + 15) % 30;
+      const i = Math.floor(c / 4), k = c % 4;
+      const l = (32 + 2 * e + 2 * i - h - k) % 7;
+      const m = Math.floor((a + 11 * h + 22 * l) / 451);
+      const month = Math.floor((h + l - 7 * m + 114) / 31);
+      const day = ((h + l - 7 * m + 114) % 31) + 1;
+      return { m: month, d: day };
+    }
+
+    function shiftISO(year, month, day, delta) {
+      const dt = new Date(Date.UTC(year, month - 1, day + delta));
+      return `${dt.getUTCFullYear()}-${String(dt.getUTCMonth() + 1).padStart(2, '0')}-${String(dt.getUTCDate()).padStart(2, '0')}`;
+    }
+
+    // Feriados/folgas extras cadastrados pelo usuário (config.customHolidays), já validados
+    function customHolidays() {
+      const arr = (appState.config && Array.isArray(appState.config.customHolidays)) ? appState.config.customHolidays : [];
+      return arr
+        .filter(h => h && typeof h.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(h.date) && typeof h.name === 'string' && h.name.trim())
+        .map(h => ({ date: h.date, name: h.name.slice(0, 60) }));
+    }
+
+    // Todos os feriados de um ano: fixos + móveis (Sexta-feira Santa, Corpus Christi) + extras do usuário
+    function holidaysForYear(year) {
+      const list = BRAZIL_HOLIDAYS.map(h => {
+        const [dd, mm] = h.d.split('/');
+        return { date: `${year}-${mm}-${dd}`, name: h.name };
+      });
+      const east = easterDate(year);
+      list.push({ date: shiftISO(year, east.m, east.d, -2), name: 'Sexta-feira Santa' });
+      list.push({ date: shiftISO(year, east.m, east.d, 60), name: 'Corpus Christi (SP)' });
+      customHolidays().filter(h => h.date.startsWith(`${year}-`)).forEach(h => list.push({ ...h, custom: true }));
+      return list.sort((a, b) => a.date.localeCompare(b.date));
+    }
+
+    function holidayName(dateStr) {
+      if (!dateStr) return null;
+      const hit = holidaysForYear(Number(dateStr.slice(0, 4))).find(h => h.date === dateStr);
+      return hit ? hit.name : null;
+    }
+
     function isHolidayOrWeekend(dateStr) {
       if (!dateStr) return false;
       const [y, m, d] = dateStr.split('-').map(Number);
       const wd = new Date(y, m - 1, d).getDay();
-      const dmKey = `${String(d).padStart(2, '0')}/${String(m).padStart(2, '0')}`;
-      const isHol = BRAZIL_HOLIDAYS.some(h => h.d === dmKey);
-      return (wd === 0 || wd === 6 || isHol);
+      return (wd === 0 || wd === 6 || !!holidayName(dateStr));
     }
 
     function expectedFor(dateStr) {
@@ -1119,15 +1173,83 @@
     function renderHolidaysList() {
       const box = document.getElementById('holidayListBox');
       if (!box) return;
+      const year = calCurrentDate.getFullYear();
+      const list = holidaysForYear(year);
       box.innerHTML = '';
-      BRAZIL_HOLIDAYS.forEach(h => {
+      list.forEach(h => {
+        const [, m, d] = h.date.split('-');
         const item = document.createElement('div');
         item.className = 'holiday-item';
-        item.innerHTML = `<span class="holiday-name">${h.name}</span><span class="holiday-date">${h.d}</span>`;
+        const n = document.createElement('span');
+        n.className = 'holiday-name';
+        n.textContent = h.name + (h.custom ? ' (extra)' : '');
+        const dt = document.createElement('span');
+        dt.className = 'holiday-date';
+        dt.textContent = `${d}/${m}`;
+        item.append(n, dt);
         box.appendChild(item);
       });
       const badge = document.getElementById('holidayCountBadge');
-      if (badge) badge.textContent = `${BRAZIL_HOLIDAYS.length} Feriados`;
+      if (badge) badge.textContent = `${list.length} em ${year}`;
+    }
+
+    /* Feriados extras / folgas (tela de Configurações) */
+    function renderCustomHolidaysSettings() {
+      const box = document.getElementById('cfgHolidayList');
+      if (!box) return;
+      box.innerHTML = '';
+      const list = customHolidays().sort((a, b) => a.date.localeCompare(b.date));
+      if (!list.length) {
+        const empty = document.createElement('div');
+        empty.className = 'muted';
+        empty.style.fontSize = '11px';
+        empty.textContent = 'Nenhum feriado extra cadastrado.';
+        box.appendChild(empty);
+        return;
+      }
+      list.forEach(h => {
+        const [y, m, d] = h.date.split('-');
+        const row = document.createElement('div');
+        row.className = 'holiday-item';
+        const label = document.createElement('span');
+        label.className = 'holiday-name';
+        label.textContent = `${d}/${m}/${y} — ${h.name}`;
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'btn';
+        del.style.cssText = 'padding:2px 8px; color:var(--neg);';
+        del.textContent = '✕';
+        del.onclick = () => removeCustomHoliday(h.date);
+        row.append(label, del);
+        box.appendChild(row);
+      });
+    }
+
+    function saveCustomHolidays(list) {
+      appState.config = { ...appState.config, customHolidays: list };
+      appState.cfgAt = new Date().toISOString();
+      saveLocal();
+      renderCustomHolidaysSettings();
+    }
+
+    function addCustomHoliday() {
+      const dateEl = document.getElementById('cfgHolDate');
+      const nameEl = document.getElementById('cfgHolName');
+      const date = dateEl.value;
+      const name = nameEl.value.trim().slice(0, 60);
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return alert('Informe a data do feriado/folga.');
+      if (!name) return alert('Informe um nome para o feriado/folga.');
+      const list = customHolidays();
+      if (list.some(h => h.date === date)) return alert('Já existe um feriado extra nessa data. Remova-o antes de cadastrar outro.');
+      if (list.length >= 100) return alert('Limite de 100 feriados extras atingido.');
+      saveCustomHolidays([...list, { date, name }]);
+      dateEl.value = '';
+      nameEl.value = '';
+      showToast('Feriado extra adicionado. Lançamentos já existentes nessa data não são recalculados.');
+    }
+
+    function removeCustomHoliday(date) {
+      saveCustomHolidays(customHolidays().filter(h => h.date !== date));
     }
 
     /* =====================================================================
@@ -1142,6 +1264,7 @@
       
       const label = document.getElementById('calMonthYearLabel');
       if (label) label.textContent = `${meses[month]} ${year}`;
+      renderHolidaysList();
 
       const grid = document.getElementById('calGridBox');
       if (!grid) return;
@@ -1173,8 +1296,9 @@
         const dateKey = `${year}-${monthFmt}-${dayFmt}`;
         const dayMonthKey = `${dayFmt}/${monthFmt}`;
 
-        const isHoliday = BRAZIL_HOLIDAYS.some(h => h.d === dayMonthKey);
-        if (isHoliday) cell.classList.add('holiday');
+        const holName = holidayName(dateKey);
+        const isHoliday = !!holName;
+        if (isHoliday) { cell.classList.add('holiday'); cell.title = holName; }
         if (dateKey === todayStr) cell.classList.add('today');
 
         const hasEntry = appState.entries.some(e => e.date === dateKey);
@@ -1379,15 +1503,18 @@
     async function logAudit(action, entryDate, oldData, newData) {
       if (!sbClient || currentUserId === 'guest') return;
       try {
-        await sbClient.from('bh_audit_logs').insert({
+        // created_at é definido pelo servidor (default + trigger); old/new_data vão como objeto jsonb
+        const { error } = await sbClient.from('bh_audit_logs').insert({
           user_id: currentUserId,
           action,
           entry_date: entryDate,
-          old_data: oldData ? JSON.stringify(oldData) : null,
-          new_data: newData ? JSON.stringify(newData) : null,
-          created_at: new Date().toISOString()
+          old_data: oldData ?? null,
+          new_data: newData ?? null
         });
-      } catch (err) {}
+        if (error) console.warn('Auditoria não gravada:', error.message);
+      } catch (err) {
+        console.warn('Auditoria não gravada:', err);
+      }
     }
 
     function mergeCloudState(cs) {
@@ -1884,6 +2011,7 @@
         document.getElementById('cfgSaida').value = cfg.saida || '17:00';
         document.getElementById('cfgIntervalo').value = typeof cfg.intervalo === 'number' ? cfg.intervalo : 60;
 
+        renderCustomHolidaysSettings();
         const modal = document.getElementById('modalSettings');
         if (modal) modal.showModal();
       });
@@ -2184,7 +2312,7 @@
         else if (modalidade === 'estagio4') expected = 240;
         else if (modalidade === 'pj8') expected = 480;
 
-        appState.config = { modalidade, entrada, saida, intervalo, expected };
+        appState.config = { ...appState.config, modalidade, entrada, saida, intervalo, expected };
         appState.cfgAt = new Date().toISOString();
 
         saveLocal();
@@ -2213,6 +2341,8 @@
         reader.onload = (ev) => processImportedJSON(ev.target.result);
         reader.readAsText(file);
       });
+
+      safeAddListener('btnAddHoliday', 'click', addCustomHoliday);
 
       // FORMULÁRIO DE NOVA SENHA (PASSWORD RECOVERY)
       safeAddListener('formNewPassword', 'submit', async (e) => {
@@ -2400,36 +2530,50 @@
       }
     }
 
+    let syncRunning = false;
+    let syncQueued = false;
+
     async function syncWithCloud() {
       if (!sbClient || currentUserId === 'guest') return;
+      // Evita duas sincronizações ao mesmo tempo: a segunda espera e roda ao final
+      if (syncRunning) { syncQueued = true; return; }
+      syncRunning = true;
       try {
         const { data: { session } } = await sbClient.auth.getSession();
         if (!session || !session.user) return;
 
         updateSyncStatus('offline', 'Sincronizando...');
 
-        const { data: cloudRow } = await sbClient
+        const { data: cloudRow, error: selErr } = await sbClient
           .from('bh_state')
           .select('state, updated_at')
           .eq('user_id', session.user.id)
           .maybeSingle();
 
+        // Se não conseguiu LER a nuvem, não grava (senão sobrescreveria dados de outro aparelho)
+        if (selErr) {
+          updateSyncStatus('error', 'Erro ao ler a nuvem');
+          return;
+        }
+
         if (cloudRow && cloudRow.state) {
           try {
-            const cloudState = JSON.parse(cloudRow.state);
+            const cloudState = typeof cloudRow.state === 'string' ? JSON.parse(cloudRow.state) : cloudRow.state;
             mergeCloudState(cloudState);
           } catch (e) {}
         }
 
+        // onConflict: 'user_id' -> atualiza a linha existente do usuário (a chave primária é outra coluna)
         const { error: upsertErr } = await sbClient.from('bh_state').upsert({
           user_id: session.user.id,
           state: JSON.stringify(appState),
           updated_at: new Date().toISOString()
-        });
+        }, { onConflict: 'user_id' });
 
         if (!upsertErr) {
           updateSyncStatus('online', 'Nuvem OK');
         } else {
+          console.warn('Falha ao salvar na nuvem:', upsertErr.message);
           updateSyncStatus('error', 'Erro ao salvar');
         }
 
@@ -2438,6 +2582,12 @@
         renderMonthlyChart();
       } catch (err) {
         updateSyncStatus('error', 'Sem Conexão');
+      } finally {
+        syncRunning = false;
+        if (syncQueued) {
+          syncQueued = false;
+          syncWithCloud();
+        }
       }
     }
 

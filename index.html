@@ -1079,6 +1079,12 @@
         .replace(/'/g, '&#39;');
     }
 
+    // Aceita apenas imagem em data URL (foto de perfil) para evitar injeção em <img src>
+    function isSafePhoto(v) {
+      return typeof v === 'string' && v.length < 400000 &&
+        /^data:image\/(jpeg|png|webp|gif);base64,[A-Za-z0-9+\/=]+$/.test(v);
+    }
+
     /* =====================================================================
        FERIADOS NACIONAIS E LOCAIS DE SÃO PAULO
        ===================================================================== */
@@ -1224,34 +1230,78 @@
       }
     };
 
+    const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+    const ID_RE = /^[\w.:-]{1,120}$/;
+
+    // Converte "8:00", "08:00" ou "08:00:00" em "HH:MM"; devolve null se inválido
+    function normTime(v) {
+      if (typeof v !== 'string') return null;
+      const m = v.match(/^(\d{1,2}):(\d{2})/);
+      if (!m) return null;
+      const h = Number(m[1]), mi = Number(m[2]);
+      if (h > 23 || mi > 59) return null;
+      return `${String(h).padStart(2, '0')}:${String(mi).padStart(2, '0')}`;
+    }
+
+    // Intervalo padrão da config. Usa checagem de tipo (e não "||") porque 0 é um valor válido (estágio 4h)
+    function cfgInterval() {
+      const v = appState.config && appState.config.intervalo;
+      return typeof v === 'number' ? v : 60;
+    }
+
+    // Variação de uma entrada. Dia em andamento (sem saída) NÃO entra no saldo até ser finalizado.
+    function variationFor(entry) {
+      if (entry.type !== 'trabalhado') return entry.variation || 0;
+      if (!entry.saida) return 0;
+      return Core.calcPJ(entry.entrada, entry.saida, entry.intervalo, entry.nextDay, expectedFor(entry.date)).saldo;
+    }
+
     function normalizeEntry(e) {
-      if (!e) return null;
+      if (!e || typeof e !== 'object') return null;
       const date = e.date || e.d || todayLocal();
+      if (!DATE_RE.test(date)) return null;
+
       let type = 'trabalhado';
       if (e.t === 'uso' || e.type === 'uso') type = 'uso';
       else if (e.t === 'falta' || e.type === 'falta') type = 'falta';
       else if (e.t === 'atestado' || e.type === 'atestado') type = 'atestado';
+      const isWork = type === 'trabalhado';
 
-      const entrada = e.entrada || e.start || (e.punches ? e.punches.e1 : (appState.config?.entrada || '08:00'));
-      const saida = e.saida || e.s || (e.punches ? e.punches.s2 : (appState.config?.saida || '17:00'));
-      const intervalo = typeof e.intervalo === 'number' ? e.intervalo : (typeof e.break === 'number' ? e.break : (appState.config?.intervalo || 60));
-      const nextDay = !!(e.nextDay || e.next);
-      
-      let variation = 0;
-      if (typeof e.variation === 'number') {
-        variation = e.variation;
-      } else if (typeof e.m === 'number') {
-        variation = e.m;
-      } else if (type === 'trabalhado') {
-        const exp = expectedFor(date);
-        variation = Core.calcPJ(entrada, saida, intervalo, nextDay, exp).saldo;
+      // Só dias trabalhados têm entrada/saída/intervalo. Compensações e ausências ficam vazias.
+      let entrada = '', saida = '', intervalo = 0, nextDay = false;
+      if (isWork) {
+        const rawEntrada = e.entrada ?? e.start ?? (e.punches ? e.punches.e1 : undefined);
+        entrada = normTime(rawEntrada) || (appState.config?.entrada || '08:00');
+
+        // saída vazia ('' ou null) = expediente em andamento; só cai no padrão se o campo não existir
+        const rawSaida = e.saida !== undefined ? e.saida : (e.s !== undefined ? e.s : (e.punches ? e.punches.s2 : undefined));
+        if (rawSaida === '' || rawSaida === null) saida = '';
+        else saida = normTime(rawSaida) || (appState.config?.saida || '17:00');
+
+        const rawInt = typeof e.intervalo === 'number' ? e.intervalo : (typeof e.break === 'number' ? e.break : undefined);
+        intervalo = (rawInt !== undefined && Number.isFinite(rawInt)) ? Math.min(600, Math.max(0, rawInt)) : cfgInterval();
+        nextDay = !!(e.nextDay || e.next);
       }
 
-      const obs = (e.obs || e.n || '').slice(0, 255);
-      const id = e.id || `leg_${date}_${type}_${entrada}_${saida}_${variation}`;
-      const createdAt = e.createdAt || new Date().toISOString();
-      const updatedAt = e.updatedAt || createdAt;
-      const version = (e.version || 1);
+      let variation = 0;
+      const storedVar = typeof e.variation === 'number' ? e.variation : (typeof e.m === 'number' ? e.m : undefined);
+      if (isWork) {
+        if (!saida) variation = 0;
+        else if (storedVar !== undefined && Number.isFinite(storedVar)) variation = storedVar;
+        else variation = Core.calcPJ(entrada, saida, intervalo, nextDay, expectedFor(date)).saldo;
+      } else if (storedVar !== undefined && Number.isFinite(storedVar)) {
+        variation = storedVar;
+      }
+
+      const obs = String(e.obs || e.n || '').slice(0, 255);
+
+      // ID só com caracteres seguros (ele é usado dentro de onclick no HTML)
+      let id = typeof e.id === 'number' ? String(e.id) : e.id;
+      if (!(typeof id === 'string' && ID_RE.test(id))) id = `leg_${date}_${type}_${entrada}_${saida}_${variation}`.replace(/[^\w.:-]/g, '_');
+
+      const createdAt = typeof e.createdAt === 'string' ? e.createdAt : new Date().toISOString();
+      const updatedAt = typeof e.updatedAt === 'string' ? e.updatedAt : createdAt;
+      const version = Number(e.version) || 1;
 
       return { id, date, variation, type, entrada, saida, intervalo, obs, nextDay, createdAt, updatedAt, version };
     }
@@ -1273,6 +1323,7 @@
         closedMonths: [],
         deleted: {},
         cfgAt: '',
+        profileAt: '',
         closedAt: '',
         theme: localStorage.getItem('realtime_theme') || 'dark'
       };
@@ -1291,6 +1342,7 @@
           appState.closedMonths = Array.isArray(parsed.closedMonths) ? parsed.closedMonths : [];
           appState.deleted = parsed.deleted || {};
           appState.cfgAt = parsed.cfgAt || '';
+          appState.profileAt = parsed.profileAt || '';
           appState.closedAt = parsed.closedAt || '';
           appState.entries = Array.isArray(rawEntries) ? rawEntries.map(normalizeEntry).filter(Boolean) : [];
         }
@@ -1352,6 +1404,16 @@
         appState.config = { ...appState.config, ...cs.config };
         appState.cfgAt = cs.cfgAt;
       }
+
+      // Perfil (nome, cargo, foto): vence o mais recente. E-mail e empresa continuam locais.
+      if (cs.profile && typeof cs.profile === 'object' && (!appState.profileAt || (cs.profileAt || '') > appState.profileAt)) {
+        const p = cs.profile;
+        const cloudNewer = (cs.profileAt || '') > (appState.profileAt || '');
+        if (typeof p.name === 'string' && p.name.trim()) appState.profile.name = p.name.slice(0, 120);
+        if (typeof p.role === 'string') appState.profile.role = p.role.slice(0, 120);
+        if (typeof p.photo === 'string' && (p.photo || cloudNewer)) appState.profile.photo = isSafePhoto(p.photo) ? p.photo : '';
+        appState.profileAt = cs.profileAt || appState.profileAt || '';
+      }
       if ((cs.closedAt || '') > (appState.closedAt || '') && cs.closedMonths) {
         appState.closedMonths = cs.closedMonths;
         appState.closedAt = cs.closedAt;
@@ -1394,6 +1456,19 @@
     /* =====================================================================
        INICIAR EXPEDIENTE & FINALIZAR DIA
        ===================================================================== */
+    // Entrada "ativa": expediente aberto hoje ou ontem (virada de meia-noite); senão, o lançamento de hoje
+    function getActiveEntry() {
+      const todayStr = todayLocal();
+      const y = new Date();
+      y.setDate(y.getDate() - 1);
+      const yesterdayStr = todayLocal(y);
+      const open = appState.entries
+        .filter(e => e.type === 'trabalhado' && !e.saida && (e.date === todayStr || e.date === yesterdayStr))
+        .sort((a, b) => b.date.localeCompare(a.date))[0];
+      if (open) return open;
+      return appState.entries.find(e => e.date === todayStr && e.type === 'trabalhado') || null;
+    }
+
     function iniciarExpedienteAgora() {
       const now = new Date();
       const timeNow = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
@@ -1405,20 +1480,19 @@
       if (entry) {
         if (!confirm(`A entrada de hoje já está registrada às ${entry.entrada}. Deseja alterar para ${timeNow}?`)) return;
         entry.entrada = timeNow;
+        entry.variation = variationFor(entry); // recalcula se o dia já estiver finalizado
         entry.updatedAt = new Date().toISOString();
         entry.version = (entry.version || 1) + 1;
       } else {
-        const exp = expectedFor(todayStr);
-        const calc = Core.calcPJ(timeNow, appState.config.saida || '17:00', appState.config.intervalo || 60, false, exp);
         entry = {
           id: 'id_' + Date.now(),
           date: todayStr,
           type: 'trabalhado',
           entrada: timeNow,
           saida: '',
-          intervalo: appState.config.intervalo || 60,
+          intervalo: cfgInterval(),
           nextDay: false,
-          variation: calc.saldo,
+          variation: 0, // em andamento: só entra no saldo quando finalizar
           obs: 'Expediente iniciado agora',
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
@@ -1436,43 +1510,46 @@
       const now = new Date();
       const timeNow = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
       const todayStr = todayLocal();
-      
-      if (isMonthLocked(todayStr)) return alert('Este mês está fechado contra alterações.');
 
-      let oldEntry = appState.entries.find(e => e.date === todayStr && e.type === 'trabalhado');
+      const oldEntry = getActiveEntry();
+      const targetDate = oldEntry ? oldEntry.date : todayStr;
+
+      if (isMonthLocked(targetDate)) return alert('Este mês está fechado contra alterações.');
 
       if (oldEntry && oldEntry.saida) {
         if (!confirm(`O expediente de hoje já foi encerrado às ${oldEntry.saida}. Deseja atualizar a saída para ${timeNow}?`)) return;
       }
 
-      let entrada = oldEntry ? oldEntry.entrada : (appState.config.entrada || '08:00');
-      let saida = timeNow;
-      let intervalo = typeof appState.config.intervalo === 'number' ? appState.config.intervalo : 60;
-      let expected = expectedFor(todayStr);
+      const entrada = oldEntry ? oldEntry.entrada : (appState.config.entrada || '08:00');
+      const intervalo = (oldEntry && typeof oldEntry.intervalo === 'number') ? oldEntry.intervalo : cfgInterval();
+      // Expediente aberto ontem e encerrado hoje = saída após a meia-noite
+      const nextDay = oldEntry ? (!!oldEntry.nextDay || oldEntry.date !== todayStr) : false;
+      const expected = expectedFor(targetDate);
 
-      const calc = Core.calcPJ(entrada, saida, intervalo, false, expected);
+      const calc = Core.calcPJ(entrada, timeNow, intervalo, nextDay, expected);
 
       const newEntry = {
         id: oldEntry ? oldEntry.id : 'id_' + Date.now(),
-        date: todayStr,
+        date: targetDate,
         type: 'trabalhado',
         entrada,
-        saida,
+        saida: timeNow,
         intervalo,
-        nextDay: false,
+        nextDay,
         variation: calc.saldo,
-        obs: 'Finalizado via 1-Toque',
+        obs: oldEntry ? (oldEntry.obs || 'Finalizado via 1-Toque') : 'Finalizado via 1-Toque (entrada assumida pela jornada padrão)',
         createdAt: oldEntry ? oldEntry.createdAt : new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        version: oldEntry ? (oldEntry.version + 1) : 1
+        version: oldEntry ? ((oldEntry.version || 1) + 1) : 1
       };
 
-      appState.entries = appState.entries.filter(e => !(e.date === todayStr && e.type === 'trabalhado'));
+      // Substitui SOMENTE esta entrada (não apaga outros lançamentos do mesmo dia)
+      appState.entries = appState.entries.filter(e => e.id !== newEntry.id);
       appState.entries.push(newEntry);
 
-      logAudit('FINALIZAR_DIA_1TOQUE', todayStr, oldEntry, newEntry);
+      logAudit('FINALIZAR_DIA_1TOQUE', targetDate, oldEntry, newEntry);
       saveLocal();
-      showToast(`Expediente finalizado às ${saida}! Saldo: ${Core.fromMinutes(calc.saldo, true)}`);
+      showToast(`Expediente finalizado às ${timeNow}! Saldo: ${Core.fromMinutes(calc.saldo, true)}`);
     }
 
     function renderProfile() {
@@ -1496,7 +1573,7 @@
       
       const setAvatar = (el) => {
         if (!el) return;
-        if (p.photo) {
+        if (p.photo && isSafePhoto(p.photo)) {
           el.innerHTML = `<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
         } else {
           el.textContent = initials || 'U';
@@ -1581,17 +1658,17 @@
       const labelSaldoHoje = document.getElementById('statSaldoHojeLabel');
       if (labelSaldoHoje) labelSaldoHoje.textContent = `Saldo do Dia (vs ${expectedH})`;
 
-      const todayEntry = appState.entries.find(e => e.date === todayStr && e.type === 'trabalhado');
+      const todayEntry = getActiveEntry();
       const liveDot = document.getElementById('liveStatusDot');
       const liveText = document.getElementById('liveStatusText');
 
       if (todayEntry) {
         document.getElementById('timeEntradaDisplay').textContent = todayEntry.entrada || '--:--';
         document.getElementById('timeSaidaDisplay').textContent = todayEntry.saida || '--:--';
-        document.getElementById('intervalDurationDisplay').textContent = Core.fromMinutes(todayEntry.intervalo || 60);
+        document.getElementById('intervalDurationDisplay').textContent = Core.fromMinutes(todayEntry.intervalo ?? 60);
 
         if (todayEntry.saida) {
-          const calc = Core.calcPJ(todayEntry.entrada, todayEntry.saida, todayEntry.intervalo, todayEntry.nextDay, expectedFor(todayStr));
+          const calc = Core.calcPJ(todayEntry.entrada, todayEntry.saida, todayEntry.intervalo, todayEntry.nextDay, expectedFor(todayEntry.date));
           document.getElementById('statHorasHoje').textContent = Core.fromMinutes(calc.totalLiquido);
           document.getElementById('statSaldoHoje').textContent = Core.fromMinutes(todayEntry.variation, true);
           document.getElementById('statSaldoHoje').className = `metric-value ${todayEntry.variation >= 0 ? 'pos' : 'neg'}`;
@@ -1606,7 +1683,7 @@
       } else {
         document.getElementById('timeEntradaDisplay').textContent = '--:--';
         document.getElementById('timeSaidaDisplay').textContent = '--:--';
-        document.getElementById('intervalDurationDisplay').textContent = Core.fromMinutes(appState.config.intervalo || 60);
+        document.getElementById('intervalDurationDisplay').textContent = Core.fromMinutes(cfgInterval());
         document.getElementById('statHorasHoje').textContent = '00:00';
         document.getElementById('statSaldoHoje').textContent = '+00:00';
         if (liveText) liveText.textContent = 'Expediente Não Iniciado';
@@ -1684,7 +1761,7 @@
           <td><strong>${d}/${m}/${y}</strong></td>
           <td>
             ${entry.type === 'trabalhado' 
-              ? `<span class="mono">${entry.entrada} → ${entry.saida || '...'}</span> <span class="muted" style="font-size:11px">(-${Core.fromMinutes(entry.intervalo || 60)} int)</span>`
+              ? `<span class="mono">${entry.entrada} → ${entry.saida || '...'}</span> <span class="muted" style="font-size:11px">(-${Core.fromMinutes(entry.intervalo ?? 60)} int)</span>`
               : (entry.type === 'uso' ? `Folga / Desconto: ${Core.fromMinutes(Math.abs(entry.variation))}` : 'Ausência Registrada')}
             ${entryLocked ? '<span class="tag locked">🔒 Trancado</span>' : ''}
             ${entry.obs ? `<div class="muted" style="font-size:11px; margin-top:2px;">${esc(entry.obs)}</div>` : ''}
@@ -1865,6 +1942,7 @@
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, w, h);
             appState.profile.photo = canvas.toDataURL('image/jpeg', 0.85);
+            appState.profileAt = new Date().toISOString();
             renderProfile();
           };
           img.src = ev.target.result;
@@ -1876,7 +1954,8 @@
         e.preventDefault();
         appState.profile.name = document.getElementById('perfilNome').value;
         appState.profile.role = document.getElementById('perfilCargo').value;
-        logAudit('UPDATE_PROFILE', todayLocal(), null, appState.profile);
+        appState.profileAt = new Date().toISOString();
+        logAudit('UPDATE_PROFILE', todayLocal(), null, { ...appState.profile, photo: appState.profile.photo ? '[foto]' : '' });
         saveLocal();
         renderProfile();
         const modal = document.getElementById('modalPerfil');
@@ -1984,10 +2063,16 @@
       // CSV COMPATÍVEL COM EXCEL BRASILEIRO (; e BOM \ufeff)
       safeAddListener('btnExportCSV', 'click', () => {
         let csv = '\ufeffData;Entrada;Saida;Intervalo(Min);Tipo;Variacao(Minutos);Variacao(Formatada);Observacao\n';
-        appState.entries.forEach(e => {
+        // Texto livre: neutraliza injeção de fórmula no Excel (=, +, -, @) e escapa aspas
+        const txt = (v) => {
+          let t = String(v ?? '');
+          if (/^[=+\-@\t\r]/.test(t)) t = "'" + t;
+          return t.replace(/"/g, '""');
+        };
+        [...appState.entries].sort((a, b) => a.date.localeCompare(b.date)).forEach(e => {
           const parts = e.date.split('-');
-          const safeObs = (e.obs || '').replace(/"/g, '""');
-          csv += `"${parts[2]}/${parts[1]}/${parts[0]}";"${e.entrada || ''}";"${e.saida || ''}";"${e.intervalo || 60}";"${e.type}";"${e.variation}";"${Core.fromMinutes(e.variation, true)}";"${safeObs}"\n`;
+          const isWork = e.type === 'trabalhado';
+          csv += `"${parts[2]}/${parts[1]}/${parts[0]}";"${isWork ? e.entrada : ''}";"${isWork ? (e.saida || '') : ''}";"${isWork ? (e.intervalo ?? 60) : ''}";"${txt(e.type)}";"${e.variation}";"${Core.fromMinutes(e.variation, true)}";"${txt(e.obs)}"\n`;
         });
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
@@ -2198,6 +2283,11 @@
 
       if (item.type === 'falta' || item.type === 'atestado') {
         alert('Para ausências, remova o item e registre novamente.');
+        return;
+      }
+
+      if (item.type === 'uso') {
+        alert('Para compensações, remova o item e registre novamente.');
         return;
       }
 
